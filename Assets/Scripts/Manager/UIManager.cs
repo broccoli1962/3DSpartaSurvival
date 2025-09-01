@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,16 +6,16 @@ public class UIManager : Singleton<UIManager>
 {
     private Dictionary<string, UIBase> uiDictionary = new Dictionary<string, UIBase>();
 
-    // Todo : ¾î¶»°Ô µñ¼Å³Ê¸®¿¡ UI¸¦ ³Ö¾îµÑÁö °í¹ÎÁß
+    // Todo : ì–´ë–»ê²Œ ë”•ì…”ë„ˆë¦¬ì— UIë¥¼ ë„£ì–´ë‘˜ì§€ ê³ ë¯¼ì¤‘
 
-    // UI¸¦ ¿©´Â ¸Ş¼­µå
+    // UIë¥¼ ì—¬ëŠ” ë©”ì„œë“œ
     public void OpenUI<T>() where T : UIBase
     {
         var ui = GetUI<T>();
         ui?.OpenUI();
     }
 
-    // UI¸¦ ´İ´Â ¸Ş¼­µå
+    // UIë¥¼ ë‹«ëŠ” ë©”ì„œë“œ
     public void CloseUI<T>() where T : UIBase
     {
         if (IsExistUI<T>())
@@ -25,7 +25,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    // µñ¼Å³Ê¸®¿¡¼­ UI¸¦ Ã£¾Æ¿À´Â ¸Ş¼­µå
+    // ë”•ì…”ë„ˆë¦¬ì—ì„œ UIë¥¼ ì°¾ì•„ì˜¤ëŠ” ë©”ì„œë“œ
     public T GetUI<T>() where T : UIBase
     {
         UIBase ui;
@@ -37,15 +37,15 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            Debug.Log($"{uiName}ÀÌ µñ¼Å³Ê¸®¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.Log($"{uiName}ì´ ë”•ì…”ë„ˆë¦¬ì— ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             ui = null;
-            // ¿©±â¼­ ui¸¦ ¸¸µé¾î ÁÙÁö ¾Æ´ÒÁö °áÁ¤ÇØ¾ß ÇÕ´Ï´Ù.
+            // ì—¬ê¸°ì„œ uië¥¼ ë§Œë“¤ì–´ ì¤„ì§€ ì•„ë‹ì§€ ê²°ì •í•´ì•¼ í•©ë‹ˆë‹¤.
         }
 
         return ui as T;
     }
 
-    // Ã£À¸·Á´Â UI°¡ µñ¼Å³Ê¸®¿¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
+    // ì°¾ìœ¼ë ¤ëŠ” UIê°€ ë”•ì…”ë„ˆë¦¬ì— ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
     public bool IsExistUI<T>() where T : UIBase
     {
         string uiName = typeof(T).Name;

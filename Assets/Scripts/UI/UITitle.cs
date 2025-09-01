@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,20 +6,20 @@ using UnityEngine.UI;
 
 public class UITitle : UIBase
 {
-    [SerializeField] private Button btnGameStart;
+    [field: SerializeField] public Button btnGameStart { get; private set; }
     [SerializeField] private Button btnOption;
     [SerializeField] private Button btnShop;
 
 
-    // Title UI¸¦ È£ÃâÇßÀ» ¶§ ÃÊ±âÈ­ µ¿ÀÛÀ» ÁøÇàÇÏ´Â ¸Ş¼­µå
+    // Title UIë¥¼ í˜¸ì¶œí–ˆì„ ë•Œ ì´ˆê¸°í™” ë™ì‘ì„ ì§„í–‰í•˜ëŠ” ë©”ì„œë“œ
     protected override void OnOpen()
     {
         base.OnOpen();
         btnGameStart?.onClick.AddListener(OnClickBtnGameStart);
         btnOption?.onClick.AddListener(OnClickBtnOption);
         btnShop?.onClick.AddListener(OnClickBtnShop);
-        // cur, best ½ºÄÚ¾î Á¡¼ö ¹Ş¾Æ¿À±â
-        // ¹Ş¾Æ¿Â Á¡¼ö¸¦ UI·Î º¸¿©ÁÖ´Â ¸Ş¼­µå
+        // cur, best ìŠ¤ì½”ì–´ ì ìˆ˜ ë°›ì•„ì˜¤ê¸°
+        // ë°›ì•„ì˜¨ ì ìˆ˜ë¥¼ UIë¡œ ë³´ì—¬ì£¼ëŠ” ë©”ì„œë“œ
     }
 
     protected override void OnClose()
@@ -32,18 +32,18 @@ public class UITitle : UIBase
     
     public void OnClickBtnGameStart()
     {
-        // ¾À ·Îµå
+        // ì”¬ ë¡œë“œ
     }
 
     public void OnClickBtnOption()
     {
-        // UIOption À» ¿ÀÇÂ
+        // UIOption ì„ ì˜¤í”ˆ
         //UIManager.Instance.OpenUI<UIOption>();
     }
 
     public void OnClickBtnShop()
     {
-        // UIShop À» ¿ÀÇÂ
-        // »óÁ¡ °ü·Ã ¾ê±â°¡ ¾ø¾î¼­ ¹°¾îºÁ¾ß ÇÕ´Ï´Ù.
+        // UIShop ì„ ì˜¤í”ˆ
+        // ìƒì  ê´€ë ¨ ì–˜ê¸°ê°€ ì—†ì–´ì„œ ë¬¼ì–´ë´ì•¼ í•©ë‹ˆë‹¤.
     }
 }

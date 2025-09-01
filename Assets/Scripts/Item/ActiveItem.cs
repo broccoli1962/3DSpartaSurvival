@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Item/ActiveItem")]
@@ -11,9 +12,17 @@ public class ActiveItem : Item
 
     public float CurrentValue { get; private set; }
 
-    public override void AddItem()
+    public override void AddItem(Player player) //플레이어 인자로 받기
     {
-        base.AddItem();
+        if (!player.activeItems.ContainsKey(this.Id))
+        {
+            ActiveItem newItem = (ActiveItem)this.Clone();
+            player.activeItems.Add(this.Id, this);
+        }
+        else
+        {
+
+        }
     }
 
     public void AddStack()

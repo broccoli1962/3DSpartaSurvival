@@ -22,5 +22,5 @@ public class Item : ScriptableObject, ICollectable
         return newItem;
     }
 
-    public virtual void AddItem() {}
+    public virtual void AddItem(Player player) {}
 }

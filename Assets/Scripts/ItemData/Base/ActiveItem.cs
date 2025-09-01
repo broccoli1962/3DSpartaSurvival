@@ -4,25 +4,19 @@ using UnityEditor.Search;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Item/ActiveItem")]
-public class ActiveItem : Item
+public class ActiveItem : ItemData
 {
     [field: SerializeField] public float VariationValue { get; private set; }
     [field: SerializeField] public EWeaponType WeaponType { get; private set; }
     [field: SerializeField, Range(1, 6)] public int Stack { get; private set; }
 
+    public GameObject WeaponPrefab;
+
     public float CurrentValue { get; private set; }
 
     public override void AddItem(Player player) //플레이어 인자로 받기
     {
-        if (!player.activeItems.ContainsKey(this.Id))
-        {
-            ActiveItem newItem = (ActiveItem)this.Clone();
-            player.activeItems.Add(this.Id, this);
-        }
-        else
-        {
-
-        }
+        this.Clone();
     }
 
     public void AddStack()

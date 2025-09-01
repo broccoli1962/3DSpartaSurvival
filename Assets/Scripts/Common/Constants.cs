@@ -10,10 +10,7 @@ public enum EAbilityType
 public enum EWeaponType
 {
     Melee,
-    Ranged,
-}
-
-public static class Path
-{
-    public static string Item = "Item";
+    Bow,
+    Staff,
+    Wand
 }

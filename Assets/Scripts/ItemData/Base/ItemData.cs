@@ -10,15 +10,15 @@ public class AbilityData
     [field: SerializeField] public EAbilityType AbilityType { get; set; }
 }
 
-public class Item : ScriptableObject, ICollectable
+public class ItemData : ScriptableObject
 {
     [field: SerializeField] public Sprite Icon {  get; private set; }
     [field: SerializeField] public int Id { get; private set; }
     [field: SerializeField] public List<AbilityData> Ability { get; private set; }
 
-    public Item Clone()
+    public ItemData Clone()
     {
-        Item newItem = Instantiate(this);
+        ItemData newItem = Instantiate(this);
         return newItem;
     }
 

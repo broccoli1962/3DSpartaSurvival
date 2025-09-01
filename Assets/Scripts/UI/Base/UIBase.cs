@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UIBase : MonoBehaviour
+public abstract class UIBase : MonoBehaviour
 {
     public virtual void OpenUI()
     {
@@ -16,6 +14,8 @@ public class UIBase : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+    // OnEnable, OnDisable 대신 사용 (호출 순서의 명확함)
     protected virtual void OnOpen() { }
     protected virtual void OnClose() { }
 }

@@ -38,6 +38,7 @@ public class UITitle : UIBase
     public void OnClickBtnOption()
     {
         // UIOption À» ¿ÀÇÂ
+        //UIManager.Instance.OpenUI<UIOption>();
     }
 
     public void OnClickBtnShop()

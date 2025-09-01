@@ -3,6 +3,7 @@
     "com.febucci.custom-hierarchy": "https://github.com/febucci/unitypackage-custom-hierarchy.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.burst": "1.8.11",
+    "com.unity.cinemachine": "2.9.7",
     "com.unity.collab-proxy": "2.9.2",
     "com.unity.ext.nunit": "1.0.6",
     "com.unity.feature.development": "1.0.1",

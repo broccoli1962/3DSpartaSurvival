@@ -50,8 +50,28 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(moveInput.x, 0f, moveInput.y);
-        _rb.velocity = movement * _player.moveSpeed;
+        Vector3 worldMoveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 localMoveDirection = transform.InverseTransformDirection(worldMoveDirection);
+
+        float currentSpeed = _player.forwardSpeed;
+
+        if (Mathf.Abs(localMoveDirection.z) > Mathf.Abs(localMoveDirection.x))
+        {
+            if (localMoveDirection.z > 0)
+            {
+                currentSpeed = _player.forwardSpeed; // 전진
+            }
+            else
+            {
+                currentSpeed = _player.backwardSpeed; // 후진
+            }
+        }
+        else
+        {
+            currentSpeed = _player.strafeSpeed; // 스트레이핑
+        }
+
+        _rb.velocity = worldMoveDirection.normalized * currentSpeed;
     }
 
     private void RotateTowardsMouse()

@@ -6,12 +6,17 @@ public class Player : MonoBehaviour
     #region 기본 능력치
     [Header("기본 능력치")]
     public int maxHealth = 10;
-
-    [Tooltip("플레이어가 주는 직접적인 피해량.")]
     public float attackPower = 8f;
 
-    [Tooltip("플레이어가 초당 이동하는 거리.")] // 에셋에 이미 구현된 Scripts가 있어서 어떻게 병합할지 고민
-    public float moveSpeed = 3f;
+    [Header("이동 속도")]
+    [Tooltip("캐릭터 기준 정면으로 이동할 때의 속도입니다.")]
+    public float forwardSpeed = 5f;
+
+    [Tooltip("캐릭터 기준 후진할 때의 속도입니다.")]
+    public float backwardSpeed = 3f;
+
+    [Tooltip("캐릭터 기준 좌우(스트레이핑)로 이동할 때의 속도입니다.")]
+    public float strafeSpeed = 4f;
     #endregion
 
     #region 전투 능력치

@@ -1,3 +1,4 @@
+using RPGCharacterAnims.Actions;
 using System.Collections; // Coroutine을 사용하기 위해 필요합니다.
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Rotation Settings")]
     public float rotationSpeed = 15f;
 
-    [Header("Dash Settings")]
+    [Header("대쉬 세팅")]
     [Tooltip("대쉬 지속시간 (초 단위)")]
     public float dashDuration = 0.5f;
 
@@ -33,12 +34,16 @@ public class PlayerController : MonoBehaviour
     {
         _playerinputs.Player.Enable();
         _playerinputs.Player.Dash.performed += OnDash;
+
+        _playerinputs.Player.Attack.performed += OnAttack;
     }
 
     private void OnDisable()
     {
         _playerinputs.Player.Disable();
         _playerinputs.Player.Dash.performed -= OnDash;
+
+        _playerinputs.Player.Attack.performed -= OnAttack;
     }
 
     private void Update()
@@ -112,4 +117,9 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
     }
     #endregion
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        _playerAnimator.PerformAttack();
+    }
 }

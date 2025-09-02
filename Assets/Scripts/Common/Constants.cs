@@ -1,16 +1,16 @@
-public enum EAbilityType
-{
-    Health,
-    Power,
-    Speed,
-    CoolTime,
-    Range,
-}
-
 public enum EWeaponType
 {
+    None,
     Melee,
     Bow,
     Staff,
     Wand
+}
+
+public enum EAttackShape
+{
+    None,
+    Circle,
+    Square,
+    Seta
 }

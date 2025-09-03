@@ -217,8 +217,7 @@ namespace RPGCharacterAnims
             animator = GetComponentInChildren<Animator>();
 
             if (!animator) {
-                Debug.LogError("ERROR: THERE IS NO ANIMATOR COMPONENT ON CHILD OF CHARACTER.");
-                Debug.Break();
+
             }
 
             animator.gameObject.AddComponent<RPGCharacterAnimatorEvents>();

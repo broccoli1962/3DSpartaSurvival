@@ -5,7 +5,6 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
 
-    private int attackCount = 0;
     private Coroutine resetComboCoroutine;
 
     [Header("ÄÞº¸ ¼¼ÆÃ")]
@@ -41,9 +40,6 @@ public class PlayerAnimator : MonoBehaviour
             StopCoroutine(resetComboCoroutine);
         }
 
-        attackCount++;
-
-        _animator.SetInteger("AttackCount", attackCount);
         _animator.SetBool("Attack", true);
 
         Invoke("ResetAttackBool", 0.1f);
@@ -58,7 +54,6 @@ public class PlayerAnimator : MonoBehaviour
     private IEnumerator ResetCombo()
     {
         yield return new WaitForSeconds(comboResetTime);
-        attackCount = 0;
     }
     #endregion
 }

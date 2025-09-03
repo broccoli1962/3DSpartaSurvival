@@ -88,11 +88,12 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 lookPoint = ray.GetPoint(distance);
             Vector3 lookDirection = lookPoint - transform.position;
-            lookDirection.y = 1f;
+            lookDirection.y = 0f;
 
-            if (lookDirection != Vector3.zero)
+            if (lookDirection.magnitude > 0.1f)
             {
-                transform.rotation = Quaternion.LookRotation(lookDirection);
+                Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
     }
@@ -122,4 +123,5 @@ public class PlayerController : MonoBehaviour
     {
         _playerAnimator.PerformAttack();
     }
+
 }

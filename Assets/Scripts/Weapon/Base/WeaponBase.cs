@@ -71,7 +71,7 @@ public class WeaponBase : MonoBehaviour
     private void SingleAttack()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 attackDir = Vector3.zero;
+        Vector3 attackDir;
 
         if(Physics.Raycast(ray, out RaycastHit hit, float.MaxValue))
         {
@@ -79,9 +79,13 @@ public class WeaponBase : MonoBehaviour
             attackDir = (targetPoint - transform.position).normalized;
             attackDir.y = 0f;
         }
+        else
+        {
+            attackDir = ray.direction;
+            attackDir.y = 0;
+        }
 
         Debug.DrawRay(transform.position, attackDir * itemData.AttackRange, Color.red, 1000f);
-
 
         Collider[] check = Physics.OverlapBox(transform.position + attackDir * (itemData.AttackRange/2),
             new Vector3(1f, 1f, itemData.AttackRange), Quaternion.LookRotation(attackDir), hitMask);

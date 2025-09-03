@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: S3_(RED)Daemon
   m_EditorClassIdentifier: 
   monsterType: 0
-  monsterName: S1_Daemon
+  monsterName: "[Red]\uC545\uB9C8 "
   maxHealth: 60
   attackPower: 14
   attackSpeed: 0.5
   attackRange: 0.4
   moveSpeed: 8
   experienceDrop: 25
-  hpBarPrefab: {fileID: 6706473195749120680, guid: 4174d82e4c576b34b9679da18f55c4fd, type: 3}
-  hpBarAnchor: {fileID: 0}

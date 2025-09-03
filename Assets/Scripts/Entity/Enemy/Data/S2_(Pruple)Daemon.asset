@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: S2_(Pruple)Daemon
   m_EditorClassIdentifier: 
   monsterType: 0
-  monsterName: S2_Daemon
+  monsterName: "[Purple]\uC545\uB9C8 "
   maxHealth: 35
   attackPower: 6
   attackSpeed: 0.5
   attackRange: 1
   moveSpeed: 8
   experienceDrop: 10
-  hpBarPrefab: {fileID: 6706473195749120680, guid: 4174d82e4c576b34b9679da18f55c4fd, type: 3}
-  hpBarAnchor: {fileID: 0}

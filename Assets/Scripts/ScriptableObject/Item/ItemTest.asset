@@ -16,10 +16,9 @@ MonoBehaviour:
   <Id>k__BackingField: 0
   description: 
   <weaponType>k__BackingField: 1
-  <attackShape>k__BackingField: 1
   <Power>k__BackingField: 3
-  <AttackSpeed>k__BackingField: 4
-  <AttackCount>k__BackingField: 4
+  <AttackSpeed>k__BackingField: 2.5
+  <AttackCount>k__BackingField: 5
   <AttackRange>k__BackingField: 4
   <CoolTime>k__BackingField: 5
   <Stack>k__BackingField: 1

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public interface IDamagable
 {
@@ -12,14 +13,24 @@ public class WeaponBase : MonoBehaviour
 {
     public ItemData itemData;
     public LayerMask hitMask;
-    private float lastAttackTime;
     public Animator animator;
+    public AnimationClip attackClip;
 
-    Coroutine coroutine;
+    private float lastAttackTime;
+    private Coroutine coroutine;
+
+    public IWeaponAttack attackStretegy;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+
+        switch (itemData.weaponType)
+        {
+            case EWeaponType.Melee:
+                attackStretegy = new Melee();
+                break;
+        }
     }
 
     private void Update()
@@ -29,13 +40,13 @@ public class WeaponBase : MonoBehaviour
             if (InRangeEnemy())
             {
                 Attack();
-                lastAttackTime = Time.time;
             }
         }
     }
 
     public bool InRangeEnemy()
     {
+        //몬스터가 사거리 원 범위 안에 들어와있는가?
         Collider[] hitTargets = Physics.OverlapSphere(transform.position, itemData.AttackRange, hitMask);
 
         if (hitTargets.Length != 0) {
@@ -62,30 +73,44 @@ public class WeaponBase : MonoBehaviour
         coroutine = StartCoroutine(AttackSequence());
     }
 
+
+    //애니메이션이 동작하는 시간을 측정해서
+    //상태를 체크할 수 있다.
+    //애니메이터 상태에서 코드
+
+
     private IEnumerator AttackSequence()
     {
-        if(itemData.AttackCount <= 0)
+        if (itemData.AttackCount <= 0)
         {
             coroutine = null;
             yield break;
         }
 
-        for (int i = 0; i < itemData.AttackCount; i++) //연속 공격, 애니메이션 처리 필요
+        //애니메이션의 길이 = 다음 공격까지 걸리는 시간
+        //애니메이션의 속도를 높이면 길이가 줄어듬
+        float animSpeed = animator.GetFloat(AnimParam.AttackSpeedMul);
+        float animPlayTime = attackClip.length / animSpeed;
+
+        Debug.Log($"{animPlayTime} 애니메이션 속도에 따른 길이");
+        Debug.Log($"{attackClip.length} 애니메이션 클립 길이");
+
+        int temp = 0;
+        
+        while (temp < itemData.AttackCount)
         {
-            SingleAttack();
+            attackStretegy.AttackType(this); //전략에 따라서 공격 형태라 짐
             animator.SetTrigger(AnimParam.Attack);
 
-            if (i < itemData.AttackCount - 1)
-            {
-                if (itemData.AttackSpeed >= 0)
-                {
-                    yield return new WaitForSeconds(1f / itemData.AttackSpeed);
-                }
-            }
+            yield return new WaitForSeconds(animPlayTime); //다음 애니메이션 까지 대기시간
+            temp++;
         }
+
+        lastAttackTime = Time.time;
         coroutine = null;
     }
     
+    //실질적 공격 로직
     private void SingleAttack()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -10,7 +10,6 @@ public class ItemData : ScriptableObject
     [field: SerializeField] public int Id { get; private set; }
     [TextArea(5, 5)] public string description;
     [field: SerializeField] public EWeaponType weaponType { get; private set; }
-    [field: SerializeField] public EAttackShape attackShape { get; private set; }
     [field: SerializeField] public float Power {  get; private set; }
     [field: SerializeField] public float AttackSpeed { get; private set; }
     [field: SerializeField] public float AttackCount { get; private set; }

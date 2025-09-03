@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1923091072151061296}
-  - component: {fileID: 6251492177604036880}
+  - component: {fileID: 3210273288396082682}
   m_Layer: 0
   m_Name: SmallAxe
   m_TagString: Untagged
@@ -138,7 +138,7 @@ Transform:
   - {fileID: 3691312655316685427}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6251492177604036880
+--- !u!114 &3210273288396082682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6729841575742021094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f9136874817bc142b02e28f23717675, type: 3}
+  m_Script: {fileID: 11500000, guid: cbcee6a138e475a459b37cee0f19cd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 1aae6ce7e5510c74b99e92b913fa35a8, type: 2}
@@ -155,3 +155,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   animator: {fileID: 0}
+  attackClip: {fileID: 7400000, guid: 8c907c19498f4e24d9b21b8be9867e71, type: 2}

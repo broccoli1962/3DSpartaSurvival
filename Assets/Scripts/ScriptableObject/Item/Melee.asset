@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e9f5707ff9de0743bcf892b83c98d70, type: 3}
-  m_Name: ItemTest
+  m_Name: Melee
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 0}
   <Id>k__BackingField: 0

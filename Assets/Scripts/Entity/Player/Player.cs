@@ -6,7 +6,13 @@ public class Player : MonoBehaviour
     #region 기본 능력치
     [Header("기본 능력치")]
     public int maxHealth = 10;
-    public float attackPower = 8f;
+    private int currentHealth;
+    public int attackPower = 8;
+
+    [Header("UI 설정")]
+    public GameObject hpBarPrefab;
+    public Transform hpBarAnchor;
+    private PlayerHPBarController playerhpBarController;
 
     [Header("이동 속도")]
     [Tooltip("캐릭터 기준 정면으로 이동할 때의 속도입니다.")]
@@ -57,4 +63,34 @@ public class Player : MonoBehaviour
     [Tooltip("경험치를 획득하는 %. (1 = 100%)")]
     public float expGain = 1f;
     #endregion
+
+    void Awake()
+    {
+        currentHealth = maxHealth;
+    }
+    void Start()
+    {
+        if (hpBarPrefab != null && hpBarAnchor != null)
+        {
+            GameObject hpBarInstance = Instantiate(hpBarPrefab, hpBarAnchor);
+            playerhpBarController = hpBarInstance.GetComponent<PlayerHPBarController>();
+            playerhpBarController.UpdateHP(currentHealth, maxHealth);
+        }
+    }
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
+
+        playerhpBarController.UpdateHP(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    private void Die()
+    {
+        Debug.Log("Die");
+    }
 }

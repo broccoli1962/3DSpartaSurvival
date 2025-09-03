@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class UITitle : UIBase
 {
     [field: SerializeField] public Button btnGameStart { get; private set; }
-    [SerializeField] private Button btnOption;
-    [SerializeField] private Button btnShop;
+    [field: SerializeField] public Button btnOption { get; private set; }
+    [field: SerializeField] public Button btnShop { get; private set; }
 
 
     // Title UI를 호출했을 때 초기화 동작을 진행하는 메서드

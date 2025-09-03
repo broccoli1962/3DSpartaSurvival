@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1576462825956214717}
   - component: {fileID: 2876740131699375176}
-  - component: {fileID: 7870356423243004418}
+  - component: {fileID: 8885822771896979912}
   m_Layer: 5
   m_Name: UITitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1576462825956214717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50,7 +50,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426308932365484149}
   m_CullTransparentMesh: 1
---- !u!114 &7870356423243004418
+--- !u!114 &8885822771896979912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,9 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af2eb02c51def74380c261e340b0f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btnGameStart: {fileID: 1806916826943596766}
-  btnOption: {fileID: 582704592863503970}
-  btnShop: {fileID: 11131727305443915}
+  <btnGameStart>k__BackingField: {fileID: 1806916826943596766}
+  <btnOption>k__BackingField: {fileID: 0}
+  <btnShop>k__BackingField: {fileID: 0}
 --- !u!1 &714290522517289339
 GameObject:
   m_ObjectHideFlags: 0

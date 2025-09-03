@@ -23,3 +23,24 @@
 <br>
 
 ---
+
+# 🚀 팀원 소개
+
+## 💻 개발팀
+
+| 이름 (역할) | 담당 업무 | GitHub |
+| :--- | :--- | :--- |
+| **이형권 (팀장 / 백엔드)** | <ul><li>API 서버 개발 및 유지보수</li><li>데이터베이스 설계 및 관리</li><li>프로젝트 아키텍처 설계</li></ul> | [Github](https://github.com/example1) |
+| **정진규 (프론트엔드)** | <ul><li>React 기반 UI/UX 개발</li><li>컴포넌트 기반 아키텍처 설계</li><li>Web Vitals 성능 최적화</li></ul> | [Github](https://github.com/example2) |
+| **주의동 (프로덕트 매니저)** | <ul><li>React 기반 UI/UX 개발</li><li>컴포넌트 기반 아키텍처 설계</li><li>Web Vitals 성능 최적화</li></ul> | [Github](https://github.com/example2) |
+
+<br>
+
+## 💡 기획팀
+
+| 이름 (역할) | 담당 업무 |
+| :--- | :--- |
+| **김민혁 (프로덕트 매니저)** | <ul><li>서비스 기능 및 정책 기획</li><li>요구사항 정의 및 우선순위 결정</li><li>프로젝트 일정 관리</li></ul> |
+| **딸기 (프로덕트 매니저)** | <ul><li>서비스 기능 및 정책 기획</li><li>요구사항 정의 및 우선순위 결정</li><li>프로젝트 일정 관리</li></ul> |
+
+---

@@ -105,9 +105,6 @@ public class WeaponBase : MonoBehaviour
         float animSpeed = animator.GetFloat(AnimParam.AttackSpeedMul);
         float animPlayTime = attackClip.length / animSpeed;
 
-        Debug.Log($"{animPlayTime} 애니메이션 속도에 따른 길이");
-        Debug.Log($"{attackClip.length} 애니메이션 클립 길이");
-
         int temp = 0;
         while (temp < itemData.AttackCount)
         {

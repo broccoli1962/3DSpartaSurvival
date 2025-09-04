@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -24,12 +25,19 @@ public class GameManager : Singleton<GameManager>
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
 
+    [Header("UI 설정")]
+    public TextMeshProUGUI _countdownText;
+
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
 
     void Start()
     {
+        if (_countdownText != null)
+        {
+            _countdownText.gameObject.SetActive(false);
+        }
         StartCoroutine(GameFlow());
     }
 
@@ -38,7 +46,22 @@ public class GameManager : Singleton<GameManager>
         // 1. 초기 준비 시간
         currentState = GameState.InitialWait;
         Debug.Log("스테이지 시작! 3초 대기합니다.");
-        yield return new WaitForSeconds(initialWaitTime);
+
+        if (_countdownText != null)
+        {
+            _countdownText.gameObject.SetActive(true);
+            for (int i = 3; i > 0; i--)
+            {
+                _countdownText.text = i.ToString();
+                yield return new WaitForSeconds(1f);
+            }
+            _countdownText.gameObject.SetActive(false);
+        }
+        else // 만약 텍스트가 할당되지 않았다면, 기존처럼 Debug.Log만 사용
+        {
+            Debug.LogWarning("Countdown Text가 할당되지 않아 3초 대기합니다.");
+            yield return new WaitForSeconds(initialWaitTime);
+        }
 
         // 웨이브 진행
         while (currentWaveIndex < waves.Count)

@@ -10,7 +10,8 @@ public class UISelectItem : UIBase
     [field: SerializeField] public Transform selectButtonParents { get; private set; } // 선택 버튼 위치
 
     [field: Header("플레이어 정보 표시 관련")]
-    [field: SerializeField] public TextMeshProUGUI totalStatsText { get; private set; } // 좌측 스탯 총합 텍스트
+    [field: SerializeField] public Transform statSlotParent { get; private set; }   // 스탯 슬롯 위치
+    [field: SerializeField] public GameObject statSlotPrefab { get; private set; }  // 스탯 프리팹
     [field: SerializeField] public Transform ownedItemIconParent { get; private set; } // 하단 보유 아이템 아이콘 위치
     [field: SerializeField] public GameObject ownedItemIconPrefab { get; private set; } // 하단 아이콘 프리팹
 
@@ -39,12 +40,13 @@ public class UISelectItem : UIBase
         }
     }
 
+
     private void ShowChoices()
     {
-        // 1. 후보 아이템 리스트 생성
+        // 후보 아이템 리스트 생성
         List<ItemData> candidateItems = new List<ItemData>();
 
-        // 2. 모든 아이템을 대상으로 필터링
+        // 모든 아이템을 대상으로 필터링
         foreach (var itemData in DataManager.Instance.itemDatas)
         {
             int currentStack = 0;
@@ -55,7 +57,7 @@ public class UISelectItem : UIBase
             }
         }
 
-        // 3. 후보 리스트를 무작위로 섞음
+        // 후보 리스트를 무작위로 섞음
         var random = new System.Random();
         var shuffledCandidates = new List<ItemData>(candidateItems);
         for (int i = 0; i < shuffledCandidates.Count; i++)
@@ -64,7 +66,7 @@ public class UISelectItem : UIBase
             (shuffledCandidates[i], shuffledCandidates[rand]) = (shuffledCandidates[rand], shuffledCandidates[i]);
         }
 
-        // 4. 최대 3개의 선택지를 화면에 표시
+        // 최대 3개의 선택지를 화면에 표시
         int choiceCount = Mathf.Min(3, shuffledCandidates.Count);
         for (int i = 0; i < choiceCount; i++)
         {
@@ -80,43 +82,70 @@ public class UISelectItem : UIBase
 
     private void UpdateTotalStatsDisplay()
     {
-        // PlayerInventory의 OwnedItems를 기반으로 스탯 총합을 계산하고
-        // totalStatsText.text에 반영하는 로직
-        float totalPower = 0f;
-        float totalAttackRange = 0f;
-
-        foreach (var itemPair in PlayerItemManager.Instance.ownedItems)
+        // 이전에 생성했던 스탯 슬롯들을 모두 삭제
+        foreach (Transform child in statSlotParent)
         {
-            ItemData item = itemPair.Key;
-            int count = itemPair.Value;
-            totalPower += item.Power * count;
-            totalAttackRange += item.AttackRange * count;
+            Destroy(child.gameObject);
         }
+        // EStatType Enum의 모든 값들을 순회하면서 스탯을 하나씩 표시
+        foreach (EStatType statType in Enum.GetValues(typeof(EStatType)))
+        {
+            // PlayerItemManager에게 해당 스탯의 총합을 물어봄
+            float value = PlayerItemManager.Instance.GetTotalStatValue(statType);
 
-        totalStatsText.text = $"";
+            // 스탯 보너스가 0보다 클 때만 UI에 표시 (0인 스탯은 굳이 보여주지 않음)
+            if (value > 0)
+            {
+                // 스탯 슬롯 프리팹(ItemStatSlot.prefab)을 생성
+                GameObject slotGO = Instantiate(statSlotPrefab, statSlotParent);
+
+                // 생성된 슬롯에서 UIItemStatSlot 스크립트를 가져옵니다.
+                UIItemStatSlot slotScript = slotGO.GetComponent<UIItemStatSlot>();
+
+                // 스크립트의 SetStat 메소드를 호출하여 정보를 설정합니다.
+                slotScript.SetStat(statType.ToString(), value);
+            }
+        }
     }
 
+
+    // 개선 가능한 사항
+    // 어차피 한 게임에서 가진 아이템이 사라지지 않기 때문에 매번 레벨업 때마다 아이콘 슬롯을 지우지 않고 추가하는 방식으로 개선할 수 있을 것 같다.
     private void UpdateOwnedItemsDisplay()
     {
-        // ownedItemIconParent 아래의 기존 아이콘들을 모두 삭제
-        foreach (Transform child in ownedItemIconParent) Destroy(child.gameObject);
-
-        // PlayerInventory의 OwnedItems를 기반으로 아이콘과 개수를 표시
-        foreach (var itemPair in PlayerItemManager.Instance.ownedItems)
+        // 이전에 생성했던 아이콘 슬롯들을 모두 삭제
+        foreach (Transform child in ownedItemIconParent)
         {
-            GameObject iconGO = Instantiate(ownedItemIconPrefab, ownedItemIconParent);
-            // ... iconGO의 이미지와 텍스트를 itemPair.Key(ItemData), itemPair.Value(개수)로 설정 ...
+            Destroy(child.gameObject);
+        }
+
+        // PlayerItemManager로부터 현재 보유한 아이템 목록을 가져옴
+        var ownedItems = PlayerItemManager.Instance.ownedItems;
+
+        // 보유한 아이템 각각에 대해 아이콘 슬롯을 생성
+        foreach (var itemPair in ownedItems)
+        {
+            ItemData itemData = itemPair.Key;
+            int itemCount = itemPair.Value;
+
+            // SelectItemSlot 프리팹을 생성
+            GameObject slotGO = Instantiate(ownedItemIconPrefab, ownedItemIconParent);
+
+            // 생성된 슬롯의 스크립트를 가져와서 아이템 정보 설정
+            UIOwnedItemSlot slotScript = slotGO.GetComponent<UIOwnedItemSlot>();
+            if (slotScript != null)
+            {
+                slotScript.SetItem(itemData.Icon, itemCount);
+            }
         }
     }
 
-    // 이전에 ChoiceItemButton()으로 비워두셨던 부분입니다.
-    // 이제 각 선택지 슬롯이 직접 이 함수를 호출하게 만들어, 어떤 아이템이 선택되었는지 명확히 알 수 있습니다.
     public void OnItemSelected(ItemData selectedItem)
     {
-        // 1. 선택된 아이템을 인벤토리에 추가
+        // 선택된 아이템을 인벤토리에 추가
         PlayerItemManager.Instance.AddItem(selectedItem);
 
-        // 2. 아이템 선택이 끝났으므로 UI를 닫음
+        // 아이템 선택이 끝났으므로 UI를 닫음
         CloseUI();
     }
 }

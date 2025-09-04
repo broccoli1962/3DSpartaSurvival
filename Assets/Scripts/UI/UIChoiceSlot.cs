@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class UIChoiceSlot : MonoBehaviour
     private ItemData _itemData;
     private UISelectItem _uiSelectItem;
 
-    // UI ¿ä¼Òµé (ÀÎ½ºÆåÅÍ¿¡¼­ ¿¬°á)
+    // UI ìš”ì†Œë“¤ (ì¸ìŠ¤í™í„°ì—ì„œ ì—°ê²°)
     public Image iconImage;
     public TextMeshProUGUI statValueText;
     public Button selectButton;
@@ -19,18 +19,18 @@ public class UIChoiceSlot : MonoBehaviour
         _itemData = itemData;
         _uiSelectItem = uiSelectItem;
 
-        // UI ¾÷µ¥ÀÌÆ®
+        // UI ì—…ë°ì´íŠ¸
         iconImage.sprite = _itemData.Icon;
         statValueText.text = _itemData.description;
 
-        // ¹öÆ° Å¬¸¯ ÀÌº¥Æ® ¿¬°á
-        selectButton.onClick.RemoveAllListeners(); // ±âÁ¸ ¸®½º³Ê Á¦°Å
+        // ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
+        selectButton.onClick.RemoveAllListeners(); // ê¸°ì¡´ ë¦¬ìŠ¤ë„ˆ ì œê±°
         selectButton.onClick.AddListener(OnClicked);
     }
 
     private void OnClicked()
     {
-        // ³»°¡ ¾î¶² ¾ÆÀÌÅÛÀÎÁö ÄÁÆ®·Ñ·¯¿¡°Ô ¾Ë·ÁÁÜ
+        // ë‚´ê°€ ì–´ë–¤ ì•„ì´í…œì¸ì§€ ì»¨íŠ¸ë¡¤ëŸ¬ì—ê²Œ ì•Œë ¤ì¤Œ
         _uiSelectItem.OnItemSelected(_itemData);
     }
 }

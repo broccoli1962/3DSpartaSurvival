@@ -1,29 +1,29 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class UISelectItem : UIBase
 {
-    [field: Header("¼±ÅÃÁö °ü·Ã")]
-    [field: SerializeField] public GameObject levelUpSelectButtonPrefab { get; private set; } // ·¹º§¾÷ ¼±ÅÃ ¹öÆ° ÇÁ¸®ÆÕ
-    [field: SerializeField] public Transform selectButtonParents { get; private set; } // ¼±ÅÃ ¹öÆ° À§Ä¡
+    [field: Header("ì„ íƒì§€ ê´€ë ¨")]
+    [field: SerializeField] public GameObject levelUpSelectButtonPrefab { get; private set; } // ë ˆë²¨ì—… ì„ íƒ ë²„íŠ¼ í”„ë¦¬íŒ¹
+    [field: SerializeField] public Transform selectButtonParents { get; private set; } // ì„ íƒ ë²„íŠ¼ ìœ„ì¹˜
 
-    [field: Header("ÇÃ·¹ÀÌ¾î Á¤º¸ Ç¥½Ã °ü·Ã")]
-    [field: SerializeField] public TextMeshProUGUI totalStatsText { get; private set; } // ÁÂÃø ½ºÅÈ ÃÑÇÕ ÅØ½ºÆ®
-    [field: SerializeField] public Transform ownedItemIconParent { get; private set; } // ÇÏ´Ü º¸À¯ ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ À§Ä¡
-    [field: SerializeField] public GameObject ownedItemIconPrefab { get; private set; } // ÇÏ´Ü ¾ÆÀÌÄÜ ÇÁ¸®ÆÕ
+    [field: Header("í”Œë ˆì´ì–´ ì •ë³´ í‘œì‹œ ê´€ë ¨")]
+    [field: SerializeField] public TextMeshProUGUI totalStatsText { get; private set; } // ì¢Œì¸¡ ìŠ¤íƒ¯ ì´í•© í…ìŠ¤íŠ¸
+    [field: SerializeField] public Transform ownedItemIconParent { get; private set; } // í•˜ë‹¨ ë³´ìœ  ì•„ì´í…œ ì•„ì´ì½˜ ìœ„ì¹˜
+    [field: SerializeField] public GameObject ownedItemIconPrefab { get; private set; } // í•˜ë‹¨ ì•„ì´ì½˜ í”„ë¦¬íŒ¹
 
     protected override void OnOpen()
     {
         base.OnOpen();
         Time.timeScale = 0f;
 
-        // ¼±ÅÃÁö »ı¼º ¹× Ç¥½Ã
+        // ì„ íƒì§€ ìƒì„± ë° í‘œì‹œ
         ShowChoices();
-        // ÁÂÃø ½ºÅÈ Á¤º¸ ¾÷µ¥ÀÌÆ®
+        // ì¢Œì¸¡ ìŠ¤íƒ¯ ì •ë³´ ì—…ë°ì´íŠ¸
         UpdateTotalStatsDisplay();
-        // ÇÏ´Ü º¸À¯ ¾ÆÀÌÅÛ ¸ñ·Ï ¾÷µ¥ÀÌÆ®
+        // í•˜ë‹¨ ë³´ìœ  ì•„ì´í…œ ëª©ë¡ ì—…ë°ì´íŠ¸
         UpdateOwnedItemsDisplay();
     }
 
@@ -32,7 +32,7 @@ public class UISelectItem : UIBase
         base.OnClose();
         Time.timeScale = 1f;
 
-        // ÀÌÀü¿¡ »ı¼ºÇß´ø ¼±ÅÃÁö ¹öÆ°µéÀ» ¸ğµÎ »èÁ¦ÇÏ¿© ±ú²ıÇÑ »óÅÂ·Î ¸¸µç´Ù
+        // ì´ì „ì— ìƒì„±í–ˆë˜ ì„ íƒì§€ ë²„íŠ¼ë“¤ì„ ëª¨ë‘ ì‚­ì œí•˜ì—¬ ê¹¨ë—í•œ ìƒíƒœë¡œ ë§Œë“ ë‹¤
         foreach (Transform child in selectButtonParents)
         {
             Destroy(child.gameObject);
@@ -41,10 +41,10 @@ public class UISelectItem : UIBase
 
     private void ShowChoices()
     {
-        // 1. ÈÄº¸ ¾ÆÀÌÅÛ ¸®½ºÆ® »ı¼º
+        // 1. í›„ë³´ ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ ìƒì„±
         List<ItemData> candidateItems = new List<ItemData>();
 
-        // 2. ¸ğµç ¾ÆÀÌÅÛÀ» ´ë»óÀ¸·Î ÇÊÅÍ¸µ
+        // 2. ëª¨ë“  ì•„ì´í…œì„ ëŒ€ìƒìœ¼ë¡œ í•„í„°ë§
         foreach (var itemData in DataManager.Instance.itemDatas)
         {
             int currentStack = 0;
@@ -55,7 +55,7 @@ public class UISelectItem : UIBase
             }
         }
 
-        // 3. ÈÄº¸ ¸®½ºÆ®¸¦ ¹«ÀÛÀ§·Î ¼¯À½
+        // 3. í›„ë³´ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¬´ì‘ìœ„ë¡œ ì„ìŒ
         var random = new System.Random();
         var shuffledCandidates = new List<ItemData>(candidateItems);
         for (int i = 0; i < shuffledCandidates.Count; i++)
@@ -64,15 +64,15 @@ public class UISelectItem : UIBase
             (shuffledCandidates[i], shuffledCandidates[rand]) = (shuffledCandidates[rand], shuffledCandidates[i]);
         }
 
-        // 4. ÃÖ´ë 3°³ÀÇ ¼±ÅÃÁö¸¦ È­¸é¿¡ Ç¥½Ã
+        // 4. ìµœëŒ€ 3ê°œì˜ ì„ íƒì§€ë¥¼ í™”ë©´ì— í‘œì‹œ
         int choiceCount = Mathf.Min(3, shuffledCandidates.Count);
         for (int i = 0; i < choiceCount; i++)
         {
             ItemData itemToShow = shuffledCandidates[i];
             GameObject buttonGO = Instantiate(levelUpSelectButtonPrefab, selectButtonParents);
 
-            // ¡Ú Áß¿ä: »ı¼ºµÈ ¹öÆ°(½½·Ô)¿¡ ¾ÆÀÌÅÛ Á¤º¸¸¦ ³Ñ°ÜÁÖ°í, Å¬¸¯ÇßÀ» ¶§ ¾î¶² ÇÔ¼ö¸¦ È£ÃâÇÒÁö ¾Ë·ÁÁà¾ß ÇÕ´Ï´Ù.
-            // ÀÌ ±â´ÉÀ» À§ÇØ ¹öÆ° ÇÁ¸®ÆÕ¿¡ UI_ChoiceSlot °°Àº º°µµÀÇ ½ºÅ©¸³Æ®°¡ ÇÊ¿äÇÕ´Ï´Ù.
+            // â˜… ì¤‘ìš”: ìƒì„±ëœ ë²„íŠ¼(ìŠ¬ë¡¯)ì— ì•„ì´í…œ ì •ë³´ë¥¼ ë„˜ê²¨ì£¼ê³ , í´ë¦­í–ˆì„ ë•Œ ì–´ë–¤ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí• ì§€ ì•Œë ¤ì¤˜ì•¼ í•©ë‹ˆë‹¤.
+            // ì´ ê¸°ëŠ¥ì„ ìœ„í•´ ë²„íŠ¼ í”„ë¦¬íŒ¹ì— UI_ChoiceSlot ê°™ì€ ë³„ë„ì˜ ìŠ¤í¬ë¦½íŠ¸ê°€ í•„ìš”í•©ë‹ˆë‹¤.
             UIChoiceSlot slot = buttonGO.GetComponent<UIChoiceSlot>();
             slot.Initialize(itemToShow, this);
         }
@@ -80,8 +80,8 @@ public class UISelectItem : UIBase
 
     private void UpdateTotalStatsDisplay()
     {
-        // PlayerInventoryÀÇ OwnedItems¸¦ ±â¹İÀ¸·Î ½ºÅÈ ÃÑÇÕÀ» °è»êÇÏ°í
-        // totalStatsText.text¿¡ ¹İ¿µÇÏ´Â ·ÎÁ÷
+        // PlayerInventoryì˜ OwnedItemsë¥¼ ê¸°ë°˜ìœ¼ë¡œ ìŠ¤íƒ¯ ì´í•©ì„ ê³„ì‚°í•˜ê³ 
+        // totalStatsText.textì— ë°˜ì˜í•˜ëŠ” ë¡œì§
         float totalPower = 0f;
         float totalAttackRange = 0f;
 
@@ -98,25 +98,25 @@ public class UISelectItem : UIBase
 
     private void UpdateOwnedItemsDisplay()
     {
-        // ownedItemIconParent ¾Æ·¡ÀÇ ±âÁ¸ ¾ÆÀÌÄÜµéÀ» ¸ğµÎ »èÁ¦
+        // ownedItemIconParent ì•„ë˜ì˜ ê¸°ì¡´ ì•„ì´ì½˜ë“¤ì„ ëª¨ë‘ ì‚­ì œ
         foreach (Transform child in ownedItemIconParent) Destroy(child.gameObject);
 
-        // PlayerInventoryÀÇ OwnedItems¸¦ ±â¹İÀ¸·Î ¾ÆÀÌÄÜ°ú °³¼ö¸¦ Ç¥½Ã
+        // PlayerInventoryì˜ OwnedItemsë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì•„ì´ì½˜ê³¼ ê°œìˆ˜ë¥¼ í‘œì‹œ
         foreach (var itemPair in PlayerItemManager.Instance.ownedItems)
         {
             GameObject iconGO = Instantiate(ownedItemIconPrefab, ownedItemIconParent);
-            // ... iconGOÀÇ ÀÌ¹ÌÁö¿Í ÅØ½ºÆ®¸¦ itemPair.Key(ItemData), itemPair.Value(°³¼ö)·Î ¼³Á¤ ...
+            // ... iconGOì˜ ì´ë¯¸ì§€ì™€ í…ìŠ¤íŠ¸ë¥¼ itemPair.Key(ItemData), itemPair.Value(ê°œìˆ˜)ë¡œ ì„¤ì • ...
         }
     }
 
-    // ÀÌÀü¿¡ ChoiceItemButton()À¸·Î ºñ¿öµÎ¼Ì´ø ºÎºĞÀÔ´Ï´Ù.
-    // ÀÌÁ¦ °¢ ¼±ÅÃÁö ½½·ÔÀÌ Á÷Á¢ ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÏ°Ô ¸¸µé¾î, ¾î¶² ¾ÆÀÌÅÛÀÌ ¼±ÅÃµÇ¾ú´ÂÁö ¸íÈ®È÷ ¾Ë ¼ö ÀÖ½À´Ï´Ù.
+    // ì´ì „ì— ChoiceItemButton()ìœ¼ë¡œ ë¹„ì›Œë‘ì…¨ë˜ ë¶€ë¶„ì…ë‹ˆë‹¤.
+    // ì´ì œ ê° ì„ íƒì§€ ìŠ¬ë¡¯ì´ ì§ì ‘ ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ê²Œ ë§Œë“¤ì–´, ì–´ë–¤ ì•„ì´í…œì´ ì„ íƒë˜ì—ˆëŠ”ì§€ ëª…í™•íˆ ì•Œ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
     public void OnItemSelected(ItemData selectedItem)
     {
-        // 1. ¼±ÅÃµÈ ¾ÆÀÌÅÛÀ» ÀÎº¥Åä¸®¿¡ Ãß°¡
+        // 1. ì„ íƒëœ ì•„ì´í…œì„ ì¸ë²¤í† ë¦¬ì— ì¶”ê°€
         PlayerItemManager.Instance.AddItem(selectedItem);
 
-        // 2. ¾ÆÀÌÅÛ ¼±ÅÃÀÌ ³¡³µÀ¸¹Ç·Î UI¸¦ ´İÀ½
+        // 2. ì•„ì´í…œ ì„ íƒì´ ëë‚¬ìœ¼ë¯€ë¡œ UIë¥¼ ë‹«ìŒ
         CloseUI();
     }
 }

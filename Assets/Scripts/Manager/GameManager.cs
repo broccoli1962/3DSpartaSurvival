@@ -38,6 +38,15 @@ public class GameManager : Singleton<GameManager>
     public GameObject waveInfoPanel; 
     public TextMeshProUGUI waveTitleText;
 
+    [Header("날씨 설정")]
+    public Light sunLight;
+    public Material wave1Skybox; 
+    public Material wave2Skybox; 
+    public Material wave3Skybox; 
+    public GameObject wave2WeatherVFX;
+    public GameObject wave3WeatherVFX; 
+    private GameObject currentWeatherVFXInstance;
+
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
@@ -83,6 +92,8 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        SetWeatherForWave(0); 
+
         if (_countdownText != null)
         {
             _countdownText.gameObject.SetActive(false);
@@ -126,6 +137,8 @@ public class GameManager : Singleton<GameManager>
     #region Wave 관련 내용(UI 패널/카운트 다운)
     private IEnumerator WaveCoroutine()
     {
+        SetWeatherForWave(currentWaveIndex);
+
         WaveData currentWave = waves[currentWaveIndex];
         monstersSpawnedThisWave = 0;
         monstersKilledThisWave = 0;
@@ -172,6 +185,7 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
+    #region 스폰 관리
     private IEnumerator SpawnMonsters(WaveData wave)
     {
         while (monstersSpawnedThisWave < wave.totalMonstersToSpawn)
@@ -219,6 +233,45 @@ public class GameManager : Singleton<GameManager>
             activeDamageZones.Add(newZone2);
         }
     }
+    #endregion
+
+    #region Wave별 날씨 관리
+
+    void SetWeatherForWave(int waveIndex)
+    {
+        if (currentWeatherVFXInstance != null)
+        {
+            Destroy(currentWeatherVFXInstance);
+        }
+
+        if (waveIndex == 0) 
+        {
+            RenderSettings.skybox = wave1Skybox;
+            if (sunLight != null) sunLight.color = Color.white;
+            Debug.Log("날씨: 기본");
+        }
+        else if (waveIndex == 1) 
+        {
+            RenderSettings.skybox = wave2Skybox;
+            if (sunLight != null) sunLight.color = Color.gray; 
+            if (wave2WeatherVFX != null)
+            {
+                currentWeatherVFXInstance = Instantiate(wave2WeatherVFX, Vector3.zero, Quaternion.identity);
+            }
+            Debug.Log("날씨: Wave 2 설정 적용");
+        }
+        else if (waveIndex == 2) 
+        {
+            RenderSettings.skybox = wave3Skybox;
+            if (sunLight != null) sunLight.color = new Color(0.7f, 0.8f, 1f); 
+            if (wave3WeatherVFX != null)
+            {
+                currentWeatherVFXInstance = Instantiate(wave3WeatherVFX, Vector3.zero, Quaternion.identity);
+            }
+            Debug.Log("날씨: Wave 3 설정 적용");
+        }
+    }
+    #endregion
 
     void ClearAllDamageZones()
     {

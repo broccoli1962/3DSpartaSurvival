@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Ranged : IWeaponAttack
 {
@@ -30,9 +31,27 @@ public class Ranged : IWeaponAttack
 
         Debug.DrawRay(weapon.transform.position, attackDir * weapon.itemData.AttackRange, Color.red, 1000f);
 
-        Quaternion rot = Quaternion.LookRotation(attackDir) * Quaternion.Euler(90f, 0f, 0f);
-        GameObject proj = Object.Instantiate(projectilePrefab, weapon.transform.position + Vector3.up * 1f, rot);
-        Projectile p = proj.GetComponent<Projectile>();
-        p.Init(attackDir, weapon.itemData.Power, weapon.itemData.AttackSpeed, weapon.hitMask);
+        
+        float pCount = weapon.itemData.ProjectileCount;
+        float startAngle = 0;
+        float angle = 0;
+
+        if (pCount > 1)
+        {
+            angle = weapon.itemData.ProjectileAngle / (pCount - 1);
+            startAngle = -weapon.itemData.ProjectileAngle / 2f;
+        }
+
+        for (int i = 0; i < pCount; i++) {
+            float currentAngle = startAngle + (i * angle);
+
+            Vector3 nextDir = Quaternion.AngleAxis(currentAngle, Vector3.up) * attackDir;
+            Quaternion rot = Quaternion.LookRotation(nextDir) * Quaternion.Euler(90f, 0f, 0f);
+
+            GameObject proj = Object.Instantiate(projectilePrefab, weapon.transform.position + Vector3.up * 1f, rot);
+            Projectile p = proj.GetComponent<Projectile>();
+            
+            p.Init(nextDir, weapon.itemData.Power, weapon.itemData.ProjectileSpeed, weapon.hitMask);
+        }
     }
 }

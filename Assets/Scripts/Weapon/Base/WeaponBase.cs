@@ -11,15 +11,17 @@ public interface IDamagable
 
 public class WeaponBase : MonoBehaviour
 {
-    public ItemData itemData;
+    public ActiveItemData itemData;
     public LayerMask hitMask;
     public Animator animator;
     public AnimationClip attackClip;
 
     private float lastAttackTime;
     private Coroutine coroutine;
+    private GameObject prj;
 
     public IWeaponAttack attackStretegy;
+    
 
     private void Awake()
     {
@@ -31,9 +33,13 @@ public class WeaponBase : MonoBehaviour
                 attackStretegy = new Melee();
                 break;
             case EWeaponType.Bow:
-                GameObject prj = Resources.Load<GameObject>("Projectile/Arrow");
+                prj = Resources.Load<GameObject>("Projectile/Arrow");
                 Debug.Log(prj.name);
                 attackStretegy = new Ranged(prj);
+                break;
+            case EWeaponType.Wand:
+                prj = Resources.Load<GameObject>("Projectile/MagicBullet");
+                attackStretegy = new Wand(prj);
                 break;
         }
     }
@@ -62,11 +68,12 @@ public class WeaponBase : MonoBehaviour
 
     public void Attack()
     {
-        if (coroutine != null) {
+        if (coroutine != null)
+        {
             StopCoroutine(coroutine);
         }
 
-        if(itemData.AttackSpeed > 0)
+        if (itemData.AttackSpeed > 0)
         {
             animator.SetFloat(AnimParam.AttackSpeedMul, itemData.AttackSpeed);
         }
@@ -94,6 +101,7 @@ public class WeaponBase : MonoBehaviour
 
         //애니메이션의 길이 = 다음 공격까지 걸리는 시간
         //애니메이션의 속도를 높이면 길이가 줄어듬
+
         float animSpeed = animator.GetFloat(AnimParam.AttackSpeedMul);
         float animPlayTime = attackClip.length / animSpeed;
 
@@ -101,7 +109,6 @@ public class WeaponBase : MonoBehaviour
         Debug.Log($"{attackClip.length} 애니메이션 클립 길이");
 
         int temp = 0;
-        
         while (temp < itemData.AttackCount)
         {
             attackStretegy.AttackType(this); //전략에 따라서 공격 형태 가짐

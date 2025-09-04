@@ -23,7 +23,8 @@ public enum EState
     Attack,
     Wait,
     Move,
-    Skill
+    Skill1,
+    Skill2
 }
 
 public static class AnimParam
@@ -32,4 +33,6 @@ public static class AnimParam
     public static readonly int Move = Animator.StringToHash("Move");
     public static readonly int Attack = Animator.StringToHash("Attack");
     public static readonly int AttackSpeedMul = Animator.StringToHash("AttackSpeedMul");
+    public static readonly int Skill1 = Animator.StringToHash("Skill1");
+    public static readonly int Skill2 = Animator.StringToHash("Skill2");
 }

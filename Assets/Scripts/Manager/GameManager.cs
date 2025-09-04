@@ -90,11 +90,12 @@ public class GameManager : Singleton<GameManager>
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
-                // TODO: NavMesh 위 샘플링으로 스폰 가능한 위치인지 확인하는 로직 추가하면 더 좋음
-
                 GameObject newMonster = Instantiate(monsterToSpawn, spawnPosition, Quaternion.identity);
                 activeMonsters.Add(newMonster);
                 monstersSpawnedThisWave++;
+
+                int remainingSpawns = wave.totalMonstersToSpawn - monstersSpawnedThisWave;
+                Debug.Log($"{monsterToSpawn.name} 1마리 스폰 / 남은 스폰 마릿수: {remainingSpawns}");
             }
             yield return new WaitForSeconds(spawnInterval);
         }

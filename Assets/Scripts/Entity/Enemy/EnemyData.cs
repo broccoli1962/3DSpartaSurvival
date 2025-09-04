@@ -21,9 +21,4 @@ public class MonsterData : ScriptableObject
     public float attackRange; // 근접/원거리 공격 또는 힐 사거리
     public float moveSpeed;
     public int experienceDrop;
-
-    [Header("UI 설정")]
-    public GameObject hpBarPrefab;
-    public Transform hpBarAnchor;
-    private MonHPBarController monhpBarController;
 }

@@ -30,6 +30,11 @@ public class WeaponBase : MonoBehaviour
             case EWeaponType.Melee:
                 attackStretegy = new Melee();
                 break;
+            case EWeaponType.Bow:
+                GameObject prj = Resources.Load<GameObject>("Projectile/Arrow");
+                Debug.Log(prj.name);
+                attackStretegy = new Ranged(prj);
+                break;
         }
     }
 
@@ -99,7 +104,7 @@ public class WeaponBase : MonoBehaviour
         
         while (temp < itemData.AttackCount)
         {
-            attackStretegy.AttackType(this); //전략에 따라서 공격 형태라 짐
+            attackStretegy.AttackType(this); //전략에 따라서 공격 형태 가짐
             animator.SetTrigger(AnimParam.Attack);
 
             yield return new WaitForSeconds(animPlayTime); //다음 애니메이션 까지 대기시간
@@ -108,42 +113,6 @@ public class WeaponBase : MonoBehaviour
 
         lastAttackTime = Time.time;
         coroutine = null;
-    }
-    
-    //실질적 공격 로직
-    private void SingleAttack()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 attackDir;
-
-        if(Physics.Raycast(ray, out RaycastHit hit, float.MaxValue))
-        {
-            Vector3 targetPoint = hit.point;
-            attackDir = (targetPoint - transform.position).normalized;
-            attackDir.y = 0f;
-        }
-        else
-        {
-            attackDir = ray.direction;
-            attackDir.y = 0;
-        }
-
-        Debug.DrawRay(transform.position, attackDir * itemData.AttackRange, Color.red, 1000f);
-
-        //피격 판정
-        Vector3 boxCenter = transform.position + attackDir * (itemData.AttackRange / 2);
-        Vector3 boxRange = new Vector3(1f, 1f, itemData.AttackRange / 2f);
-
-        Collider[] check = Physics.OverlapBox(boxCenter, boxRange, Quaternion.LookRotation(attackDir), hitMask);
-
-        foreach (var target in check)
-        {
-            if (target.TryGetComponent<IDamagable>(out IDamagable enemy))
-            {
-                enemy.ValueChanged(-itemData.Power);
-            }
-            Debug.Log($"{target.name}에 맞음");
-        }
     }
 
 #if UNITY_EDITOR

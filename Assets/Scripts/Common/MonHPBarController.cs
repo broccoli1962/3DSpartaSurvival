@@ -26,7 +26,12 @@ public class MonHPBarController : MonoBehaviour
     {
         if (_monName != null)
         {
-            _monName.text = name;
+            string processedName = name;
+            processedName = processedName.Replace("Red", "<color=red>Red</color>");
+            processedName = processedName.Replace("Green", "<color=green>Green</color>");
+            processedName = processedName.Replace("Purple", "<color=purple>Purple</color>");
+
+            _monName.text = processedName;
         }
     }
 

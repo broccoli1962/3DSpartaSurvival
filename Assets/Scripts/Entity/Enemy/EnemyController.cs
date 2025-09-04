@@ -1,10 +1,17 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.AI;
+
 public abstract class EnemyController : MonoBehaviour
 {
+    [Header("Îç∞Ïù¥ÌÑ∞")]
     public MonsterData _monsterData;
 
-    protected int currentHealth;
+    [Header("UI ÏÑ§Ï†ï")]
+    public GameObject hpBarPrefab;
+    public Transform hpBarAnchor;
+
+    public int currentHealth { get; private set; }
+    protected MonHPBarController hpBarController;
     protected NavMeshAgent _agent;
     protected Transform _playerTarget;
     protected Animator _animator;
@@ -14,15 +21,32 @@ public abstract class EnemyController : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
-        _playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            _playerTarget = playerObject.transform;
+        }
     }
 
     protected virtual void Start()
     {
         if (_monsterData != null)
         {
+            // MonsterDataÎ°úÎ∂ÄÌÑ∞ Îä•Î†•Ïπò Î∞õÏùå.
             currentHealth = _monsterData.maxHealth;
             _agent.speed = _monsterData.moveSpeed;
+
+            if (hpBarPrefab != null && hpBarAnchor != null)
+            {
+                GameObject hpBarInstance = Instantiate(hpBarPrefab, hpBarAnchor);
+                hpBarController = hpBarInstance.GetComponent<MonHPBarController>();
+                if (hpBarController != null)
+                {
+                    hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
+                    hpBarController.SetName(_monsterData.monsterName);
+                }
+            }
         }
     }
 
@@ -34,21 +58,19 @@ public abstract class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        if (currentHealth < 0) currentHealth = 0;
+
+        if (hpBarController != null)
+        {
+            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    protected virtual void Die()
-    {
-        Debug.Log(_monsterData.monsterName + " has died.");
-        // ¡◊¥¬ æ÷¥œ∏ﬁ¿Ãº« ¿Áª˝
-        // ¿Ã»ƒ ∞Ê«Ëƒ° π◊ æ∆¿Ã≈€ µÂ∂¯ √ﬂ∞° ∞≥πﬂ øπ¡§
-        Destroy(gameObject);
-    }
-
-    // »˙∑Ø∞° »˙¿ª «ÿ¡÷±‚ ¿ß«— ∏ﬁº≠µÂ
     public void ReceiveHeal(int healAmount)
     {
         currentHealth += healAmount;
@@ -56,5 +78,19 @@ public abstract class EnemyController : MonoBehaviour
         {
             currentHealth = _monsterData.maxHealth;
         }
+
+        // HP Î∞î UI ÏóÖÎç∞Ïù¥Ìä∏
+        if (hpBarController != null)
+        {
+            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
+        }
+    }
+
+    // Ï£ΩÏóàÏùÑ Îïå Ï≤òÎ¶¨
+    protected virtual void Die()
+    {
+        Debug.Log(_monsterData.monsterName + " has died.");
+        // TODO: Ï£ΩÎäî Ïï†ÎãàÎ©îÏù¥ÏÖò Ïû¨ÏÉù, ÏïÑÏù¥ÌÖú ÎìúÎûç Îì±
+        Destroy(gameObject);
     }
 }

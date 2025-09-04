@@ -18,7 +18,7 @@ public class PlayerHPBarController : MonoBehaviour
 
         if (_hpText != null)
         {
-            _hpText.text = $"{currentHealth}";
+            _hpText.text = $"{currentHealth} / {maxHealth}";
         }
     }
 

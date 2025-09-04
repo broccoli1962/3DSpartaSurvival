@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1576462825956214717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -63,8 +63,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <btnGameStart>k__BackingField: {fileID: 1806916826943596766}
-  <btnOption>k__BackingField: {fileID: 0}
-  <btnShop>k__BackingField: {fileID: 0}
+  <btnOption>k__BackingField: {fileID: 582704592863503970}
+  <btnShop>k__BackingField: {fileID: 11131727305443915}
 --- !u!1 &714290522517289339
 GameObject:
   m_ObjectHideFlags: 0

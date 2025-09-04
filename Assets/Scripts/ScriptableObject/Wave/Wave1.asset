@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe15df8cffa652647a27491cd71e1764, type: 3}
+  m_Name: Wave1
+  m_EditorClassIdentifier: 
+  monsterPrefabs:
+  - {fileID: 1610866691721355624, guid: 5fc1cb0c677b26544a43c85538d5e61f, type: 3}
+  - {fileID: 851486991932909865, guid: b6feea2e24d5aab41be42b779f82ba2a, type: 3}
+  - {fileID: 6830986674275175533, guid: 60c46dddd60a4da42993a5bbdc392d01, type: 3}
+  totalMonstersToSpawn: 20

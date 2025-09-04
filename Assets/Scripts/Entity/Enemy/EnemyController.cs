@@ -78,19 +78,20 @@ public abstract class EnemyController : MonoBehaviour
         {
             currentHealth = _monsterData.maxHealth;
         }
-
-        // HP 바 UI 업데이트
         if (hpBarController != null)
         {
             hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
         }
     }
 
-    // 죽었을 때 처리
     protected virtual void Die()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnMonsterKilled(this.gameObject);
+        }
         Debug.Log(_monsterData.monsterName + " has died.");
-        // TODO: 죽는 애니메이션 재생, 아이템 드랍 등
+
         Destroy(gameObject);
     }
 }

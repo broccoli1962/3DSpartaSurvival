@@ -9,16 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e9f5707ff9de0743bcf892b83c98d70, type: 3}
-  m_Name: BowTest
+  m_Script: {fileID: 11500000, guid: 3eefdb875ffe52149a45b097275f8715, type: 3}
+  m_Name: Wand
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 0}
   <Id>k__BackingField: 0
   description: 
-  <weaponType>k__BackingField: 2
-  <Power>k__BackingField: 3
-  <AttackSpeed>k__BackingField: 4
-  <AttackCount>k__BackingField: 2
-  <AttackRange>k__BackingField: 4
+  <Power>k__BackingField: 2
+  <AttackRange>k__BackingField: 10
   <CoolTime>k__BackingField: 5
-  <Stack>k__BackingField: 1
+  <Stack>k__BackingField: 0
+  <weaponType>k__BackingField: 4
+  <AttackSpeed>k__BackingField: 1.25
+  <AttackCount>k__BackingField: 3
+  <ProjectileSpeed>k__BackingField: 7
+  <ProjectileCount>k__BackingField: 4
+  <ProjectileAngle>k__BackingField: 280

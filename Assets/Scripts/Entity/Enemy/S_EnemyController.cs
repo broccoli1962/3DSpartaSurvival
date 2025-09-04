@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class S_EnemyController : EnemyController
 {
@@ -9,20 +10,26 @@ public class S_EnemyController : EnemyController
     {
         base.Update();
 
+        if (_playerTarget == null)
+        {
+            if (_agent != null && _agent.isOnNavMesh)
+            {
+                _agent.isStopped = true;
+            }
+            return; 
+        }
+
         if (!canMove) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
 
         if (distanceToPlayer <= _monsterData.attackRange)
         {
-            _agent.isStopped = true;
             Attack();
         }
         else
         {
-            // 공격 범위 밖 플레이어 추적
-            //_agent.isStopped = false;
-            //_agent.SetDestination(_playerTarget.position);
+
         }
     }
 
@@ -32,10 +39,7 @@ public class S_EnemyController : EnemyController
         {
             lastAttackTime = Time.time;
             Debug.Log(_monsterData.attackPower);
-            // TODO: 실제 플레이어에게 데미지를 주는 로직
-            // TODO: 공격 애니메이션 재생
 
-            // 기획서 내용: 공격 후 다음 공격까지 이동 불가
             StartCoroutine(AttackCooldown());
         }
     }
@@ -43,7 +47,9 @@ public class S_EnemyController : EnemyController
     private IEnumerator AttackCooldown()
     {
         canMove = false;
+        _agent.isStopped = true; // 공격 중에는 확실히 멈추도록 설정
         yield return new WaitForSeconds(_monsterData.attackSpeed);
         canMove = true;
+        _agent.isStopped = false; // 다시 움직일 수 있도록 설정
     }
 }

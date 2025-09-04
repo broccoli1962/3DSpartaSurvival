@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,27 +11,75 @@ public class GameManager : Singleton<GameManager>
     public GameObject bossPrefab;
 
     [Header("플레이어 및 스폰 설정")]
-    [Tooltip("플레이어의 Transform을 연결하여 스폰 위치를 계산합니다.")]
     public Transform playerTransform;
     public float minSpawnDistance = 5f;
     public float maxSpawnDistance = 15f;
 
     [Header("스폰 타이밍 설정")]
-    public float initialWaitTime = 3f; 
-    public float spawnInterval = 1.5f; 
-    public int maxMonstersOnField = 20; 
+    public float initialWaitTime = 3f;
+    public float spawnInterval = 1.5f;
+    public int maxMonstersOnField = 20;
+
+    [Header("데미지 존 설정")]
+    public GameObject damageZonePrefab;
+    public float damageZoneSpawnRadius = 15f;
+    public float damageZoneSpawnDelay = 3f;
+    private List<GameObject> activeDamageZones = new List<GameObject>();
 
     private int currentWaveIndex = 0;
     private int monstersSpawnedThisWave = 0;
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
 
+    public GameObject _gameOverCanvas;
+
     [Header("UI 설정")]
     public TextMeshProUGUI _countdownText;
+    public GameObject waveInfoPanel; 
+    public TextMeshProUGUI waveTitleText;
 
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
+    #region 게임오버 함수
+    public void ShowGameOverScreen()
+    {
+        if (_gameOverCanvas != null)
+        {
+            _gameOverCanvas.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (activeMonsters.Count > 0)
+            {
+                GameObject targetMonster = activeMonsters[0];
+
+                EnemyController enemyController = targetMonster.GetComponent<EnemyController>();
+
+                if (enemyController != null)
+                {
+                    enemyController.TakeDamage(1000);
+                    Debug.Log(targetMonster.name + "에게 1000의 디버그 데미지를 입혔습니다!");
+                }
+            }
+            else
+            {
+                Debug.Log("공격할 몬스터가 없습니다.");
+            }
+        }
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    #endregion
 
     void Start()
     {
@@ -43,9 +92,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator GameFlow()
     {
-        // 1. 초기 준비 시간
         currentState = GameState.InitialWait;
-        Debug.Log("스테이지 시작! 3초 대기합니다.");
 
         if (_countdownText != null)
         {
@@ -57,7 +104,7 @@ public class GameManager : Singleton<GameManager>
             }
             _countdownText.gameObject.SetActive(false);
         }
-        else // 만약 텍스트가 할당되지 않았다면, 기존처럼 Debug.Log만 사용
+        else
         {
             Debug.LogWarning("Countdown Text가 할당되지 않아 3초 대기합니다.");
             yield return new WaitForSeconds(initialWaitTime);
@@ -70,27 +117,32 @@ public class GameManager : Singleton<GameManager>
             currentWaveIndex++;
         }
 
-        // 3. 보스전
         yield return StartCoroutine(BossFightCoroutine());
 
         currentState = GameState.GameWon;
         Debug.Log("게임 클리어!");
     }
 
+    #region Wave 관련 내용(UI 패널/카운트 다운)
     private IEnumerator WaveCoroutine()
     {
         WaveData currentWave = waves[currentWaveIndex];
         monstersSpawnedThisWave = 0;
         monstersKilledThisWave = 0;
         activeMonsters.Clear();
-        currentState = GameState.WaveInProgress;
 
+        ShowWaveInfo(currentWave);
+
+        yield return new WaitForSeconds(3f);
+
+        HideWaveInfo();
+
+        currentState = GameState.WaveInProgress;
         Debug.Log($"웨이브 {currentWaveIndex + 1} 시작! 목표: {currentWave.totalMonstersToSpawn}마리");
 
-        // 몬스터 스폰 시작
         StartCoroutine(SpawnMonsters(currentWave));
+        StartCoroutine(SpawnDamageZoneCoroutine());
 
-        // 해당 웨이브의 모든 몬스터를 처치할 때까지 대기
         while (monstersKilledThisWave < currentWave.totalMonstersToSpawn)
         {
             yield return null;
@@ -98,7 +150,27 @@ public class GameManager : Singleton<GameManager>
 
         currentState = GameState.WaveComplete;
         Debug.Log($"웨이브 {currentWaveIndex + 1} 클리어!");
+
+        ClearAllDamageZones();
     }
+    void ShowWaveInfo(WaveData wave)
+    {
+        if (waveInfoPanel != null)
+        {
+            waveTitleText.text = $"Wave {currentWaveIndex + 1}";
+
+            waveInfoPanel.SetActive(true);
+        }
+    }
+
+    void HideWaveInfo()
+    {
+        if (waveInfoPanel != null)
+        {
+            waveInfoPanel.SetActive(false);
+        }
+    }
+    #endregion
 
     private IEnumerator SpawnMonsters(WaveData wave)
     {
@@ -106,10 +178,8 @@ public class GameManager : Singleton<GameManager>
         {
             if (activeMonsters.Count < maxMonstersOnField)
             {
-                // 스폰할 몬스터 랜덤 선택
                 GameObject monsterToSpawn = wave.monsterPrefabs[Random.Range(0, wave.monsterPrefabs.Count)];
 
-                // 플레이어 주변 랜덤 위치 계산
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
@@ -123,6 +193,41 @@ public class GameManager : Singleton<GameManager>
             yield return new WaitForSeconds(spawnInterval);
         }
         Debug.Log("이 웨이브의 모든 몬스터가 스폰되었습니다.");
+    }
+
+    private IEnumerator SpawnDamageZoneCoroutine()
+    {
+        yield return new WaitForSeconds(damageZoneSpawnDelay); 
+
+        if (playerTransform != null) 
+        {
+            Vector2 randomCircle1 = Random.insideUnitCircle.normalized * damageZoneSpawnRadius;
+            Vector3 spawnPosition1 = playerTransform.position + new Vector3(randomCircle1.x, 0, randomCircle1.y);
+
+            GameObject newZone1 = Instantiate(damageZonePrefab, spawnPosition1, Quaternion.identity);
+            activeDamageZones.Add(newZone1);
+        }
+
+        yield return new WaitForSeconds(5f); 
+
+        if (playerTransform != null) 
+        {
+            Vector2 randomCircle2 = Random.insideUnitCircle.normalized * damageZoneSpawnRadius;
+            Vector3 spawnPosition2 = playerTransform.position + new Vector3(randomCircle2.x, 0, randomCircle2.y);
+
+            GameObject newZone2 = Instantiate(damageZonePrefab, spawnPosition2, Quaternion.identity);
+            activeDamageZones.Add(newZone2);
+        }
+    }
+
+    void ClearAllDamageZones()
+    {
+        foreach (GameObject zone in activeDamageZones)
+        {
+            Destroy(zone);
+        }
+        activeDamageZones.Clear();
+        Debug.Log("모든 Damage Zone 제거 완료!");
     }
 
     private IEnumerator BossFightCoroutine()
@@ -152,4 +257,3 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
     }
 }
-

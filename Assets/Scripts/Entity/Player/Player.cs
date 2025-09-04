@@ -73,12 +73,22 @@ public class Player : MonoBehaviour
         if (hpBarPrefab != null && hpBarAnchor != null)
         {
             GameObject hpBarInstance = Instantiate(hpBarPrefab, hpBarAnchor);
-            playerhpBarController = hpBarInstance.GetComponent<PlayerHPBarController>();
-            playerhpBarController.UpdateHP(currentHealth, maxHealth);
+
+            playerhpBarController = hpBarInstance.GetComponentInChildren<PlayerHPBarController>();
+
+            if (playerhpBarController != null)
+            {
+                playerhpBarController.UpdateHP(currentHealth, maxHealth);
+            }
         }
     }
     public void TakeDamage(int damage)
     {
+        if (playerhpBarController == null)
+        {
+            return;
+        }
+
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
 
@@ -92,5 +102,14 @@ public class Player : MonoBehaviour
     private void Die()
     {
         Debug.Log("Die");
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.ShowGameOverScreen();
+        }
+
+        gameObject.SetActive(false);
     }
 }

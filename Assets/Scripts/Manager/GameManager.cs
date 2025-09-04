@@ -15,9 +15,9 @@ public class GameManager : Singleton<GameManager>
     public float maxSpawnDistance = 15f;
 
     [Header("스폰 타이밍 설정")]
-    public float initialWaitTime = 3f; // 초기 대기 시간
-    public float spawnInterval = 1.5f; // 몬스터 스폰 간격
-    public int maxMonstersOnField = 20; // 필드 위 최대 몬스터 수
+    public float initialWaitTime = 3f; 
+    public float spawnInterval = 1.5f; 
+    public int maxMonstersOnField = 20; 
 
     private int currentWaveIndex = 0;
     private int monstersSpawnedThisWave = 0;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RifleStock
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 0}
-  <Id>k__BackingField: 0
+  <Id>k__BackingField: 4
   description: "\uAC1C\uBA38\uB9AC\uD310"
   <Power>k__BackingField: 60
   <AttackRange>k__BackingField: 3

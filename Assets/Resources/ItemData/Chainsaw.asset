@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chainsaw
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 0}
-  <Id>k__BackingField: 0
+  <Id>k__BackingField: 9
   description: "\uC804\uAE30\uD1B1"
   <Power>k__BackingField: 100
   <AttackRange>k__BackingField: 0

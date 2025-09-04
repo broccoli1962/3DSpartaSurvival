@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbcee6a138e475a459b37cee0f19cd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 1aae6ce7e5510c74b99e92b913fa35a8, type: 2}
+  itemData: {fileID: 11400000, guid: f53a2f54347686946b2b9e97b5d1b3d7, type: 2}
   hitMask:
     serializedVersion: 2
     m_Bits: 64

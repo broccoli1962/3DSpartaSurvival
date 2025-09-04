@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Constants : MonoBehaviour
+public enum EWeaponType
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    None,
+    Melee,
+    Bow,
+    Staff,
+    Wand
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public enum EAttackShape
+{
+    None,
+    Circle,
+    Square,
+    Seta
+}
+
+public static class AnimParam
+{
+    public static readonly int Idle = Animator.StringToHash("Idle");
+    public static readonly int Attack = Animator.StringToHash("Attack");
+    public static readonly int AttackSpeedMul = Animator.StringToHash("AttackSpeedMul");
 }

@@ -1,12 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
     private Dictionary<string, UIBase> uiDictionary = new Dictionary<string, UIBase>();
     private Transform _canvasTransform; // UI들이 생성될 부모 캔버스
-    // Todo : 어떻게 딕셔너리에 UI를 넣어둘지 고민중
+
+    private void Awake()
+    {
+        // 싱글톤 인스턴스를 '확정'시키는 과정
+        // Instance를 한번 호출함으로써, _instance 변수에 이 오브젝트가 할당되도록 합니다.
+        var checkInstance = Instance;
+
+        // 만약 이미 다른 UIManager Instance가 존재하는데, 내가 또 생긴 경우 (중복 방지)
+        if (_instance != this)
+        {
+            Destroy(gameObject); // 나는 스스로를 파괴한다.
+            return;
+        }
+
+        // 내가 유일한 Instance임이 확인되었으므로, 나 자신을 파괴되지 않도록 설정한다.
+        DontDestroyOnLoad(gameObject);
+
+        // 이제 씬 로드 이벤트를 구독합니다.
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 
     // UI를 여는 메서드
     public void OpenUI<T>() where T : UIBase
@@ -86,5 +112,23 @@ public class UIManager : Singleton<UIManager>
     {
         string uiName = typeof(T).Name;
         return uiDictionary.ContainsKey(uiName) && uiDictionary[uiName] != null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _canvasTransform = null;
+        Debug.Log($"[UIManager] '{scene.name}' 씬 로딩 완료 감지!");
+
+        // 새로 로드된 씬의 이름이 "UIBattle_Test" 라면,
+        if (scene.name == "UIBattle_Test")
+        {
+            // 이 씬에서 필요한 UI들을 미리 딕셔너리에 등록(캐싱)합니다.
+            Debug.Log("[UIManager] 배틀 씬에 필요한 UI들을 미리 로드합니다.");
+            GetUI<UIOption>();
+            GetUI<UIResult>();
+            GetUI<UISelectItem>();
+            PlayerItemManager.Instance.ClearItems();
+        }
+        // 다른 씬에서 필요하면 여기서 구현
     }
 }

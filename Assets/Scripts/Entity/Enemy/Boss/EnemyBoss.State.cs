@@ -170,6 +170,41 @@ public partial class EnemyBoss : MonoBehaviour
     }
     #endregion
 
+    #region 죽음 상태
+    public class DeathState : BaseState<EnemyBoss>
+    {
+        public DeathState(EnemyBoss component) : base(component) {}
+
+        public override void End()
+        {
+        }
+
+        public override void HandleUpdate()
+        {
+
+        }
+
+        public override void PhysicsUpdate()
+        {
+
+        }
+
+        public override void Start()
+        {
+            StartAnimation(AnimParam.Death);
+        }
+
+        public override void Update()
+        {
+        }
+
+        public override void OnAnimationEvent()
+        {
+            Destroy(Component);
+        }
+    }
+
+    #endregion
     //돌진 스킬
     #region 스킬1
     public class Skill1State : BaseState<EnemyBoss>

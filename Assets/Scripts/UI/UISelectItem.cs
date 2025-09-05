@@ -43,21 +43,47 @@ public class UISelectItem : UIBase
 
     private void ShowChoices()
     {
-        // 후보 아이템 리스트 생성
-        List<ItemData> candidateItems = new List<ItemData>();
+        // 이전에 생성했던 선택지 버튼들을 모두 삭제하여 깨끗한 상태로 만든다 (확인용 로그 추가)
+        foreach (Transform child in selectButtonParents)
+        {
+            Debug.Log($"[UISelectItem] 이전 선택지 버튼 삭제: {child.name}");
+            Destroy(child.gameObject);
+        }
 
-        // 모든 아이템을 대상으로 필터링
+        List<ItemData> candidateItems = new List<ItemData>();
+        Debug.Log($"[UISelectItem] DataManager에 등록된 총 아이템 개수: {DataManager.Instance.itemDatas.Count}");
+
+
         foreach (var itemData in DataManager.Instance.itemDatas)
         {
+            if (itemData == null) // null 참조 방지
+            {
+                Debug.LogError("[UISelectItem] DataManager.itemDatas에 null ItemData가 있습니다!");
+                continue;
+            }
+
             int currentStack = 0;
-            PlayerItemManager.Instance.ownedItems.TryGetValue(itemData, out currentStack);
+            bool hasItem = PlayerItemManager.Instance.ownedItems.TryGetValue(itemData, out currentStack);
+
+            Debug.Log($"[UISelectItem] 아이템 '{itemData.name}' (ID: {itemData.Id}, MaxStack: {itemData.Stack}): " +
+                      $"현재 보유 개수: {currentStack}, PlayerItemManager에 존재 여부: {hasItem}");
+
+
             if (currentStack < itemData.Stack)
             {
                 candidateItems.Add(itemData);
+                Debug.Log($"[UISelectItem] 아이템 '{itemData.name}'이 후보에 추가됨. (현재 스택: {currentStack} < 최대 스택: {itemData.Stack})");
+            }
+            else
+            {
+                Debug.LogWarning($"[UISelectItem] 아이템 '{itemData.name}'은 후보에서 제외됨. " +
+                                 $"(현재 스택: {currentStack} >= 최대 스택: {itemData.Stack})");
             }
         }
 
-        // 후보 리스트를 무작위로 섞음
+        Debug.Log($"[UISelectItem] 최종 선택 가능한 후보 아이템 개수: {candidateItems.Count}개");
+
+        // 후보 리스트를 무작위로 섞음 (이 부분은 원래 코드와 동일)
         var random = new System.Random();
         var shuffledCandidates = new List<ItemData>(candidateItems);
         for (int i = 0; i < shuffledCandidates.Count; i++)
@@ -66,16 +92,24 @@ public class UISelectItem : UIBase
             (shuffledCandidates[i], shuffledCandidates[rand]) = (shuffledCandidates[rand], shuffledCandidates[i]);
         }
 
-        // 최대 3개의 선택지를 화면에 표시
         int choiceCount = Mathf.Min(3, shuffledCandidates.Count);
+        Debug.Log($"[UISelectItem] 화면에 표시할 최종 선택지 개수: {choiceCount}개");
+
         for (int i = 0; i < choiceCount; i++)
         {
             ItemData itemToShow = shuffledCandidates[i];
             GameObject buttonGO = Instantiate(levelUpSelectButtonPrefab, selectButtonParents);
 
-            // ★ 중요: 생성된 버튼(슬롯)에 아이템 정보를 넘겨주고, 클릭했을 때 어떤 함수를 호출할지 알려줘야 합니다.
             UIChoiceSlot slot = buttonGO.GetComponent<UIChoiceSlot>();
-            slot.Initialize(itemToShow, this);
+            if (slot != null)
+            {
+                slot.Initialize(itemToShow, this);
+                Debug.Log($"[UISelectItem] '{itemToShow.name}' 아이템 선택 슬롯 생성 및 초기화 완료.");
+            }
+            else
+            {
+                Debug.LogError($"[UISelectItem] levelUpSelectButtonPrefab에 UIChoiceSlot 컴포넌트가 없습니다! 프리팹 확인 필요.");
+            }
         }
     }
 

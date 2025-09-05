@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e65017cabf8df409831f1f8d8b228a, type: 3}
   m_Name: RifleStock
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: b9e10ae2760700c4f877cf6903b0bb2b, type: 3}
   <Id>k__BackingField: 4
   description: "\uAC1C\uBA38\uB9AC\uD310"
   <Power>k__BackingField: 60
   <AttackRange>k__BackingField: 3
   <CoolTime>k__BackingField: 0
-  <Stack>k__BackingField: 0
+  <Stack>k__BackingField: 3
   <Health>k__BackingField: 0
   <MoveSpeed>k__BackingField: 0

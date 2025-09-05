@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconImage: {fileID: 8818945266801182580}
-  descriptionText: {fileID: 0}
+  statValueText: {fileID: 4025783063662308110}
   selectButton: {fileID: 619259765887119852}
 --- !u!1 &1672093573271104055
 GameObject:

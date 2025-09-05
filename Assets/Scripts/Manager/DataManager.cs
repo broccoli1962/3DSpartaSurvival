@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// DataManager 오브젝트를 생성하고 이 스크립트를 컴포넌트로 추가한다.
+/// DataManager는 전투 씬에 배치하고 전투씬에 로딩할 때 리소스 폴더에서 ItemData를 받아온다.
+/// </summary>
 public class DataManager : Singleton<DataManager>
 {
     public List<ItemData> itemDatas = new();

@@ -16,8 +16,8 @@ public class UIChoiceSlot : MonoBehaviour
 
     public void Initialize(ItemData itemData, UISelectItem uiSelectItem)
     {
-        itemData = itemData;
-        uiSelectItem = uiSelectItem;
+        this.itemData = itemData;
+        this.uiSelectItem = uiSelectItem;
 
         // UI 업데이트
         iconImage.sprite = itemData.Icon;

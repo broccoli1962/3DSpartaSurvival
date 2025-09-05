@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+\
+#region *** GameManager 하는일 정리 ***
+//싱글톤
+//GameFlow 코루틴
+//GameState enum
+//웨이브 및 몬스터 관리
+//Damagable 및 날씨관리
+//UI관리 (재시작 등등)
+//디버그용 'T키'
+//exp 경험치 관련
+#endregion
+
 public class GameManager : Singleton<GameManager>
 {
     [Header("스테이지 설정")]
@@ -29,7 +41,29 @@ public class GameManager : Singleton<GameManager>
     private int monstersSpawnedThisWave = 0;
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
+
     private List<GameObject> activeDamageZones = new List<GameObject>();
+
+
+    public GameObject _gameOverCanvas;
+
+    [Header("UI 설정")]
+    public TextMeshProUGUI _countdownText;
+    public GameObject waveInfoPanel; 
+    public TextMeshProUGUI waveTitleText;
+
+    [Header("날씨 설정")]
+    public Light sunLight;
+    public Material wave1Skybox; 
+    public Material wave2Skybox; 
+    public Material wave3Skybox; 
+    public GameObject wave2WeatherVFX;
+    public GameObject wave3WeatherVFX; 
+    private GameObject currentWeatherVFXInstance;
+
+    [Header("플로팅 텍스트 설정")]
+    public GameObject floatingTextPrefab; 
+    public Canvas mainCanvas; 
 
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
@@ -50,6 +84,26 @@ public class GameManager : Singleton<GameManager>
             activeMonsters[0].GetComponent<EnemyController>()?.TakeDamage(1000);
         }
     }
+
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    #endregion
+
+    void Start()
+    {
+        SetWeatherForWave(0); 
+
+        if (_countdownText != null)
+        {
+            _countdownText.gameObject.SetActive(false);
+        }
+        StartCoroutine(GameFlow());
+    }
+
 
     private IEnumerator GameFlow()
     {

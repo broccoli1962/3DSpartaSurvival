@@ -5853,7 +5853,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711110206}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5958,7 +5958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752111098}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6883,10 +6883,6 @@ MonoBehaviour:
   wave3WeatherVFX: {fileID: 4636871227284738347, guid: 1731425cf73de7541b40acd38dba18ec, type: 3}
   floatingTextPrefab: {fileID: 2249837554375646718, guid: 52b66df1f8e995b4e989e28d8d31f356, type: 3}
   mainCanvas: {fileID: 1522721962}
-  pools:
-  - tag: EXP_Gem
-    prefab: {fileID: 4855861434634621188, guid: 0cbe123bdf0a9874cbfc0a6f625a17ca, type: 3}
-    size: 30
 --- !u!4 &1220042172
 Transform:
   m_ObjectHideFlags: 0

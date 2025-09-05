@@ -34,4 +34,9 @@ public class FiniteStateMachine
         _currentState = _states[state];
         _currentState?.Start();
     }
+
+    public void HandleAnimation()
+    {
+        _currentState?.OnAnimationEvent();
+    }
 }

@@ -7,10 +7,16 @@ public partial class EnemyBoss : MonoBehaviour
     public Transform player;
 
     public MonsterData monsterSO;
+    public GameObject hitBox;
 
     [Header("Skill 1 Setting")] //나중에 So파일로 설정값을 빼는게 좋을지도?
     public float skill1Range = 10f;
     public float skill1CoolTime = 10f;
+    public float skill1Speed = 10f;
+    public float skill1Duration = 10f;
+    public float skill1StopDistance = 1f;
+    public float skill1DamageRadius = 3f; // 돌진 도착 시 피해를 줄 범위
+    public float skill1Damage = 20f;
     private float _skill1Timer = 0f;
 
     [Header("Skill 2 Setting")]
@@ -24,6 +30,7 @@ public partial class EnemyBoss : MonoBehaviour
 
     protected FiniteStateMachine _fsm;
     protected Dictionary<EState, IState> _states;
+    protected List<Collider> _hitTargets = new();
 
     private void Awake()
     {
@@ -67,13 +74,36 @@ public partial class EnemyBoss : MonoBehaviour
         _fsm.PhysicsUpdate();
     }
 
-    protected void OnEnableAttack()
+    public void OnAnimationTrigger()
     {
-
+        _fsm.HandleAnimation();
     }
 
-    protected void OnDisableAttack()
+    public void OnEnableHitBox()
     {
-        
+        _hitTargets.Clear();
+        if(hitBox != null)
+        {
+            hitBox.SetActive(true);
+        }
+    }
+
+    public void OnDisableHitBox()
+    {
+        if (hitBox != null)
+        {
+            hitBox.SetActive(false);
+        }
+    }
+
+    public void OnHitBox(Collider other)
+    {
+        if (_hitTargets.Contains(other)) return;
+
+        if(other.TryGetComponent<IDamagable>(out IDamagable target))
+        {
+            target.ValueChanged(-monsterSO.attackPower);
+            _hitTargets.Add(other);
+        }
     }
 }

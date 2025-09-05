@@ -46,13 +46,13 @@ public partial class EnemyBoss : MonoBehaviour
             }
 
             // 2. 스킬 2 사용 조건
-            if (GetDistance() <= Component.skill2Range && Component._skill2Timer <= 0)
-            {
-                //Component._fsm.ChangeTo(EState.Skill2);
-                return;
-            }
+            //if (GetDistance() <= Component.skill2Range && Component._skill2Timer <= 0)
+            //{
+            //    Component._fsm.ChangeTo(EState.Skill2);
+            //    return;
+            //}
 
-            if (GetDistance() <= Component.monsterSO.attackRange) //사정거리 내에 진입.
+            if (GetDistance() < Component.monsterSO.attackRange) //사정거리 내에 진입.
             {
                 Component._fsm.ChangeTo(EState.Attack);
             }
@@ -96,6 +96,7 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void PhysicsUpdate()
         {
+           
         }
 
         public override void Start()
@@ -137,7 +138,7 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void PhysicsUpdate()
         {
-
+            GetRot();
         }
 
         public override void Start()
@@ -159,6 +160,14 @@ public partial class EnemyBoss : MonoBehaviour
             if (Component.player == null) return 0;
             return Vector3.Distance(Component.player.transform.position, Component.transform.position);
         }
+
+        public void GetRot()
+        {
+            Vector3 targetPos = Component.player.transform.position;
+            Vector3 dir = (targetPos - Component.transform.position).normalized;
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            Component._rigid.MoveRotation(Quaternion.Slerp(Component.transform.rotation, targetRot, Component.monsterSO.moveSpeed * Time.deltaTime));
+        }
     }
     #endregion
 
@@ -167,11 +176,8 @@ public partial class EnemyBoss : MonoBehaviour
     public class Skill1State : BaseState<EnemyBoss>
     {
         private float _timer;
-        private float _waitTime = 3f;
-        private float _duration = 7f;
-        private float _skillSpeed = 10f;
         private bool _rush;
-        Vector3 AttackPos;
+        Vector3 attackPos;
 
         public Skill1State(EnemyBoss component) : base(component) { }
 
@@ -187,15 +193,30 @@ public partial class EnemyBoss : MonoBehaviour
         public override void PhysicsUpdate()
         {
             if (_rush == true)
+            {
+                float distance = Vector3.Distance(Component.transform.position, attackPos);
+
+                if(distance <= Component.skill1StopDistance)
+                {
+                    DamageArea();
+                    Component._fsm.ChangeTo(EState.Wait);
+                    return;
+                }
+
                 EnemySkill1();
+            }
+            else
+            {
+                GetRot();
+                attackPos = Component.player.transform.position;
+            }
         }
 
         public override void Start()
         {
             _timer = 0;
             _rush = false;
-            AttackPos = Component.player.transform.position;
-
+            
             Component._skill1Timer = Component.skill1CoolTime;
             StartAnimation(AnimParam.Skill1);
         }
@@ -204,23 +225,43 @@ public partial class EnemyBoss : MonoBehaviour
         {
             _timer += Time.deltaTime;
 
-            if (_timer > _duration)
+            if (_timer > Component.skill1Duration)
             {
                 Component._fsm.ChangeTo(EState.Wait);
             }
-
-            if (_timer > _waitTime)
-            {
-                _rush = true;
-            }
-            //흠
         }
 
         //돌진 방향 설정
         public void EnemySkill1()
         {
-            Vector3 dir = (AttackPos - Component.transform.position).normalized;
-            Component.transform.position += dir * _skillSpeed * Time.deltaTime;
+            Vector3 dir = (attackPos - Component.transform.position).normalized;
+            Component.transform.position += dir * Component.skill1Speed * Time.deltaTime;
+        }
+
+        //돌진 도착 후 범위 공격
+        public void DamageArea() //발동될때 파티클 필요할듯
+        {
+            Collider[] hitTargets = Physics.OverlapSphere(Component.transform.position, Component.skill1DamageRadius);
+
+            foreach (var hit in hitTargets) {
+                if (hit.TryGetComponent<IDamagable>(out var target)) {
+                    if (hit.gameObject == Component.gameObject) continue;
+                    target.ValueChanged(-Component.skill1Damage);
+                }
+            }
+        }
+
+        public void GetRot()
+        {
+            Vector3 targetPos = Component.player.transform.position;
+            Vector3 dir = (targetPos - Component.transform.position).normalized;
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            Component._rigid.MoveRotation(Quaternion.Slerp(Component.transform.rotation, targetRot, Component.monsterSO.moveSpeed * Time.deltaTime));
+        }
+
+        public override void OnAnimationEvent()
+        {
+            _rush = true;
         }
     }
     #endregion

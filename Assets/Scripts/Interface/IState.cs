@@ -5,4 +5,5 @@ public interface IState
     void HandleUpdate();
     void PhysicsUpdate();
     void End();
+    void OnAnimationEvent();
 }

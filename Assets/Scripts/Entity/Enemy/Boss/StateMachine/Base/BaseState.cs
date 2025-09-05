@@ -30,4 +30,6 @@ public abstract class BaseState<T> : IState where T : MonoBehaviour
             anim.SetBool(animationHash, false);
         }
     }
+
+    public virtual void OnAnimationEvent() { }
 }

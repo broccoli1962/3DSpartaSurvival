@@ -17,6 +17,6 @@ MonoBehaviour:
   maxHealth: 40
   attackPower: 4
   attackSpeed: 5
-  attackRange: 4
+  attackRange: 7
   moveSpeed: 4
   experienceDrop: 4

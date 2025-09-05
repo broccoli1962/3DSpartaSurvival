@@ -37,6 +37,8 @@ public class GameManager : Singleton<GameManager>
     public float initialWaitTime = 3f;
     public float spawnInterval = 1.5f;
     public int maxMonstersOnField = 20;
+    public GameObject spawnEffectPrefab; 
+    public float spawnEffectDelay = 0.5f;
 
     [Header("데미지 존 설정")]
     public GameObject damageZonePrefab;
@@ -72,8 +74,6 @@ public class GameManager : Singleton<GameManager>
     [Header("오브젝트 풀 설정")]
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> objectPools;
-
-
 
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
@@ -120,7 +120,6 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SetWeatherForWave(0); 
-        SetWeatherForWave(0);
         if (_countdownText != null)
         {
             _countdownText.gameObject.SetActive(false);
@@ -259,17 +258,24 @@ public class GameManager : Singleton<GameManager>
         {
             if (activeMonsters.Count < maxMonstersOnField)
             {
-                GameObject monsterToSpawn = wave.monsterPrefabs[Random.Range(0, wave.monsterPrefabs.Count)];
-
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
+                if (spawnEffectPrefab != null)
+                {
+                    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
+                    Destroy(effectInstance, 1f);
+                }
+
+                yield return new WaitForSeconds(spawnEffectDelay);
+
+                GameObject monsterToSpawn = wave.monsterPrefabs[Random.Range(0, wave.monsterPrefabs.Count)];
                 GameObject newMonster = Instantiate(monsterToSpawn, spawnPosition, Quaternion.identity);
                 activeMonsters.Add(newMonster);
                 monstersSpawnedThisWave++;
 
                 int remainingSpawns = wave.totalMonstersToSpawn - monstersSpawnedThisWave;
-                Debug.Log($"{monsterToSpawn.name} 1마리 스폰 / 남은 스폰 마릿수: {remainingSpawns}");
+                Debug.Log($"{monsterToSpawn.name} 1마리 스폰! / 남은 스폰 마릿수: {remainingSpawns}");
             }
             yield return new WaitForSeconds(spawnInterval);
         }

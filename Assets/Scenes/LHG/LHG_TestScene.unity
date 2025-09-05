@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94493569}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -315,7 +315,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161686127}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3072,6 +3072,7 @@ MonoBehaviour:
   expGain: 1
   expSlider: {fileID: 0}
   levelText: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
 --- !u!195 &1299665546
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6161,9 +6162,17 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1299665542}
+    - target: {fileID: 6169981031200804616, guid: 237a166b0b4d9984aa70184d323158c5, type: 3}
+      propertyPath: skill1Effect
+      value: 
+      objectReference: {fileID: 4994997792314849709, guid: 3dd50886582244645be87adb42aa8528, type: 3}
     - target: {fileID: 8070641602799034923, guid: 237a166b0b4d9984aa70184d323158c5, type: 3}
       propertyPath: m_Name
       value: EnemyBoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187885587758689900, guid: 237a166b0b4d9984aa70184d323158c5, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

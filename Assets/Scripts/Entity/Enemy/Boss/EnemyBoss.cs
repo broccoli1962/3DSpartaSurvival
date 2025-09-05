@@ -15,9 +15,10 @@ public partial class EnemyBoss : MonoBehaviour, IDamagable
     public float skill1CoolTime = 10f;
     public float skill1Speed = 10f;
     public float skill1Duration = 10f;
-    public float skill1StopDistance = 1f;
-    public float skill1DamageRadius = 3f; // 돌진 도착 시 피해를 줄 범위
+    public float skill1StopDistance = 10f;
+    public float skill1DamageRadius = 5f; // 돌진 도착 시 피해를 줄 범위
     public float skill1Damage = 20f;
+    public GameObject skill1Effect;
     private float _skill1Timer = 0f;
 
     private Rigidbody _rigid;
@@ -105,7 +106,7 @@ public partial class EnemyBoss : MonoBehaviour, IDamagable
     {
         CurrentHealth += value;
 
-        if (CurrentHealth >= 0)
+        if (CurrentHealth <= 0)
         {
             _fsm.ChangeTo(EState.Death);
         }

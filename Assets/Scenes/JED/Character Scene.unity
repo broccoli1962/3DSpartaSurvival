@@ -6868,6 +6868,8 @@ MonoBehaviour:
   initialWaitTime: 3
   spawnInterval: 0.1
   maxMonstersOnField: 20
+  spawnEffectPrefab: {fileID: 6287953604210959080, guid: 5156d6689efbccb4991059f3a5755566, type: 3}
+  spawnEffectDelay: 1
   damageZonePrefab: {fileID: 895288580189288159, guid: 289bf0081abd1d643b5c48fd84ef7d7b, type: 3}
   damageZoneSpawnRadius: 15
   damageZoneSpawnDelay: 3
@@ -6883,6 +6885,7 @@ MonoBehaviour:
   wave3WeatherVFX: {fileID: 4636871227284738347, guid: 1731425cf73de7541b40acd38dba18ec, type: 3}
   floatingTextPrefab: {fileID: 2249837554375646718, guid: 52b66df1f8e995b4e989e28d8d31f356, type: 3}
   mainCanvas: {fileID: 1522721962}
+  pools: []
 --- !u!4 &1220042172
 Transform:
   m_ObjectHideFlags: 0
@@ -8013,6 +8016,10 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 8907928929688297101, guid: 8c3d6af4d21fe634ba706f8cc2c1bc2f, type: 3}
+      propertyPath: hitEffectPrefab
+      value: 
+      objectReference: {fileID: 9070474633162843459, guid: 356cf4dca1465b54fabbb8cd9b1cd190, type: 3}
     - target: {fileID: 9167814598844389592, guid: 8c3d6af4d21fe634ba706f8cc2c1bc2f, type: 3}
       propertyPath: m_Name
       value: Player

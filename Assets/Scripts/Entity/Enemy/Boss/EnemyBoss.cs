@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class EnemyBoss : MonoBehaviour
+public partial class EnemyBoss : MonoBehaviour, IDamagable
 {
     public Transform player;
 
     public MonsterData monsterSO;
     public GameObject hitBox;
+    public float CurrentHealth { get; private set; }
 
     [Header("Skill 1 Setting")] //나중에 So파일로 설정값을 빼는게 좋을지도?
     public float skill1Range = 10f;
@@ -28,6 +29,7 @@ public partial class EnemyBoss : MonoBehaviour
 
     private void Awake()
     {
+        CurrentHealth = monsterSO.maxHealth;
         _rigid = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
 
@@ -36,7 +38,8 @@ public partial class EnemyBoss : MonoBehaviour
             { EState.Move, new MoveState(this) },
             { EState.Wait, new WaitState(this) },
             { EState.Attack, new AttackState(this) },
-            { EState.Skill1, new Skill1State(this) }
+            { EState.Skill1, new Skill1State(this) },
+            { EState.Death, new DeathState(this) }
         };
 
         _fsm = new FiniteStateMachine(_states);
@@ -46,6 +49,7 @@ public partial class EnemyBoss : MonoBehaviour
     {
         _fsm.ChangeTo(EState.Move);
     }
+
 
     private void Update()
     {
@@ -95,5 +99,17 @@ public partial class EnemyBoss : MonoBehaviour
             target.ValueChanged(-monsterSO.attackPower);
             _hitTargets.Add(other);
         }
+    }
+
+    public float ValueChanged(float value) //데미지 체크
+    {
+        CurrentHealth += value;
+
+        if (CurrentHealth >= 0)
+        {
+            _fsm.ChangeTo(EState.Death);
+        }
+
+        return CurrentHealth;
     }
 }

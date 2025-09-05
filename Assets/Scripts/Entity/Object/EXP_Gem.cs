@@ -3,10 +3,15 @@ using UnityEngine;
 public class EXP_Gem : MonoBehaviour
 {
     public int experienceValue = 10;
-    public float moveSpeed = 15f;   
+    public float moveSpeed = 15f;
 
     private Transform playerTarget;
     private bool isFollowing = false;
+    void OnEnable()
+    {
+        isFollowing = false;
+        playerTarget = null;
+    }
 
     void Update()
     {
@@ -25,13 +30,12 @@ public class EXP_Gem : MonoBehaviour
             {
                 int finalExperience = (int)(experienceValue * player.expGain);
                 player.AddExperience(finalExperience);
-
                 if (GameManager.Instance != null)
                 {
                     GameManager.Instance.ShowFloatingText("+" + finalExperience, transform.position);
                 }
             }
-            Destroy(gameObject);
+            GameManager.Instance.ReturnToPool("EXP_Gem", gameObject);
         }
     }
 

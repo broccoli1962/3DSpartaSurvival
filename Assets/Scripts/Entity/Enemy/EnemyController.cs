@@ -95,10 +95,8 @@ public abstract class EnemyController : MonoBehaviour
         }
         if (experienceGemPrefab != null)
         {
-            Instantiate(experienceGemPrefab, transform.position, Quaternion.identity);
+            GameManager.Instance.SpawnFromPool("EXP_Gem", transform.position, Quaternion.identity);
         }
-
-        Debug.Log(_monsterData.monsterName + " has died.");
         Destroy(gameObject);
     }
 }

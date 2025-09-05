@@ -26,6 +26,17 @@ public class PlayerItemManager : Singleton<PlayerItemManager>
 
     private void Awake()
     {
+        var checkInstance = Instance;
+
+        if (_instance != this)
+        {
+            Debug.LogWarning($"[PlayerItemManager] 중복된 인스턴스가 생성되어, '{this.gameObject.name}' 오브젝트를 파괴합니다.");
+            Destroy(this.gameObject); // 나는 스스로를 파괴한다.
+            return;
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+
         // 규칙서를 초기화하는 코드
         InitializeCalculators();
     }

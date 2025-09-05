@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e65017cabf8df409831f1f8d8b228a, type: 3}
   m_Name: Adrenaline
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 338d3c54451570441906baf11c4f7665, type: 3}
   <Id>k__BackingField: 5
   description: "\uC544\uB4DC\uB808\uB0A0\uB9B0"
   <Power>k__BackingField: 60
   <AttackRange>k__BackingField: 0
   <CoolTime>k__BackingField: 3
-  <Stack>k__BackingField: 0
+  <Stack>k__BackingField: 3
   <Health>k__BackingField: 0
   <MoveSpeed>k__BackingField: 0

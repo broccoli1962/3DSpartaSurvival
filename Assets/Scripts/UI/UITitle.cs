@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UITitle : UIBase
@@ -30,6 +31,8 @@ public class UITitle : UIBase
     public void OnClickBtnGameStart()
     {
         // 씬 로드
+        Debug.Log("게임 시작 버튼 클릭! UIBattle_Test 씬을 로드합니다.");
+        SceneManager.LoadScene("UIBattle_Test");
     }
 
     public void OnClickBtnOption()

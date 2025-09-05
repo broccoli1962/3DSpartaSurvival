@@ -10,6 +10,9 @@ public abstract class EnemyController : MonoBehaviour
     public GameObject hpBarPrefab;
     public Transform hpBarAnchor;
 
+    [Header("드랍 아이템")]
+    public GameObject experienceGemPrefab;
+
     public int currentHealth { get; private set; }
     protected MonHPBarController hpBarController;
     protected NavMeshAgent _agent;
@@ -90,8 +93,12 @@ public abstract class EnemyController : MonoBehaviour
         {
             GameManager.Instance.OnMonsterKilled(this.gameObject);
         }
-        Debug.Log(_monsterData.monsterName + " has died.");
+        if (experienceGemPrefab != null)
+        {
+            Instantiate(experienceGemPrefab, transform.position, Quaternion.identity);
+        }
 
+        Debug.Log(_monsterData.monsterName + " has died.");
         Destroy(gameObject);
     }
 }

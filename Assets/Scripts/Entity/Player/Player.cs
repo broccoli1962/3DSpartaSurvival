@@ -64,6 +64,8 @@ public class Player : MonoBehaviour
     public float expGain = 1f;
     #endregion
 
+    private int currentExperience = 0;
+
     void Awake()
     {
         currentHealth = maxHealth;
@@ -98,6 +100,12 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+    public void AddExperience(int baseAmount)
+    {
+        int finalAmount = (int)(baseAmount * expGain);
+
+        currentExperience += finalAmount;
     }
     private void Die()
     {

@@ -791,6 +791,7 @@ MonoBehaviour:
   _monsterData: {fileID: 11400000, guid: f4010d93e7e18a247afa8cc37f838feb, type: 2}
   hpBarPrefab: {fileID: 6706473195749120680, guid: 7fc3f3b2feecef64eab6ebc0f77f68c4, type: 3}
   hpBarAnchor: {fileID: 6627547007191335162}
+  experienceGemPrefab: {fileID: 4855861434634621188, guid: 0cbe123bdf0a9874cbfc0a6f625a17ca, type: 3}
   _projectilePrefab: {fileID: 6335558139026040241, guid: 1d0fba4f9c7f5184782cda47edf49df7, type: 3}
   _firePoint: {fileID: 6627547007191335162}
 --- !u!54 &2757914912388134361

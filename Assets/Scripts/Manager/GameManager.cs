@@ -47,6 +47,10 @@ public class GameManager : Singleton<GameManager>
     public GameObject wave3WeatherVFX; 
     private GameObject currentWeatherVFXInstance;
 
+    [Header("플로팅 텍스트 설정")]
+    public GameObject floatingTextPrefab; 
+    public Canvas mainCanvas; 
+
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
@@ -308,5 +312,18 @@ public class GameManager : Singleton<GameManager>
         }
         activeMonsters.Remove(monster);
         Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
+    }
+
+    public void ShowFloatingText(string text, Vector3 worldPosition)
+    {
+        if (floatingTextPrefab == null || mainCanvas == null) return;
+
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+
+        GameObject textInstance = Instantiate(floatingTextPrefab, mainCanvas.transform);
+
+        textInstance.transform.position = screenPosition;
+
+        textInstance.GetComponent<FloatingText>().SetText(text);
     }
 }

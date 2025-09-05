@@ -36,6 +36,7 @@ public abstract class EnemyController : MonoBehaviour
     {
         if (_monsterData != null)
         {
+            // MonsterData로부터 능력치 받음.
             currentHealth = _monsterData.maxHealth;
             _agent.speed = _monsterData.moveSpeed;
 

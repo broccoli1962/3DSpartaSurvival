@@ -127,7 +127,15 @@ public class Player : MonoBehaviour
     }
     private void Die()
     {
-        UIManager.Instance.OpenUI<UIGameOver>();
+        Debug.Log("Die");
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.ShowGameOverScreen();
+        }
+
         gameObject.SetActive(false);
     }
     private void LevelUp()

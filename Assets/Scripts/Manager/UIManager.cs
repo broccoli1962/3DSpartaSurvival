@@ -31,7 +31,6 @@ public class UIManager : Singleton<UIManager>
     // 딕셔너리에서 UI를 찾아오는 메서드
     public T GetUI<T>() where T : UIBase
     {
-        UIBase ui;
         string uiName = typeof(T).Name;
 
         // 1. 딕셔너리에 있는지 먼저 확인 (이미 만들어둔게 있다면 그걸 사용)

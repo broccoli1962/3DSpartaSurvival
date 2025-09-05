@@ -27,7 +27,8 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<IDamagable>(out IDamagable hitObj))
+   
+        if(other.TryGetComponent<IDamagable>(out IDamagable hitObj) && other.gameObject.layer == hitMask)
         {
             hitObj.ValueChanged(-power);
         }

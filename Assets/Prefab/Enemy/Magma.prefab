@@ -105,6 +105,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5768558817287732168}
     m_Modifications:
+    - target: {fileID: 1054562835564666262, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388817007054719686, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938931511937748487, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6167940340674716932, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6860310887368847533, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222330932563043161, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286459981575398988, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8829451551789304537, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -148,6 +176,10 @@ PrefabInstance:
     - target: {fileID: 8829451551789304542, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
       propertyPath: m_Name
       value: VFX_Fire_01_Big
+      objectReference: {fileID: 0}
+    - target: {fileID: 8829451551789304542, guid: e91fa0fac941e714e8c4d5709097019f, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

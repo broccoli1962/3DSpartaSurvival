@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class EnemyController : MonoBehaviour
+public abstract class EnemyController : MonoBehaviour, IDamagable
 {
     [Header("데이터")]
     public MonsterData _monsterData;
@@ -60,18 +60,7 @@ public abstract class EnemyController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth < 0) currentHealth = 0;
-
-        if (hpBarController != null)
-        {
-            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
-        }
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        
     }
 
     public void ReceiveHeal(int healAmount)
@@ -100,5 +89,23 @@ public abstract class EnemyController : MonoBehaviour
 
         Debug.Log(_monsterData.monsterName + " has died.");
         Destroy(gameObject);
+    }
+
+    public float ValueChanged(float value)
+    {
+        currentHealth += (int)value;
+        if (currentHealth < 0) currentHealth = 0;
+
+        if (hpBarController != null)
+        {
+            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+
+        return currentHealth;
     }
 }

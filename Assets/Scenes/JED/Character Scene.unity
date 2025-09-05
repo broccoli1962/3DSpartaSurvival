@@ -5853,7 +5853,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711110206}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5958,7 +5958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752111098}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6057,6 +6057,10 @@ PrefabInstance:
     - target: {fileID: 8732260610038024214, guid: 97e021a37e8196140b5fefea3608f08d, type: 3}
       propertyPath: m_Name
       value: UISelectItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8732260610038024214, guid: 97e021a37e8196140b5fefea3608f08d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6700,6 +6704,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIOption
       objectReference: {fileID: 0}
+    - target: {fileID: 7289160396112894625, guid: 5a18b338f800e104c896afbe76899bd1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6878,12 +6886,12 @@ MonoBehaviour:
   waveInfoPanel: {fileID: 924591739}
   waveTitleText: {fileID: 989007613}
   sunLight: {fileID: 1125295850}
-  wave1Skybox: {fileID: -3846018093981099296, guid: f60912085f822c7469f5e496183e4c53, type: 3}
-  wave2Skybox: {fileID: 2100000, guid: 65700cbb3b887cd4e9ba3c6960267cb1, type: 2}
-  wave3Skybox: {fileID: 2100000, guid: 65700cbb3b887cd4e9ba3c6960267cb1, type: 2}
+  wave1Skybox: {fileID: 2100000, guid: 48ce278709c9add4cb03de6de56e1f59, type: 2}
+  wave2Skybox: {fileID: 2100000, guid: 795ab1f41a8fd4142859110cee203fd7, type: 2}
+  wave3Skybox: {fileID: 2100000, guid: 4c11e54477bc94744a2fa3433d9fa306, type: 2}
   wave2WeatherVFX: {fileID: 735552969448705178, guid: e68d15174fb8b2a41bab354187ceae0c, type: 3}
   wave3WeatherVFX: {fileID: 461403011912846948, guid: b3f7018cdb778544f98ec3594f0e91a9, type: 3}
-  bossSkybox: {fileID: 0}
+  bossSkybox: {fileID: 2100000, guid: 4c11e54477bc94744a2fa3433d9fa306, type: 2}
   bossWeatherVFX: {fileID: 0}
   bossLightColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
   floatingTextPrefab: {fileID: 2249837554375646718, guid: 52b66df1f8e995b4e989e28d8d31f356, type: 3}

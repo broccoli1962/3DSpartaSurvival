@@ -19,12 +19,6 @@ public partial class EnemyBoss : MonoBehaviour
     public float skill1Damage = 20f;
     private float _skill1Timer = 0f;
 
-    [Header("Skill 2 Setting")]
-    public float skill2Range = 10f;
-    public float skill2CoolTime = 10f;
-    private float _skill2Timer = 0f;
-
-
     private Rigidbody _rigid;
     private Animator _anim;
 
@@ -62,10 +56,6 @@ public partial class EnemyBoss : MonoBehaviour
         if(skill1CoolTime > 0)
         {
             _skill1Timer -= Time.deltaTime;
-        }
-
-        if (skill2CoolTime > 0) {
-            _skill2Timer -= Time.deltaTime;
         }
     }
 

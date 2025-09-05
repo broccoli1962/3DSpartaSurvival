@@ -7,6 +7,7 @@ using UnityEngine;
 
 public partial class EnemyBoss : MonoBehaviour
 {
+    //TODO : 중복 코드 따로 뺄 필요가 있을듯
     #region 이동상태
     public class MoveState : BaseState<EnemyBoss>
     {
@@ -28,7 +29,6 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void Start()
         {
-            Debug.Log("이동 상태");
             if (Component.player == null)
                 Component._fsm.ChangeTo(EState.Wait);
 
@@ -101,7 +101,6 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void Start()
         {
-            Debug.Log("대기 상태");
             timer = 0f;
             StartAnimation(AnimParam.Idle);
         }

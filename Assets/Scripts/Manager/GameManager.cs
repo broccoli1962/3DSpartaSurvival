@@ -15,6 +15,13 @@ using UnityEngine.SceneManagement;
 //exp 경험치 관련
 #endregion
 
+[System.Serializable]
+public class Pool
+{
+    public string tag;
+    public GameObject prefab;
+    public int size;
+}
 public class GameManager : Singleton<GameManager>
 {
     [Header("스테이지 설정")]
@@ -60,7 +67,13 @@ public class GameManager : Singleton<GameManager>
 
     [Header("플로팅 텍스트 설정")]
     public GameObject floatingTextPrefab; 
-    public Canvas mainCanvas; 
+    public Canvas mainCanvas;
+
+    [Header("오브젝트 풀 설정")]
+    public List<Pool> pools;
+    private Dictionary<string, Queue<GameObject>> objectPools;
+
+
 
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
@@ -97,7 +110,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
-
     public void RestartGame()
     {
         Time.timeScale = 1f;
@@ -108,12 +120,53 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SetWeatherForWave(0); 
-
+        SetWeatherForWave(0);
         if (_countdownText != null)
         {
             _countdownText.gameObject.SetActive(false);
         }
         StartCoroutine(GameFlow());
+        ////////////////////////////////////////////////////////////
+        objectPools = new Dictionary<string, Queue<GameObject>>();
+
+        foreach (Pool pool in pools)
+        {
+            Queue<GameObject> objectQueue = new Queue<GameObject>();
+
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab);
+                obj.SetActive(false);
+                objectQueue.Enqueue(obj);
+            }
+            objectPools.Add(pool.tag, objectQueue);
+        }
+    }
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
+    {
+        if (!objectPools.ContainsKey(tag))
+        {
+            return null;
+        }
+        GameObject objectToSpawn = objectPools[tag].Dequeue();
+
+        objectToSpawn.SetActive(true);
+        objectToSpawn.transform.position = position;
+        objectToSpawn.transform.rotation = rotation;
+
+        return objectToSpawn;
+    }
+
+    public void ReturnToPool(string tag, GameObject objectToReturn)
+    {
+        if (!objectPools.ContainsKey(tag))
+        {
+            Debug.LogWarning("Pool with tag " + tag + " doesn't exist.");
+            return;
+        }
+
+        objectToReturn.SetActive(false); 
+        objectPools[tag].Enqueue(objectToReturn); // 큐에 return
     }
 
     private IEnumerator GameFlow()

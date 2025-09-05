@@ -3,20 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EStatType
-{
-    Health,
-    MoveSpeed,
-    Power,
-    AttackRange,
-    CoolTime,
-    AttackSpeed,
-    AttackCount,
-    ProjectileSpeed,
-    ProjectileCount,
-    ProjectileAngle
-}
-
 public class PlayerItemManager : Singleton<PlayerItemManager>
 {
     // 플레이어가 가진 아이템, 갯수

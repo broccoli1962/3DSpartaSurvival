@@ -10,19 +10,19 @@ public class UIManager : Singleton<UIManager>
 
     private void Awake()
     {
-        // 싱글톤 인스턴스를 '확정'시키는 과정
-        // Instance를 한번 호출함으로써, _instance 변수에 이 오브젝트가 할당되도록 합니다.
-        var checkInstance = Instance;
+        //// 싱글톤 인스턴스를 '확정'시키는 과정
+        //// Instance를 한번 호출함으로써, _instance 변수에 이 오브젝트가 할당되도록 합니다.
+        //var checkInstance = Instance;
 
-        // 만약 이미 다른 UIManager Instance가 존재하는데, 내가 또 생긴 경우 (중복 방지)
-        if (_instance != this)
-        {
-            Destroy(gameObject); // 나는 스스로를 파괴한다.
-            return;
-        }
+        //// 만약 이미 다른 UIManager Instance가 존재하는데, 내가 또 생긴 경우 (중복 방지)
+        //if (_instance != this)
+        //{
+        //    Destroy(gameObject); // 나는 스스로를 파괴한다.
+        //    return;
+        //}
 
-        // 내가 유일한 Instance임이 확인되었으므로, 나 자신을 파괴되지 않도록 설정한다.
-        DontDestroyOnLoad(gameObject);
+        //// 내가 유일한 Instance임이 확인되었으므로, 나 자신을 파괴되지 않도록 설정한다.
+        //DontDestroyOnLoad(gameObject);
 
         // 이제 씬 로드 이벤트를 구독합니다.
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -76,7 +76,8 @@ public class UIManager : Singleton<UIManager>
         if (_canvasTransform == null)
         {
             // FindObjectOfType은 비용이 비싸므로, 정말 필요할 때 한번만 호출합니다.
-            Canvas canvas = FindObjectOfType<Canvas>();
+            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
+            //Canvas canvas = FindAnyObjectByType<Canvas>();
             if (canvas == null)
             {
                 Debug.LogError("UI를 담을 Canvas가 씬에 없습니다! Canvas를 먼저 생성해주세요.");

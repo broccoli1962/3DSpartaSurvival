@@ -27,6 +27,26 @@ public enum EState
     Death
 }
 
+public enum EStatType
+{
+    Health,
+    MoveSpeed,
+    Power,
+    AttackRange,
+    CoolTime,
+    AttackSpeed,
+    AttackCount,
+    ProjectileSpeed,
+    ProjectileCount,
+    ProjectileAngle
+}
+
+public enum ESceneType
+{
+    Menu,
+    Battle
+}
+
 public static class AnimParam
 {
     public static readonly int Idle = Animator.StringToHash("Idle");

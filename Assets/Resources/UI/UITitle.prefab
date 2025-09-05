@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af2eb02c51def74380c261e340b0f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <btnGameStart>k__BackingField: {fileID: 1806916826943596766}
+  btnGameStart: {fileID: 1806916826943596766}
   <btnOption>k__BackingField: {fileID: 582704592863503970}
 --- !u!1 &714290522517289339
 GameObject:

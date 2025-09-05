@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/JJG/UIMenu_Test.unity
-    guid: 1194db04e052d594092d0bebf1efd09e
+    path: Assets/Scenes/Intro.unity
+    guid: a81262b002330974a8374d5d75d292cf
   - enabled: 1
-    path: Assets/Scenes/JJG/UIBattle_Test.unity
-    guid: baaa424d5ee26584a8a489f37f52cd3d
+    path: Assets/Scenes/Menu.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Battle.unity
+    guid: 8477a144f7b3eed4a8baad5ee13b88d4
   m_configObjects: {}

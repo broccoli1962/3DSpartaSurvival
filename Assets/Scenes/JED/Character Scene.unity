@@ -5853,7 +5853,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711110206}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5958,7 +5958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752111098}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.45756537, y: -0.0044456846, z: 0.002287762, w: 0.88916194}
+  m_LocalRotation: {x: 0.45756537, y: -0.0044457153, z: 0.002287778, w: 0.88916194}
   m_LocalPosition: {x: 0.1, y: 14, z: -12.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6865,8 +6865,8 @@ MonoBehaviour:
   playerTransform: {fileID: 7838369060911286884}
   minSpawnDistance: 5
   maxSpawnDistance: 15
-  initialWaitTime: 3
-  spawnInterval: 0.1
+  initialWaitTime: 1
+  spawnInterval: 1
   maxMonstersOnField: 20
   spawnEffectPrefab: {fileID: 6287953604210959080, guid: 5156d6689efbccb4991059f3a5755566, type: 3}
   spawnEffectDelay: 1
@@ -6877,12 +6877,15 @@ MonoBehaviour:
   _countdownText: {fileID: 462718538}
   waveInfoPanel: {fileID: 924591739}
   waveTitleText: {fileID: 989007613}
-  sunLight: {fileID: 0}
-  wave1Skybox: {fileID: 0}
+  sunLight: {fileID: 1125295850}
+  wave1Skybox: {fileID: -3846018093981099296, guid: f60912085f822c7469f5e496183e4c53, type: 3}
   wave2Skybox: {fileID: 2100000, guid: 65700cbb3b887cd4e9ba3c6960267cb1, type: 2}
-  wave3Skybox: {fileID: 2100000, guid: ac7c08f2b664f2b428189ab78163b269, type: 2}
-  wave2WeatherVFX: {fileID: 852277127398752463, guid: 6c064513aa7cae142b65066943c8fdbd, type: 3}
-  wave3WeatherVFX: {fileID: 4636871227284738347, guid: 1731425cf73de7541b40acd38dba18ec, type: 3}
+  wave3Skybox: {fileID: 2100000, guid: 65700cbb3b887cd4e9ba3c6960267cb1, type: 2}
+  wave2WeatherVFX: {fileID: 735552969448705178, guid: e68d15174fb8b2a41bab354187ceae0c, type: 3}
+  wave3WeatherVFX: {fileID: 461403011912846948, guid: b3f7018cdb778544f98ec3594f0e91a9, type: 3}
+  bossSkybox: {fileID: 0}
+  bossWeatherVFX: {fileID: 0}
+  bossLightColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
   floatingTextPrefab: {fileID: 2249837554375646718, guid: 52b66df1f8e995b4e989e28d8d31f356, type: 3}
   mainCanvas: {fileID: 1522721962}
   pools: []
@@ -7316,6 +7319,10 @@ PrefabInstance:
     - target: {fileID: 426308932365484149, guid: 0c9c43475f48b664183c783e1e1fc33b, type: 3}
       propertyPath: m_Name
       value: UITitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 426308932365484149, guid: 0c9c43475f48b664183c783e1e1fc33b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1576462825956214717, guid: 0c9c43475f48b664183c783e1e1fc33b, type: 3}
       propertyPath: m_Pivot.x

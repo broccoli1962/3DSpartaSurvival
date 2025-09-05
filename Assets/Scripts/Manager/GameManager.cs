@@ -60,11 +60,16 @@ public class GameManager : Singleton<GameManager>
 
     [Header("날씨 설정")]
     public Light sunLight;
-    public Material wave1Skybox; 
-    public Material wave2Skybox; 
-    public Material wave3Skybox; 
+    public Material wave1Skybox;
+    public Material wave2Skybox;
+    public Material wave3Skybox;
     public GameObject wave2WeatherVFX;
-    public GameObject wave3WeatherVFX; 
+    public GameObject wave3WeatherVFX;
+
+    [Header("보스전 환경 설정")]
+    public Material bossSkybox;
+    public GameObject bossWeatherVFX;
+    public Color bossLightColor = new Color(0.8f, 0.2f, 0.2f);
     private GameObject currentWeatherVFXInstance;
 
     [Header("플로팅 텍스트 설정")]
@@ -395,4 +400,50 @@ public class GameManager : Singleton<GameManager>
 
         textInstance.GetComponent<FloatingText>().SetText(text);
     }
+
+    #region 환경 및 날씨 관리
+    void SetWeather(int stageIndex)
+    {
+        if (currentWeatherVFXInstance != null)
+        {
+            Destroy(currentWeatherVFXInstance);
+        }
+
+        switch (stageIndex)
+        {
+            case 0: // 웨이브 1
+                RenderSettings.skybox = wave1Skybox;
+                if (sunLight != null) sunLight.color = Color.white;
+                Debug.Log("날씨: Wave 1 (기본)");
+                break;
+            case 1: // 웨이브 2
+                RenderSettings.skybox = wave2Skybox;
+                if (sunLight != null) sunLight.color = Color.gray;
+                if (wave2WeatherVFX != null)
+                {
+                    currentWeatherVFXInstance = Instantiate(wave2WeatherVFX, Vector3.zero, Quaternion.identity);
+                }
+                Debug.Log("날씨: Wave 2 설정 적용");
+                break;
+            case 2: // 웨이브 3
+                RenderSettings.skybox = wave3Skybox;
+                if (sunLight != null) sunLight.color = new Color(0.7f, 0.8f, 1f);
+                if (wave3WeatherVFX != null)
+                {
+                    currentWeatherVFXInstance = Instantiate(wave3WeatherVFX, Vector3.zero, Quaternion.identity);
+                }
+                Debug.Log("날씨: Wave 3 설정 적용");
+                break;
+            default: // 보스전 (stageIndex가 3 이상일 때)
+                RenderSettings.skybox = bossSkybox;
+                if (sunLight != null) sunLight.color = bossLightColor;
+                if (bossWeatherVFX != null)
+                {
+                    currentWeatherVFXInstance = Instantiate(bossWeatherVFX, Vector3.zero, Quaternion.identity);
+                }
+                Debug.Log("날씨: 보스전 설정 적용");
+                break;
+        }
+    }
+    #endregion
 }

@@ -9,4 +9,7 @@ public class WaveData : ScriptableObject
 
     [Header("처치 마릿수")]
     public int totalMonstersToSpawn;
+
+    [Header("환경 효과")]
+    public GameObject weatherEffectPrefab;
 }

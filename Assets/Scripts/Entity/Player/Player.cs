@@ -74,6 +74,9 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI levelText;
     #endregion
 
+    [Header("««∞› ¿Ã∆Â∆Æ")]
+    public GameObject hitEffectPrefab;
+
     public event Action OnLevelChanged;
 
     void Awake()
@@ -106,6 +109,12 @@ public class Player : MonoBehaviour
         if (currentHealth < 0) currentHealth = 0;
 
         playerhpBarController.UpdateHP(currentHealth, maxHealth);
+
+        if (hitEffectPrefab != null)
+        {
+            GameObject effectInstance = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effectInstance, 0.5f);
+        }
 
         if (currentHealth <= 0)
         {

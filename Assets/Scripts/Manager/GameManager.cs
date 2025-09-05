@@ -49,8 +49,6 @@ public class GameManager : Singleton<GameManager>
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
 
-    private List<GameObject> activeDamageZones = new List<GameObject>();
-
     public GameObject _gameOverCanvas;
 
     [Header("UI ¼³Á¤")]
@@ -75,7 +73,6 @@ public class GameManager : Singleton<GameManager>
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> objectPools;
 
-    public GameObject _gameOverCanvas;
 
 
     public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }

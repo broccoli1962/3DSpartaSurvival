@@ -4,6 +4,17 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+#region *** GameManager 하는일 정리 ***
+//싱글톤
+//GameFlow 코루틴
+//GameState enum
+//웨이브 및 몬스터 관리
+//Damagable 및 날씨관리
+//UI관리 (재시작 등등)
+//디버그용 'T키'
+//exp 경험치 관련
+#endregion
+
 public class GameManager : Singleton<GameManager>
 {
     [Header("스테이지 설정")]
@@ -121,7 +132,6 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            Debug.LogWarning("Countdown Text가 할당되지 않아 3초 대기합니다.");
             yield return new WaitForSeconds(initialWaitTime);
         }
 

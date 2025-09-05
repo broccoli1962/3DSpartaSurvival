@@ -1,5 +1,3 @@
-// DamageZoneController.cs (디버깅용 버전)
-
 using UnityEngine;
 
 public class Damagable : MonoBehaviour
@@ -10,8 +8,6 @@ public class Damagable : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Trigger 감지됨! 들어온 오브젝트: " + other.name);
-
         if (other.CompareTag("Player"))
         {
 

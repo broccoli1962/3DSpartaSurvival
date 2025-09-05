@@ -200,7 +200,7 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void OnAnimationEvent()
         {
-            Destroy(Component);
+            Destroy(Component.gameObject);
         }
     }
 
@@ -230,7 +230,7 @@ public partial class EnemyBoss : MonoBehaviour
             {
                 float distance = Vector3.Distance(Component.transform.position, attackPos);
 
-                if(distance <= Component.skill1StopDistance)
+                if(distance < Component.skill1StopDistance)
                 {
                     DamageArea();
                     Component._fsm.ChangeTo(EState.Wait);
@@ -276,7 +276,11 @@ public partial class EnemyBoss : MonoBehaviour
         public void DamageArea() //발동될때 파티클 필요할듯
         {
             Collider[] hitTargets = Physics.OverlapSphere(Component.transform.position, Component.skill1DamageRadius);
-
+            if(Component.skill1Effect != null)
+            {
+                GameObject skillEffect = Instantiate(Component.skill1Effect, Component.transform.position + Vector3.left * 3f, Quaternion.identity);
+                skillEffect.transform.localScale = Vector3.one * Component.skill1DamageRadius;
+            }
             foreach (var hit in hitTargets) {
                 if (hit.TryGetComponent<IDamagable>(out var target)) {
                     if (hit.gameObject == Component.gameObject) continue;

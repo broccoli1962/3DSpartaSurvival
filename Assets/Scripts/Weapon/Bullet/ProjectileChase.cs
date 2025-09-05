@@ -43,7 +43,7 @@ public class ProjectileChase : MonoBehaviour
         if (other.TryGetComponent<IDamagable>(out IDamagable hitObj))
         {
             hitObj.ValueChanged(-power);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   <Id>k__BackingField: 0
   description: 
   <Power>k__BackingField: 3
-  <AttackRange>k__BackingField: 4
+  <AttackRange>k__BackingField: 10
   <CoolTime>k__BackingField: 5
   <Stack>k__BackingField: 0
   <weaponType>k__BackingField: 2

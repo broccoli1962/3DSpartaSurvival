@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -72,6 +73,8 @@ public class Player : MonoBehaviour
     public Slider expSlider;
     public TextMeshProUGUI levelText;
     #endregion
+
+    public event Action OnLevelChanged;
 
     void Awake()
     {
@@ -148,6 +151,7 @@ public class Player : MonoBehaviour
         UpdateExpUI();
 
         // 추후 스킬창 업데이트 필요(진규님)
+        OnLevelChanged?.Invoke();
     }
 
     private void UpdateExpUI()

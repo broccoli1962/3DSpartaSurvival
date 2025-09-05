@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     //Tooltip의 내용 및 수치는 (김민혁 Notion)상세 기획 참고
@@ -58,10 +60,17 @@ public class Player : MonoBehaviour
     public float itemPickupRange = 1.8f;
     #endregion
 
-    #region 성장 능력치
+    #region 성장 능력치(경험치 관련)
     [Header("성장 능력치")]
-    [Tooltip("경험치를 획득하는 %. (1 = 100%)")]
     public float expGain = 1f;
+
+    private int currentLevel = 1;
+    private int currentExperience = 0;
+    private int requiredExpForNextLevel = 100; 
+
+    [Header("경험치 UI")]
+    public Slider expSlider;
+    public TextMeshProUGUI levelText;
     #endregion
 
     void Awake()
@@ -73,12 +82,23 @@ public class Player : MonoBehaviour
         if (hpBarPrefab != null && hpBarAnchor != null)
         {
             GameObject hpBarInstance = Instantiate(hpBarPrefab, hpBarAnchor);
-            playerhpBarController = hpBarInstance.GetComponent<PlayerHPBarController>();
-            playerhpBarController.UpdateHP(currentHealth, maxHealth);
+
+            playerhpBarController = hpBarInstance.GetComponentInChildren<PlayerHPBarController>();
+
+            if (playerhpBarController != null)
+            {
+                playerhpBarController.UpdateHP(currentHealth, maxHealth);
+            }
         }
+        UpdateExpUI();
     }
     public void TakeDamage(int damage)
     {
+        if (playerhpBarController == null)
+        {
+            return;
+        }
+
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
 
@@ -89,8 +109,58 @@ public class Player : MonoBehaviour
             Die();
         }
     }
+    public void AddExperience(int baseAmount)
+    {
+        int finalAmount = (int)(baseAmount * expGain);
+        currentExperience += finalAmount;
+        Debug.Log($"경험치 {finalAmount} 획득! | 총 경험치: {currentExperience}");
+
+        UpdateExpUI();
+
+        while (currentExperience >= requiredExpForNextLevel)
+        {
+            LevelUp();
+        }
+    }
     private void Die()
     {
         Debug.Log("Die");
+
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.ShowGameOverScreen();
+        }
+
+        gameObject.SetActive(false);
+    }
+    private void LevelUp()
+    {
+        currentExperience -= requiredExpForNextLevel;
+
+        currentLevel++;
+
+        requiredExpForNextLevel = (int)(requiredExpForNextLevel * 1.2f);
+
+        Debug.Log($"레벨 업! 현재 레벨: {currentLevel}");
+
+        UpdateExpUI();
+
+        // 추후 스킬창 업데이트 필요(진규님)
+    }
+
+    private void UpdateExpUI()
+    {
+        if (expSlider != null)
+        {
+            // 경험치 바(슬라이더)의 값을 업데이트 (현재경험치 / 필요경험치)
+            expSlider.value = (float)currentExperience / requiredExpForNextLevel;
+        }
+
+        if (levelText != null)
+        {
+            levelText.text = "Lv. " + currentLevel;
+        }
     }
 }

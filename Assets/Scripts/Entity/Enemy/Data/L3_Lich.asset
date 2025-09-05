@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80172da7f821617438751e83cab25275, type: 3}
-  m_Name: L_Lich
+  m_Name: L3_Lich
   m_EditorClassIdentifier: 
   monsterType: 1
-  monsterName: L_Lich
-  maxHealth: 16
+  monsterName: "[Red]\uC601\uD63C "
+  maxHealth: 40
   attackPower: 4
   attackSpeed: 4
   attackRange: 8

@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class L_EnemyController : EnemyController
 {
-    public GameObject _projectilePrefab; // 발사체 프리팹
-    public Transform _firePoint;         // 발사 위치
+    public GameObject _projectilePrefab;
+    public Transform _firePoint;         
 
     private float tooCloseDistance;
 
@@ -16,6 +17,15 @@ public class L_EnemyController : EnemyController
     protected override void Update()
     {
         base.Update();
+
+        if (_playerTarget == null)
+        {
+            if (_agent != null && _agent.isOnNavMesh)
+            {
+                _agent.isStopped = true;
+            }
+            return; 
+        }
         HandleMovement();
         HandleAttack();
     }

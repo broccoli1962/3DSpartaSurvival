@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,18 +23,18 @@ public class GameUIObserver : MonoBehaviour
         }
     }
 
-    // °¢ ÀÌº¥Æ®¿¡ ´ëÇÑ Ã³¸®±â ¸Ş¼ÒµåµéÀÔ´Ï´Ù.
-    // ÇÃ·¹ÀÌ¾î ·¹º§¾÷ ¸Ş¼­µå
+    // ê° ì´ë²¤íŠ¸ì— ëŒ€í•œ ì²˜ë¦¬ê¸° ë©”ì†Œë“œë“¤ì…ë‹ˆë‹¤.
+    // í”Œë ˆì´ì–´ ë ˆë²¨ì—… ë©”ì„œë“œ
     private void HandlePlayerLevelUp()
     {
-        Debug.Log("GameUIObserver: ÇÃ·¹ÀÌ¾î ·¹º§¾÷ °¨Áö! ·¹º§¾÷ UI¸¦ ¿äÃ»ÇÕ´Ï´Ù.");
+        Debug.Log("GameUIObserver: í”Œë ˆì´ì–´ ë ˆë²¨ì—… ê°ì§€! ë ˆë²¨ì—… UIë¥¼ ìš”ì²­í•©ë‹ˆë‹¤.");
         UIManager.Instance.OpenUI<UISelectItem>();
     }
 
-    // °ÔÀÓ Á¾·á ¸Ş¼­µå
+    // ê²Œì„ ì¢…ë£Œ ë©”ì„œë“œ
     private void HandleGameEnd()
     {
-        Debug.Log("GameUIObserver: °ÔÀÓ Á¾·á¸¦ °¨Áö! °á°úÃ¢ UI¸¦ ¿äÃ»ÇÕ´Ï´Ù.");
+        Debug.Log("GameUIObserver: ê²Œì„ ì¢…ë£Œë¥¼ ê°ì§€! ê²°ê³¼ì°½ UIë¥¼ ìš”ì²­í•©ë‹ˆë‹¤.");
         UIManager.Instance.OpenUI<UIResult>();
     }
 }

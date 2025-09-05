@@ -9394,6 +9394,7 @@ MonoBehaviour:
   _monsterData: {fileID: 11400000, guid: b512829797c815b45b437efd162667c1, type: 2}
   hpBarPrefab: {fileID: 6706473195749120680, guid: 7fc3f3b2feecef64eab6ebc0f77f68c4, type: 3}
   hpBarAnchor: {fileID: 3627302551213120717}
+  experienceGemPrefab: {fileID: 4855861434634621188, guid: 0cbe123bdf0a9874cbfc0a6f625a17ca, type: 3}
 --- !u!54 &5293936522782667352
 Rigidbody:
   m_ObjectHideFlags: 0

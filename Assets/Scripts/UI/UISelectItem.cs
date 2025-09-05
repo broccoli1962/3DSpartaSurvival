@@ -74,7 +74,6 @@ public class UISelectItem : UIBase
             GameObject buttonGO = Instantiate(levelUpSelectButtonPrefab, selectButtonParents);
 
             // ★ 중요: 생성된 버튼(슬롯)에 아이템 정보를 넘겨주고, 클릭했을 때 어떤 함수를 호출할지 알려줘야 합니다.
-            // 이 기능을 위해 버튼 프리팹에 UI_ChoiceSlot 같은 별도의 스크립트가 필요합니다.
             UIChoiceSlot slot = buttonGO.GetComponent<UIChoiceSlot>();
             slot.Initialize(itemToShow, this);
         }

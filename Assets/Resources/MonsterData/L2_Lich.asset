@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80172da7f821617438751e83cab25275, type: 3}
   m_Name: L2_Lich
   m_EditorClassIdentifier: 
-  monsterType: 1
+  monsterType: 0
   monsterName: "[Purple]\uC601\uD63C "
   maxHealth: 24
   attackPower: 4

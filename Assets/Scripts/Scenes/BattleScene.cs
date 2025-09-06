@@ -41,6 +41,7 @@ public class BattleScene : BaseScene
 
         //UIManager.Instance.GetUI<UIResult>();
         //UIManager.Instance.GetUI<UISelectItem>();
+        //UIManager.Instance.GetUI<UIPause>();
     }
 
     public override void SceneExit()

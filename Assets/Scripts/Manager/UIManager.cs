@@ -169,7 +169,7 @@ public class UIManager : Singleton<UIManager>
         {
             // 이 씬에서 필요한 UI들을 미리 딕셔너리에 등록(캐싱)합니다.
             Debug.Log("[UIManager] 배틀 씬에 필요한 UI들을 미리 로드합니다.");
-            GetUI<UIOption>();
+            GetUI<UIPause>();
             GetUI<UIResult>();
             GetUI<UISelectItem>();
             PlayerItemManager.Instance.ClearItems();

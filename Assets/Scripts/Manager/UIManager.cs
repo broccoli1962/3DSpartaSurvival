@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class UIManager : Singleton<UIManager>
 {
     private Dictionary<string, UIBase> uiDictionary = new Dictionary<string, UIBase>();
     private Transform _canvasTransform; // UI들이 생성될 부모 캔버스
+    private EventSystem _eventSystem;
+
+    public const string UICommonPath = "Common/";
+    public const string UIPrefabPath = "Elements/";
 
     private void Awake()
     {
@@ -57,7 +62,7 @@ public class UIManager : Singleton<UIManager>
     // 딕셔너리에서 UI를 찾아오는 메서드
     public T GetUI<T>() where T : UIBase
     {
-        string uiName = typeof(T).Name;
+        string uiName = GetUIName<T>();
 
         // 1. 딕셔너리에 있는지 먼저 확인 (이미 만들어둔게 있다면 그걸 사용)
         if (uiDictionary.TryGetValue(uiName, out UIBase existingUI) && existingUI != null)
@@ -66,46 +71,59 @@ public class UIManager : Singleton<UIManager>
         }
 
         // 2. 딕셔너리에 없다면, Resources 폴더에서 프리팹을 찾아 새로 생성
-        return CreateUI<T>(uiName);
+        return CreateUI<T>();
     }
 
     // UI를 새로 생성하고 딕셔너리에 등록하는 내부 메서드
-    private T CreateUI<T>(string uiName) where T : UIBase
+    private T CreateUI<T>() where T : UIBase
     {
-        // UI를 담을 최상위 캔버스를 찾아옵니다. (최초 한번만 실행)
-        if (_canvasTransform == null)
+        string uiName = GetUIName<T>();
+        if (uiDictionary.TryGetValue(uiName, out var prevUi) && prevUi != null)
         {
-            // FindObjectOfType은 비용이 비싸므로, 정말 필요할 때 한번만 호출합니다.
-            GameObject canvas = GameObject.FindGameObjectWithTag("MainCanvas");
-            //Canvas canvas = FindAnyObjectByType<Canvas>();
-            if (canvas == null)
-            {
-                Debug.LogError("UI를 담을 Canvas가 씬에 없습니다! Canvas를 먼저 생성해주세요.");
-                return null;
-            }
-            _canvasTransform = canvas.transform;
+            Destroy(prevUi.gameObject);
+            uiDictionary.Remove(uiName);
         }
 
-        // Resources/UI/{uiName} 경로에서 프리팹을 로드합니다.
-        string prefabPath = $"UI/{uiName}";
-        GameObject uiPrefab = Resources.Load<GameObject>(prefabPath);
+        CheckCanvas();
+        CheckEventSystem();
 
+        // Resources/UI/{uiName} 경로에서 프리팹을 로드합니다.
+        string prefabPath = GetPath<T>();
+        GameObject uiPrefab = ResourceManager.Instance.CreateUI<GameObject>(prefabPath, _canvasTransform);
         if (uiPrefab == null)
         {
             Debug.LogError($"{prefabPath} 에서 UI 프리팹을 찾을 수 없습니다! 경로와 프리팹 이름을 확인해주세요.");
             return null;
         }
 
-        // 프리팹을 캔버스 자식으로 생성(Instantiate)
-        GameObject uiInstance = Instantiate(uiPrefab, _canvasTransform);
-        T uiComponent = uiInstance.GetComponent<T>();
+        // 프리팹 생성
+        T uiComponent = uiPrefab.GetComponent<T>();
+        if(uiComponent == null)
+        {
+            Debug.LogError($"[UIManager] Prefab has no component : {uiName}");
+            Destroy(uiPrefab);
+            return null;
+        }
 
         // 생성된 UI를 딕셔너리에 등록
         uiDictionary[uiName] = uiComponent;
 
-        uiInstance.SetActive(false);
+        //uiInstance.SetActive(false);
 
         return uiComponent;
+    }
+
+    public T CreateSlotUI<T>(Transform parent = null) where T : UIBase
+    {
+        string path = GetPath<T>();
+        T prefab = ResourceManager.Instance.CreateUI<T>(path, parent);
+        if (prefab == null)
+        {
+            Debug.LogError($"[UIManager] Prefab not found: {path}");
+            return null;
+        }
+
+        return prefab;
     }
 
     // 찾으려는 UI가 딕셔너리에 존재하는지 확인하는 메서드
@@ -113,6 +131,32 @@ public class UIManager : Singleton<UIManager>
     {
         string uiName = typeof(T).Name;
         return uiDictionary.ContainsKey(uiName) && uiDictionary[uiName] != null;
+    }
+    private void CheckCanvas()
+    {
+        if (_canvasTransform != null) return;
+
+        string prefKey = Path.UI + UICommonPath + Prefab.Canvas;
+        //컴포넌트들은 전부 Object를 상속받고 있다.
+        _canvasTransform = ResourceManager.Instance.Create<Transform>(prefKey);
+    }
+
+    private void CheckEventSystem()
+    {
+        if (_eventSystem != null) return;
+
+        string prefKey = Path.UI + UICommonPath + Prefab.EventSystem;
+        _eventSystem = ResourceManager.Instance.Create<EventSystem>(prefKey);
+    }
+
+    private string GetPath<T>() where T : UIBase
+    {
+        return UIPrefabPath + GetUIName<T>();
+    }
+
+    private string GetUIName<T>() where T : UIBase
+    {
+        return typeof(T).Name;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

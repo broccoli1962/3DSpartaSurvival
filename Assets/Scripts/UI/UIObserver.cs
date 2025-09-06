@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameUIObserver : MonoBehaviour
+public class UIObserver : MonoBehaviour
 {
     [SerializeField] private Player _player;
 

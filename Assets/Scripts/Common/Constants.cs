@@ -61,7 +61,7 @@ public static class Path
 {
     public const string Prefab = "Prefab/";
     public const string UI = Prefab + "UI/";
-    public const string Character = Prefab + "Character";
+    public const string Character = Prefab + "Character/";
 }
 
 public static class Prefab

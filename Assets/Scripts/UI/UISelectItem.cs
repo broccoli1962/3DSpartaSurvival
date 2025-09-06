@@ -40,7 +40,7 @@ public class UISelectItem : UIBase
         }
     }
 
-
+    // 아이템을 선택할 수 있도록 선택지를 보여주는 메서드
     private void ShowChoices()
     {
         // 이전에 생성했던 선택지 버튼들을 모두 삭제하여 깨끗한 상태로 만든다 (확인용 로그 추가)
@@ -113,6 +113,8 @@ public class UISelectItem : UIBase
         }
     }
 
+
+    // 획득한 아이템 스탯을 표시하는 메서드
     private void UpdateTotalStatsDisplay()
     {
         // 이전에 생성했던 스탯 슬롯들을 모두 삭제
@@ -141,7 +143,7 @@ public class UISelectItem : UIBase
         }
     }
 
-
+    // 가진 아이템 아이콘, 개수를 보여주는 매서드
     // 개선 가능한 사항
     // 어차피 한 게임에서 가진 아이템이 사라지지 않기 때문에 매번 레벨업 때마다 아이콘 슬롯을 지우지 않고 추가하는 방식으로 개선할 수 있을 것 같다.
     private void UpdateOwnedItemsDisplay()

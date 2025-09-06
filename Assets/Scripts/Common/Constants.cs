@@ -41,6 +41,14 @@ public enum EStatType
     ProjectileAngle
 }
 
+public enum GameState {
+    InitialWait,
+    WaveInProgress,
+    WaveComplete,
+    BossFight,
+    GameWon 
+}
+
 public enum ESceneType
 {
     Menu,
@@ -61,12 +69,26 @@ public static class Path
 {
     public const string Prefab = "Prefab/";
     public const string UI = Prefab + "UI/";
-    public const string Character = Prefab + "Character/";
+
+    public const string Character = Prefab + "Character/Player/";
+    public const string Enemy = Prefab + "Character/Enemy/";
+
+    public const string Map = Prefab + "Map/";
+    public const string MapElement = Map + "Environment/";
 }
 
 public static class Prefab
 {
+    //UI
     public const string Canvas = "Canvas";
     public const string EventSystem = "EventSystem";
+
+    //Character
     public const string Character = "Character";
+    public const string Player = "Player";
+    public const string EnemyBoss = "EnemyBoss";
+
+    //Map
+    public const string Magma = "Magma";
+    public const string Map = "Map";
 }

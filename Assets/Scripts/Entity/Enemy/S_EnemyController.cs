@@ -21,7 +21,7 @@ public class S_EnemyController : EnemyController
 
         if (!canMove) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.transform.position);
 
         if (distanceToPlayer <= _monsterData.attackRange)
         {

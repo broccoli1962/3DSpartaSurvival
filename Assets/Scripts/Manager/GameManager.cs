@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
     public float initialWaitTime = 3f;
     public float spawnInterval = 1.5f;
     public int maxMonstersOnField = 20;
-    public GameObject spawnEffectPrefab; 
+    //public GameObject spawnEffectPrefab; 안씀 
     public float spawnEffectDelay = 0.5f;
 
     [Header("데미지 존 설정")]
@@ -46,17 +46,15 @@ public class GameManager : Singleton<GameManager>
     public float damageZoneSpawnDelay = 3f;
     private List<GameObject> activeDamageZones = new List<GameObject>();
 
-    private int currentWaveIndex = 0;
+    public int currentWaveIndex { get; private set; } = 0;
     private int monstersSpawnedThisWave = 0;
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
 
-    public GameObject _gameOverCanvas;
-
-    [Header("UI 설정")]
-    public TextMeshProUGUI _countdownText;
-    public GameObject waveInfoPanel; 
-    public TextMeshProUGUI waveTitleText;
+    //[Header("UI 설정")] 더 이상 사용하지 않음
+    //public TextMeshProUGUI _countdownText;
+    //public GameObject waveInfoPanel;
+    //public TextMeshProUGUI waveTitleText;
 
     [Header("날씨 설정")]
     public Light sunLight;
@@ -75,17 +73,12 @@ public class GameManager : Singleton<GameManager>
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> objectPools;
 
-    public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
     #region 게임오버 함수
     public void ShowGameOverScreen()
     {
-        if (_gameOverCanvas != null)
-        {
-            _gameOverCanvas.SetActive(true);
-            Time.timeScale = 0f;
-        }
+        UIManager.Instance.OpenUI<UIGameOver>();
     }
 
     void Update()
@@ -120,14 +113,17 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         SetWeatherForWave(0); 
-        if (_countdownText != null)
-        {
-            _countdownText.gameObject.SetActive(false);
-        }
+
+        //더 이상 필요없음
+        //if (_countdownText != null)
+        //{
+        //    _countdownText.gameObject.SetActive(false);
+        //}
         StartCoroutine(GameFlow());
         ////////////////////////////////////////////////////////////
         objectPools = new Dictionary<string, Queue<GameObject>>();
 
+        //버그나서 비활성화
         //foreach (Pool pool in pools)
         //{
         //    Queue<GameObject> objectQueue = new Queue<GameObject>();
@@ -172,20 +168,21 @@ public class GameManager : Singleton<GameManager>
     {
         currentState = GameState.InitialWait;
 
-        if (_countdownText != null)
-        {
-            _countdownText.gameObject.SetActive(true);
-            for (int i = 3; i > 0; i--)
-            {
-                _countdownText.text = i.ToString();
-                yield return new WaitForSeconds(1f);
-            }
-            _countdownText.gameObject.SetActive(false);
-        }
-        else
-        {
-            yield return new WaitForSeconds(initialWaitTime);
-        }
+        //UIWaveCount에서 카운트 다운 시작
+        //if (_countdownText != null)
+        //{
+        //    _countdownText.gameObject.SetActive(true);
+        //    for (int i = 3; i > 0; i--)
+        //    {
+        //        _countdownText.text = i.ToString();
+        //        yield return new WaitForSeconds(1f);
+        //    }
+        //    _countdownText.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    yield return new WaitForSeconds(initialWaitTime);
+        //}
 
         // 웨이브 진행
         while (currentWaveIndex < waves.Count)
@@ -234,20 +231,12 @@ public class GameManager : Singleton<GameManager>
     }
     void ShowWaveInfo(WaveData wave)
     {
-        if (waveInfoPanel != null)
-        {
-            waveTitleText.text = $"Wave {currentWaveIndex + 1}";
-
-            waveInfoPanel.SetActive(true);
-        }
+        UIManager.Instance.OpenUI<UIWaveInfo>();
     }
 
     void HideWaveInfo()
     {
-        if (waveInfoPanel != null)
-        {
-            waveInfoPanel.SetActive(false);
-        }
+        UIManager.Instance.CloseUI<UIWaveInfo>();
     }
     #endregion
 
@@ -261,11 +250,11 @@ public class GameManager : Singleton<GameManager>
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
-                if (spawnEffectPrefab != null)
-                {
-                    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
-                    Destroy(effectInstance, 1f);
-                }
+                //if (spawnEffectPrefab != null) //몬스터가 소환될때 스스로 소환함
+                //{
+                //    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
+                //    Destroy(effectInstance, 1f);
+                //}
 
                 yield return new WaitForSeconds(spawnEffectDelay);
 
@@ -361,8 +350,10 @@ public class GameManager : Singleton<GameManager>
         currentState = GameState.BossFight;
         Debug.Log("보스전 시작!");
 
-        Vector3 bossSpawnPosition = playerTransform.position + (playerTransform.forward * 10f);
-        GameObject boss = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+        //Vector3 bossSpawnPosition = playerTransform.position + (playerTransform.forward * 10f);
+        //GameObject boss = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+
+        GameObject boss = ResourceManager.Instance.CreateEnemy<GameObject>(Prefab.EnemyBoss);
         activeMonsters.Add(boss);
 
         while (activeMonsters.Count > 0)

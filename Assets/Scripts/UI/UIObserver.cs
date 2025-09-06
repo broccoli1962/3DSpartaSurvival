@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIObserver : MonoBehaviour
+public class UIObserver : UIBase
 {
     [SerializeField] private Player _player;
+
+    private void Awake()
+    {
+        _player = PlayerManager.Instance.Player;
+    }
 
     void OnEnable()
     {

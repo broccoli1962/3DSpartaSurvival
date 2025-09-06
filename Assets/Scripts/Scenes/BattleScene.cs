@@ -9,8 +9,13 @@ public class BattleScene : BaseScene
     UIStatus uistatus;
     public override void SceneEnter()
     {
-        player = ResourceManager.Instance.CreateCharacter<Player>("Player/Player");
+        //맵 생성
+        ResourceManager.Instance.CreateMap<GameObject>(Prefab.Map);
+
+        //플레이어, 경험치 스탯, 옵저버 생성
+        player = PlayerManager.Instance.Player;
         uistatus = UIManager.Instance.GetUI<UIStatus>();
+        UIManager.Instance.GetUI<UIObserver>();
 
         //vitual 카메라 할당
         GameObject vCamera = ResourceManager.Instance.Create<GameObject>("Prefab/Character/Player/VirtualCamera");
@@ -22,14 +27,18 @@ public class BattleScene : BaseScene
         WaveData[] waves = Resources.LoadAll<WaveData>("WaveData/");
         List<WaveData> wavedatas = new();
 
-        for(int i = 0; i<waves.Length; i++)
+        for(int i = 0; i<waves.Length-2; i++)
         {
             wavedatas.Add(waves[i]);
         }
         GameManager.Instance.waves = wavedatas;
 
         //마그마 할당
-        GameManager.Instance.damageZonePrefab = ResourceManager.Instance.Load<GameObject>("Prefab/Map/Envionment/Magma");
+        GameManager.Instance.damageZonePrefab = ResourceManager.Instance.Load<GameObject>(Path.MapElement + Prefab.Magma);
+        Debug.Log(Path.MapElement + Prefab.Magma);
+
+        //게임 오버 UI할당
+        //GameManager.Instance._gameOverCanvas = 
 
         //캐릭터 레벨 할당
         GameManager.Instance.playerTransform = player.transform;
@@ -38,10 +47,6 @@ public class BattleScene : BaseScene
         player.expSlider = uistatus.currentExpSlider;
 
         PlayerItemManager.Instance.ClearItems();
-
-        //UIManager.Instance.GetUI<UIResult>();
-        //UIManager.Instance.GetUI<UISelectItem>();
-        //UIManager.Instance.GetUI<UIPause>();
     }
 
     public override void SceneExit()

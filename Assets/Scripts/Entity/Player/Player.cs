@@ -138,12 +138,7 @@ public class Player : MonoBehaviour, IDamagable
     {
         Debug.Log("Die");
 
-        GameManager gameManager = FindObjectOfType<GameManager>();
-
-        if (gameManager != null)
-        {
-            gameManager.ShowGameOverScreen();
-        }
+        GameManager.Instance.ShowGameOverScreen();
 
         gameObject.SetActive(false);
     }

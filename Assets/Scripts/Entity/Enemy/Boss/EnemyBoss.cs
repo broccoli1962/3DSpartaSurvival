@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class EnemyBoss : MonoBehaviour, IDamagable
 {
-    public Transform player;
+    public Player player;
 
     public MonsterData monsterSO;
     public GameObject hitBox;
@@ -30,6 +30,7 @@ public partial class EnemyBoss : MonoBehaviour, IDamagable
 
     private void Awake()
     {
+        player = PlayerManager.Instance.Player;
         CurrentHealth = monsterSO.maxHealth;
         _rigid = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();

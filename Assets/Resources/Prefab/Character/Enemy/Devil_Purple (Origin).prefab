@@ -1434,6 +1434,7 @@ MonoBehaviour:
   hpBarPrefab: {fileID: 6706473195749120680, guid: 7fc3f3b2feecef64eab6ebc0f77f68c4, type: 3}
   hpBarAnchor: {fileID: 3767887765809248107}
   experienceGemPrefab: {fileID: 4855861434634621188, guid: 0cbe123bdf0a9874cbfc0a6f625a17ca, type: 3}
+  spawnEffect: {fileID: 1110872721924581030, guid: 76cb286da06b5904c86fed77c4e29827, type: 3}
 --- !u!1 &914003160457857980
 GameObject:
   m_ObjectHideFlags: 0

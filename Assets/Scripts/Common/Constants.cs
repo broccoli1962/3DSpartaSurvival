@@ -56,3 +56,17 @@ public static class AnimParam
     public static readonly int Skill1 = Animator.StringToHash("Skill1");
     public static readonly int Death = Animator.StringToHash("Death");
 }
+
+public static class Path
+{
+    public const string Prefab = "Prefab/";
+    public const string UI = Prefab + "UI/";
+    public const string Character = Prefab + "Character";
+}
+
+public static class Prefab
+{
+    public const string Canvas = "Canvas";
+    public const string EventSystem = "EventSystem";
+    public const string Character = "Character";
+}

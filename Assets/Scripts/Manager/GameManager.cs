@@ -113,7 +113,7 @@ public class GameManager : Singleton<GameManager>
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneLoadManager.Instance.LoadScene(ESceneType.Battle);
     }
     #endregion
 
@@ -128,18 +128,18 @@ public class GameManager : Singleton<GameManager>
         ////////////////////////////////////////////////////////////
         objectPools = new Dictionary<string, Queue<GameObject>>();
 
-        foreach (Pool pool in pools)
-        {
-            Queue<GameObject> objectQueue = new Queue<GameObject>();
+        //foreach (Pool pool in pools)
+        //{
+        //    Queue<GameObject> objectQueue = new Queue<GameObject>();
 
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                objectQueue.Enqueue(obj);
-            }
-            objectPools.Add(pool.tag, objectQueue);
-        }
+        //    for (int i = 0; i < pool.size; i++)
+        //    {
+        //        GameObject obj = Instantiate(pool.prefab);
+        //        obj.SetActive(false);
+        //        objectQueue.Enqueue(obj);
+        //    }
+        //    objectPools.Add(pool.tag, objectQueue);
+        //}
     }
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {

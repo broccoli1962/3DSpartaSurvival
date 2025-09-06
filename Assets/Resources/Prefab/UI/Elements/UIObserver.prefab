@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7491734754082225552}
   - component: {fileID: 2035591994584904536}
   m_Layer: 0
-  m_Name: GameUIObserver
+  m_Name: UIObserver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

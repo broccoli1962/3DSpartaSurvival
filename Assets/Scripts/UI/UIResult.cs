@@ -1,18 +1,26 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIResult : UIBase
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnOpen()
     {
-        
+        base.OnOpen();
+        Time.timeScale = 0f;
+
+        // 일시 정지 창 업데이트
+        UpdateOwnedItemPanel();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnClose()
     {
-        
+        base.OnClose();
+        Time.timeScale = 1f;
+    }
+
+    private void UpdateOwnedItemPanel()
+    {
+
     }
 }

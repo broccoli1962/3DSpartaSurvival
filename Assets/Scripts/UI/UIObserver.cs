@@ -35,11 +35,4 @@ public class UIObserver : UIBase
         Debug.Log("GameUIObserver: 플레이어 레벨업 감지! 레벨업 UI를 요청합니다.");
         UIManager.Instance.OpenUI<UISelectItem>();
     }
-
-    // 게임 종료 메서드
-    private void HandleGameEnd()
-    {
-        Debug.Log("GameUIObserver: 게임 종료를 감지! 결과창 UI를 요청합니다.");
-        UIManager.Instance.OpenUI<UIResult>();
-    }
 }

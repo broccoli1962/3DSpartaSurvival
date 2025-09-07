@@ -8,6 +8,7 @@ public class ItemData : ScriptableObject
     [field: Header("아이템 정보")]
     [field: SerializeField] public Sprite Icon {  get; private set; }
     [field: SerializeField] public int Id { get; private set; }
+    [field: SerializeField] public string ItemName { get; private set; }
     [TextArea(5, 5)] public string description;
 
     [field: Header("아이템 스테이터스")]

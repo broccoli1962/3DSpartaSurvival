@@ -328,6 +328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orb
       objectReference: {fileID: 0}
+    - target: {fileID: 4193115347011068127, guid: 02ac2808318b7834799cc959f3ebe1b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5761550930753105091, guid: 02ac2808318b7834799cc959f3ebe1b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

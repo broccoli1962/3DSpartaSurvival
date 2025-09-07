@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class SnapToFloor
 {
     [MenuItem("Tools/Snap to Floor %e")]
@@ -49,3 +50,4 @@ public class SnapToFloor
         }
     }
 }
+#endif

@@ -408,8 +408,10 @@ MonoBehaviour:
   hpBarAnchor: {fileID: 833129367059140475}
   experienceGemPrefab: {fileID: 4855861434634621188, guid: 0cbe123bdf0a9874cbfc0a6f625a17ca, type: 3}
   spawnEffect: {fileID: 1110872721924581030, guid: 76cb286da06b5904c86fed77c4e29827, type: 3}
-  _projectilePrefab: {fileID: 6335558139026040241, guid: 1d0fba4f9c7f5184782cda47edf49df7, type: 3}
-  _firePoint: {fileID: 0}
+  _projectilePrefab: {fileID: 51393606108508336, guid: b5fb3ae8be89c4d4f91c83785a15b1f4, type: 3}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!195 &1308291364457089199
 NavMeshAgent:
   m_ObjectHideFlags: 0

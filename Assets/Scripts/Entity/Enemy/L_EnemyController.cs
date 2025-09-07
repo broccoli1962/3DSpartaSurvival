@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class L_EnemyController : EnemyController
 {
     public GameObject _projectilePrefab;
-    public Transform _firePoint;         
+    public LayerMask hitMask;
 
     private float tooCloseDistance;
 
@@ -63,9 +63,12 @@ public class L_EnemyController : EnemyController
 
     private void Shoot()
     {
-        if (_projectilePrefab != null && _firePoint != null)
-        {
-            Instantiate(_projectilePrefab, _firePoint.position, _firePoint.rotation);
-        }
+        GameObject bullet = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
+        Projectile p = bullet.GetComponent<Projectile>();
+        p.Init(transform.forward, _monsterData.attackPower, _monsterData.attackSpeed, hitMask);
+        //if (_projectilePrefab != null && _firePoint != null)
+        //{
+        //    Instantiate(_projectilePrefab, _firePoint.position, _firePoint.rotation);
+        //}
     }
 }

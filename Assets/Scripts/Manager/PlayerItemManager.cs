@@ -10,6 +10,8 @@ public class PlayerItemManager : Singleton<PlayerItemManager>
 
     private Dictionary<EStatType, Func<ItemData, float>> statCalculators;
 
+    private Transform playerTransform;
+
     private void Awake()
     {
         var checkInstance = Instance;
@@ -63,6 +65,12 @@ public class PlayerItemManager : Singleton<PlayerItemManager>
         ownedItems[itemToAdd] = currentStack + 1;
 
         Debug.Log($"[PlayerItemManager] {itemToAdd.name} 획득. 현재 스택: {ownedItems[itemToAdd]}/{itemToAdd.Stack}");
+
+        if (itemToAdd is ActiveItemData activeItem)
+        {
+            EquipWeapon(activeItem);
+        }
+
         return true; // 추가 성공
     }
 
@@ -83,5 +91,47 @@ public class PlayerItemManager : Singleton<PlayerItemManager>
             }
         }
         return total;
+    }
+
+
+    // 무기 아이템이라면 플레이어에게 장착하도록 하는 메서드
+    private void EquipWeapon(ActiveItemData weaponData)
+    {
+        if (playerTransform == null)
+        {
+            // PlayerManager를 통해 Player를 찾는 것이 FindObjectOfType보다 더 효율적이고 좋습니다.
+            if (PlayerManager.Instance != null && PlayerManager.Instance.Player != null)
+            {
+                playerTransform = PlayerManager.Instance.Player.transform;
+            }
+            else
+            {
+                Debug.LogError("[PlayerItemManager] Player를 찾을 수 없어 무기를 생성할 수 없습니다!");
+                return;
+            }
+        }
+        if (weaponData.weaponPrefab != null)
+        {
+            GameObject weaponInstance = Instantiate(weaponData.weaponPrefab, playerTransform);
+
+            WeaponBase weaponBase = weaponInstance.GetComponent<WeaponBase>();
+
+            if (weaponBase != null)
+            {
+                weaponBase.itemData = weaponData;
+                // 스크립트 활성화
+                weaponBase.enabled = true;
+
+                Debug.Log($"[PlayerItemManager] {weaponData.ItemName} 무기를 플레이어에게 장착하고 활성화했습니다!");
+            }
+            else
+            {
+                Debug.LogError($"[PlayerItemManager] {weaponData.ItemName}의 프리팹에 WeaponBase 스크립트가 없습니다!");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"[PlayerItemManager] {weaponData.ItemName}에 weaponPrefab이 연결되어 있지 않습니다!");
+        }
     }
 }

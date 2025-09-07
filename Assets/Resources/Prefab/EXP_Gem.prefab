@@ -146,6 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b5c8b60b46c0db42926bb209e161ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  experienceValue: 10
+  experienceValue: 50
   moveSpeed: 15
   floatingText: {fileID: 2249837554375646718, guid: 52b66df1f8e995b4e989e28d8d31f356, type: 3}

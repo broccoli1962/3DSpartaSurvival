@@ -84,11 +84,11 @@ public void ReceiveData(GameResultData data)
     // 버튼 클릭 이벤트
     private void OnClickRestart()
     {
-        SceneLoadManager.Instance.LoadScene(ESceneType.Battle);
+        GameManager.Instance.RestartGame();
     }
 
     private void OnClickMainMenu()
     {
-        SceneLoadManager.Instance.LoadScene(ESceneType.Menu);
+        GameManager.Instance.MainMenu();
     }
 }

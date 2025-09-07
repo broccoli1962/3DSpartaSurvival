@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconImage: {fileID: 8818945266801182580}
+  itemNameText: {fileID: 6154135123221616420}
   statValueText: {fileID: 4025783063662308110}
   selectButton: {fileID: 619259765887119852}
 --- !u!1 &1672093573271104055
@@ -160,10 +161,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7501523066361202638}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -160}
-  m_SizeDelta: {x: 0, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -217.5}
+  m_SizeDelta: {x: 350, y: 265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7151993088779464095
 CanvasRenderer:
@@ -223,9 +224,9 @@ MonoBehaviour:
   m_fontSize: 30
   m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

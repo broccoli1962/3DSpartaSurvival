@@ -54,7 +54,14 @@ public class UIResult : UIBase, IDataReceiver<GameResultData>
         btnMainMenu?.onClick.RemoveAllListeners();
     }
 
-    public void ReceiveData(GameResultData data)
+    // Player.Die()에서 호출해야 함
+    //GameResultData resultData = new GameResultData
+    //{
+    //    ResultType = EGameResultType.Defeat,
+    //    Playtime = this.Playtime // GameManager가 측정하고 있는 플레이 시간
+    //};
+    // UIManager.Instance.OpenUI<UIResult>(resultData);
+public void ReceiveData(GameResultData data)
     {
         // 이 안의 내용은 이전에 만들었던 override OpenUI(object data)의 로직과 동일합니다.
         if (data.ResultType == EGameResultType.Victory)

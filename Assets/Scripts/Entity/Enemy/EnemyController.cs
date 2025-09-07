@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class EnemyController : MonoBehaviour
+public abstract class EnemyController : MonoBehaviour, IDamagable
 {
     [Header("데이터")]
     public MonsterData _monsterData;
@@ -13,10 +14,16 @@ public abstract class EnemyController : MonoBehaviour
     [Header("드랍 아이템")]
     public GameObject experienceGemPrefab;
 
+    public GameObject spawnEffect;
+
     public int currentHealth { get; private set; }
     protected MonHPBarController hpBarController;
     protected NavMeshAgent _agent;
-    protected Transform _playerTarget;
+
+    //플레이어로 바꿈
+    //protected Transform _playerTarget;
+    protected Player _playerTarget;
+
     protected Animator _animator;
     protected float lastAttackTime;
 
@@ -25,11 +32,20 @@ public abstract class EnemyController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            _playerTarget = playerObject.transform;
-        }
+        _playerTarget = PlayerManager.Instance.Player;
+
+        //더 이상 태그로 찾지 않음
+        //GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        //if (playerObject != null)
+        //{
+        //    _playerTarget = playerObject.transform;
+        //}
+    }
+
+    protected virtual void OnEnable()
+    {
+        GameObject effect = Instantiate(spawnEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 1f);
     }
 
     protected virtual void Start()
@@ -60,18 +76,7 @@ public abstract class EnemyController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth < 0) currentHealth = 0;
-
-        if (hpBarController != null)
-        {
-            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
-        }
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        
     }
 
     public void ReceiveHeal(int healAmount)
@@ -100,5 +105,23 @@ public abstract class EnemyController : MonoBehaviour
 
         Debug.Log(_monsterData.monsterName + " has died.");
         Destroy(gameObject);
+    }
+
+    public float ValueChanged(float value)
+    {
+        currentHealth += (int)value;
+        if (currentHealth < 0) currentHealth = 0;
+
+        if (hpBarController != null)
+        {
+            hpBarController.UpdateHP(currentHealth, _monsterData.maxHealth);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+
+        return currentHealth;
     }
 }

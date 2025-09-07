@@ -27,7 +27,7 @@ public class SceneLoadManager : Singleton<SceneLoadManager>
             return;
         }
 
-        if (_currentScene == scene) return;
+        //if (_currentScene == scene) return;
 
         _coroutine = StartCoroutine(LoadSceneProcess(sceneType));
     }

@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
     public float initialWaitTime = 3f;
     public float spawnInterval = 1.5f;
     public int maxMonstersOnField = 20;
-    public GameObject spawnEffectPrefab; 
+    //public GameObject spawnEffectPrefab; 안씀
     public float spawnEffectDelay = 0.5f;
 
     [Header("데미지 존 설정")]
@@ -46,17 +46,15 @@ public class GameManager : Singleton<GameManager>
     public float damageZoneSpawnDelay = 3f;
     private List<GameObject> activeDamageZones = new List<GameObject>();
 
-    private int currentWaveIndex = 0;
+    public int currentWaveIndex { get; private set; } = 0;
     private int monstersSpawnedThisWave = 0;
     private int monstersKilledThisWave = 0;
     private List<GameObject> activeMonsters = new List<GameObject>();
 
-    public GameObject _gameOverCanvas;
-
-    [Header("UI 설정")]
-    public TextMeshProUGUI _countdownText;
-    public GameObject waveInfoPanel; 
-    public TextMeshProUGUI waveTitleText;
+    //[Header("UI 설정")] 더 이상 사용하지 않음
+    //public TextMeshProUGUI _countdownText;
+    //public GameObject waveInfoPanel;
+    //public TextMeshProUGUI waveTitleText;
 
     [Header("날씨 설정")]
     public Light sunLight;
@@ -67,26 +65,18 @@ public class GameManager : Singleton<GameManager>
     public GameObject wave3WeatherVFX; 
     private GameObject currentWeatherVFXInstance;
 
-    [Header("플로팅 텍스트 설정")]
-    public GameObject floatingTextPrefab; 
-    public Canvas mainCanvas;
+    //[Header("플로팅 텍스트 설정")]
+    //public GameObject floatingTextPrefab;
+    //public Canvas mainCanvas;
 
     [Header("오브젝트 풀 설정")]
     public List<Pool> pools;
     private Dictionary<string, Queue<GameObject>> objectPools;
 
-    public enum GameState { InitialWait, WaveInProgress, WaveComplete, BossFight, GameWon }
     public GameState currentState { get; private set; }
 
-    #region 게임오버 함수
-    public void ShowGameOverScreen()
-    {
-        if (_gameOverCanvas != null)
-        {
-            _gameOverCanvas.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
+    public float Playtime { get; private set; }
+    private bool _isGameActive = false;
 
     void Update()
     {
@@ -109,37 +99,52 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("공격할 몬스터가 없습니다.");
             }
         }
+        if (_isGameActive)
+        {
+            Playtime += Time.deltaTime;
+        }
+
+        OnPause();
     }
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneLoadManager.Instance.LoadScene(ESceneType.Battle);
     }
-    #endregion
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        StopAllCoroutines();
+        SceneLoadManager.Instance.LoadScene(ESceneType.Menu);
+    }
 
     void Start()
     {
         SetWeatherForWave(0); 
-        if (_countdownText != null)
-        {
-            _countdownText.gameObject.SetActive(false);
-        }
+
+        //더 이상 필요없음
+        //if (_countdownText != null)
+        //{
+        //    _countdownText.gameObject.SetActive(false);
+        //}
         StartCoroutine(GameFlow());
         ////////////////////////////////////////////////////////////
         objectPools = new Dictionary<string, Queue<GameObject>>();
 
-        foreach (Pool pool in pools)
-        {
-            Queue<GameObject> objectQueue = new Queue<GameObject>();
+        //버그나서 비활성화
+        //foreach (Pool pool in pools)
+        //{
+        //    Queue<GameObject> objectQueue = new Queue<GameObject>();
 
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                objectQueue.Enqueue(obj);
-            }
-            objectPools.Add(pool.tag, objectQueue);
-        }
+        //    for (int i = 0; i < pool.size; i++)
+        //    {
+        //        GameObject obj = Instantiate(pool.prefab);
+        //        obj.SetActive(false);
+        //        objectQueue.Enqueue(obj);
+        //    }
+        //    objectPools.Add(pool.tag, objectQueue);
+        //}
     }
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
@@ -170,22 +175,24 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator GameFlow()
     {
+        StartGame(); // 정진규 추가
         currentState = GameState.InitialWait;
 
-        if (_countdownText != null)
-        {
-            _countdownText.gameObject.SetActive(true);
-            for (int i = 3; i > 0; i--)
-            {
-                _countdownText.text = i.ToString();
-                yield return new WaitForSeconds(1f);
-            }
-            _countdownText.gameObject.SetActive(false);
-        }
-        else
-        {
-            yield return new WaitForSeconds(initialWaitTime);
-        }
+        //UIWaveCount에서 카운트 다운 시작
+        //if (_countdownText != null)
+        //{
+        //    _countdownText.gameObject.SetActive(true);
+        //    for (int i = 3; i > 0; i--)
+        //    {
+        //        _countdownText.text = i.ToString();
+        //        yield return new WaitForSeconds(1f);
+        //    }
+        //    _countdownText.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    yield return new WaitForSeconds(initialWaitTime);
+        //}
 
         // 웨이브 진행
         while (currentWaveIndex < waves.Count)
@@ -198,6 +205,7 @@ public class GameManager : Singleton<GameManager>
 
         currentState = GameState.GameWon;
         Debug.Log("게임 클리어!");
+        EndGame(EGameResultType.Victory); // 정진규 추가
     }
 
     #region Wave 관련 내용(UI 패널/카운트 다운)
@@ -234,20 +242,12 @@ public class GameManager : Singleton<GameManager>
     }
     void ShowWaveInfo(WaveData wave)
     {
-        if (waveInfoPanel != null)
-        {
-            waveTitleText.text = $"Wave {currentWaveIndex + 1}";
-
-            waveInfoPanel.SetActive(true);
-        }
+        UIManager.Instance.OpenUI<UIWaveInfo>();
     }
 
     void HideWaveInfo()
     {
-        if (waveInfoPanel != null)
-        {
-            waveInfoPanel.SetActive(false);
-        }
+        UIManager.Instance.CloseUI<UIWaveInfo>();
     }
     #endregion
 
@@ -261,11 +261,11 @@ public class GameManager : Singleton<GameManager>
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
-                if (spawnEffectPrefab != null)
-                {
-                    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
-                    Destroy(effectInstance, 1f);
-                }
+                //if (spawnEffectPrefab != null) //몬스터가 소환될때 스스로 소환하는게 좋을듯?
+                //{
+                //    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
+                //    Destroy(effectInstance, 1f);
+                //}
 
                 yield return new WaitForSeconds(spawnEffectDelay);
 
@@ -361,8 +361,10 @@ public class GameManager : Singleton<GameManager>
         currentState = GameState.BossFight;
         Debug.Log("보스전 시작!");
 
-        Vector3 bossSpawnPosition = playerTransform.position + (playerTransform.forward * 10f);
-        GameObject boss = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+        //Vector3 bossSpawnPosition = playerTransform.position + (playerTransform.forward * 10f);
+        //GameObject boss = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+
+        GameObject boss = ResourceManager.Instance.CreateEnemy<GameObject>(Prefab.EnemyBoss);
         activeMonsters.Add(boss);
 
         while (activeMonsters.Count > 0)
@@ -383,16 +385,77 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
     }
 
-    public void ShowFloatingText(string text, Vector3 worldPosition)
+    //public void ShowFloatingText(string text, Vector3 worldPosition)
+    //{
+    //    if (floatingTextPrefab == null || mainCanvas == null) return;
+
+    //    Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+
+    //    GameObject textInstance = Instantiate(floatingTextPrefab, mainCanvas.transform);
+
+    //    textInstance.transform.position = screenPosition;
+
+    //    textInstance.GetComponent<UIPopTxt>().SetText(text);
+    //}
+
+
+    // 정진규 추가
+    // 게임 시작할 때 시간을 초기화 하는 메서드
+    public void StartGame()
     {
-        if (floatingTextPrefab == null || mainCanvas == null) return;
+        Playtime = 0f;
+        _isGameActive = true;
+        //Debug.Log("[GameManager] 게임 시작! 타이머를 작동합니다.");
+    }
 
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+    // 게임 종료(승리/패배) 시 호출될 메소드
+    public void EndGame(EGameResultType resultType)
+    {
+        if (!_isGameActive) return; // 이미 게임이 끝났다면 중복 실행 방지
 
-        GameObject textInstance = Instantiate(floatingTextPrefab, mainCanvas.transform);
+        _isGameActive = false; // 타이머를 멈춥니다.
+        Debug.Log($"[GameManager] 게임 종료! 최종 플레이 시간: {Playtime}");
 
-        textInstance.transform.position = screenPosition;
+        // 결과창에 전달할 데이터 꾸러미를 생성합니다.
+        GameResultData resultData = new GameResultData
+        {
+            ResultType = resultType,
+            Playtime = this.Playtime
+        };
 
-        textInstance.GetComponent<FloatingText>().SetText(text);
+        // UIManager에게 데이터와 함께 UIResult를 열라고 명령합니다.
+        UIManager.Instance.OpenUI<UIResult>(resultData);
+    }
+
+    public void ShowGameOverScreen()
+    {
+        EndGame(EGameResultType.Defeat);
+    }
+
+    // 정진규 추가
+    // 원래 따로 만드는 것이 좋지는 않지만 시간이 부족해서 추가합니다.
+    public void OnPause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // UIPause UI가 이미 활성화되어 있는지 확인합니다.
+            // GetUI<UIPause>()가 null일 수 있으므로 ?. 연산자로 안전하게 접근합니다.
+            bool isPauseMenuOpen = UIManager.Instance.GetUI<UIPause>()?.gameObject.activeInHierarchy ?? false;
+
+            if (isPauseMenuOpen)
+            {
+                // 이미 열려 있다면, 메뉴를 닫습니다.
+                UIManager.Instance.CloseUI<UIPause>();
+            }
+            else
+            {
+                // 메뉴가 닫혀있다면, 게임 상태를 확인하고 메뉴를 엽니다.
+                // "WaveInProgress" 또는 "BossFight" 상태일 때만 일시 정지가 가능합니다.
+                if (currentState == GameState.WaveInProgress || currentState == GameState.BossFight)
+                {
+                    UIManager.Instance.OpenUI<UIPause>();
+                }
+            }
+        }
     }
 }

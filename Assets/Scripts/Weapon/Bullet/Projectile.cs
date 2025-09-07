@@ -27,10 +27,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<IDamagable>(out IDamagable hitObj))
+        if(other.TryGetComponent<IDamagable>(out IDamagable hitObj) && other.gameObject.layer == (int)Mathf.Log(hitMask.value, 2))
         {
             hitObj.ValueChanged(-power);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

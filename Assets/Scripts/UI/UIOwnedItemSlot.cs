@@ -20,16 +20,8 @@ public class UIOwnedItemSlot : MonoBehaviour
 
         if (amount != null)
         {
-            // 아이템 개수가 1보다 클 때만 개수를 표시하고, 1개일 때는 숨깁니다.
-            if (itemCount > 1)
-            {
-                amount.gameObject.SetActive(true);
-                amount.text = $"x{itemCount}";
-            }
-            else
-            {
-                amount.gameObject.SetActive(false);
-            }
+            amount.gameObject.SetActive(true);
+            amount.text = $"x{itemCount}";
         }
     }
 }

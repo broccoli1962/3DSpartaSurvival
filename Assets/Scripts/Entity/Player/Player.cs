@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamagable
 {
     //TooltipÀÇ ³»¿ë ¹× ¼öÄ¡´Â (±è¹ÎÇõ Notion)»ó¼¼ ±âÈ¹ Âü°í
 
@@ -134,19 +134,16 @@ public class Player : MonoBehaviour
             LevelUp();
         }
     }
+
     private void Die()
     {
         Debug.Log("Die");
 
-        GameManager gameManager = FindObjectOfType<GameManager>();
-
-        if (gameManager != null)
-        {
-            gameManager.ShowGameOverScreen();
-        }
+        GameManager.Instance.ShowGameOverScreen();
 
         gameObject.SetActive(false);
     }
+
     private void LevelUp()
     {
         currentExperience -= requiredExpForNextLevel;
@@ -175,5 +172,31 @@ public class Player : MonoBehaviour
         {
             levelText.text = "Lv. " + currentLevel;
         }
+    }
+
+    public float ValueChanged(float value)
+    {
+        if (playerhpBarController == null)
+        {
+            return 0;
+        }
+
+        currentHealth += (int)value;
+        if (currentHealth < 0) currentHealth = 0;
+
+        playerhpBarController.UpdateHP(currentHealth, maxHealth);
+
+        if (hitEffectPrefab != null)
+        {
+            GameObject effectInstance = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effectInstance, 0.5f);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+
+        return currentHealth;
     }
 }

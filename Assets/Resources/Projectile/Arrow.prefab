@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8375520696179593668}
   - component: {fileID: 751945652405580665}
+  - component: {fileID: 3457404542159679718}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -52,6 +53,29 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!136 &3457404542159679718
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506940665743000863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.37, z: 0}
 --- !u!1 &4659367320009652179
 GameObject:
   m_ObjectHideFlags: 0

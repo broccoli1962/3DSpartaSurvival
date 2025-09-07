@@ -58,11 +58,11 @@ public class GameManager : Singleton<GameManager>
 
     [Header("날씨 설정")]
     public Light sunLight;
-    public Material wave1Skybox; 
-    public Material wave2Skybox; 
-    public Material wave3Skybox; 
+    public Material wave1Skybox;
+    public Material wave2Skybox;
+    public Material wave3Skybox;
     public GameObject wave2WeatherVFX;
-    public GameObject wave3WeatherVFX; 
+    public GameObject wave3WeatherVFX;
     private GameObject currentWeatherVFXInstance;
 
     //[Header("플로팅 텍스트 설정")]
@@ -121,7 +121,7 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        SetWeatherForWave(0); 
+        SetWeatherForWave(0);
 
         //더 이상 필요없음
         //if (_countdownText != null)
@@ -169,7 +169,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        objectToReturn.SetActive(false); 
+        objectToReturn.SetActive(false);
         objectPools[tag].Enqueue(objectToReturn); // 큐에 return
     }
 
@@ -284,9 +284,9 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator SpawnDamageZoneCoroutine()
     {
-        yield return new WaitForSeconds(damageZoneSpawnDelay); 
+        yield return new WaitForSeconds(damageZoneSpawnDelay);
 
-        if (playerTransform != null) 
+        if (playerTransform != null)
         {
             Vector2 randomCircle1 = Random.insideUnitCircle.normalized * damageZoneSpawnRadius;
             Vector3 spawnPosition1 = playerTransform.position + new Vector3(randomCircle1.x, 0, randomCircle1.y);
@@ -295,9 +295,9 @@ public class GameManager : Singleton<GameManager>
             activeDamageZones.Add(newZone1);
         }
 
-        yield return new WaitForSeconds(5f); 
+        yield return new WaitForSeconds(5f);
 
-        if (playerTransform != null) 
+        if (playerTransform != null)
         {
             Vector2 randomCircle2 = Random.insideUnitCircle.normalized * damageZoneSpawnRadius;
             Vector3 spawnPosition2 = playerTransform.position + new Vector3(randomCircle2.x, 0, randomCircle2.y);
@@ -317,26 +317,26 @@ public class GameManager : Singleton<GameManager>
             Destroy(currentWeatherVFXInstance);
         }
 
-        if (waveIndex == 0) 
+        if (waveIndex == 0)
         {
             RenderSettings.skybox = wave1Skybox;
             if (sunLight != null) sunLight.color = Color.white;
             Debug.Log("날씨: 기본");
         }
-        else if (waveIndex == 1) 
+        else if (waveIndex == 1)
         {
             RenderSettings.skybox = wave2Skybox;
-            if (sunLight != null) sunLight.color = Color.gray; 
+            if (sunLight != null) sunLight.color = Color.gray;
             if (wave2WeatherVFX != null)
             {
                 currentWeatherVFXInstance = Instantiate(wave2WeatherVFX, Vector3.zero, Quaternion.identity);
             }
             Debug.Log("날씨: Wave 2 설정 적용");
         }
-        else if (waveIndex == 2) 
+        else if (waveIndex == 2)
         {
             RenderSettings.skybox = wave3Skybox;
-            if (sunLight != null) sunLight.color = new Color(0.7f, 0.8f, 1f); 
+            if (sunLight != null) sunLight.color = new Color(0.7f, 0.8f, 1f);
             if (wave3WeatherVFX != null)
             {
                 currentWeatherVFXInstance = Instantiate(wave3WeatherVFX, Vector3.zero, Quaternion.identity);
@@ -377,12 +377,20 @@ public class GameManager : Singleton<GameManager>
 
     public void OnMonsterKilled(GameObject monster)
     {
+        activeMonsters.Remove(monster);
+
         if (currentState == GameState.WaveInProgress)
         {
             monstersKilledThisWave++;
+            Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
         }
-        activeMonsters.Remove(monster);
-        Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
+        else if (currentState == GameState.BossFight)
+        {
+            // 보스전 중일 때는 "보스 처치!" 로그만 남깁니다.
+            // activeMonsters.Remove(monster)가 이미 실행되었으므로,
+            // BossFightCoroutine의 while 반복문이 정상적으로 종료될 것입니다.
+            Debug.Log("보스 몬스터가 처치되었습니다!");
+        }
     }
 
     //public void ShowFloatingText(string text, Vector3 worldPosition)

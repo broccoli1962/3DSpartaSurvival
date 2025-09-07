@@ -200,6 +200,10 @@ public partial class EnemyBoss : MonoBehaviour
 
         public override void OnAnimationEvent()
         {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.OnMonsterKilled(Component.gameObject);
+            }
             Destroy(Component.gameObject);
         }
     }

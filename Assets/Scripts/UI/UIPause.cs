@@ -21,7 +21,14 @@ public class UIPause : UIBase
     [field: SerializeField] public Button btnAbilityOne { get; private set; }
     [field: SerializeField] public Button btnAbilityTwo { get; private set; }
 
+    // 버튼 상태 스프라이트
+    [field: Header("능력치 탭 스프라이트")]
+    [field: SerializeField] public Sprite abilityTabSelectedSprite { get; private set; }
+    [field: SerializeField] public Sprite abilityTabDeselectedSprite { get; private set; }
 
+    // 버튼의 Image 컴포넌트를 저장할 변수 추가
+    private Image _btnAbilityOneImage;
+    private Image _btnAbilityTwoImage;
 
     // UISelectItem과 동일함
     [field: Header("보유 아이템 관련")]
@@ -47,6 +54,12 @@ public class UIPause : UIBase
         EStatType.ProjectileCount, // 투사체 개수
         EStatType.ProjectileAngle, // 투사체 각도
     };
+
+    private void Awake()
+    {
+        if (btnAbilityOne != null) _btnAbilityOneImage = btnAbilityOne.GetComponent<Image>();
+        if (btnAbilityTwo != null) _btnAbilityTwoImage = btnAbilityTwo.GetComponent<Image>();
+    }
 
     protected override void OnOpen()
     {
@@ -97,7 +110,7 @@ public class UIPause : UIBase
     private void OnClickMainMenu()
     {
         // 타이틀 씬으로 돌아감
-        SceneLoadManager.Instance.LoadScene(ESceneType.Menu);
+        GameManager.Instance.MainMenu();
     }
 
 
@@ -137,11 +150,15 @@ public class UIPause : UIBase
     private void UpdateAbilitiesSectorOne()
     {
         UpdateAbilitiesDisplay(abilitiesSectorOne);
+        if (_btnAbilityOneImage != null) _btnAbilityOneImage.sprite = abilityTabSelectedSprite;
+        if (_btnAbilityTwoImage != null) _btnAbilityTwoImage.sprite = abilityTabDeselectedSprite;
     }
 
     private void UpdateAbilitiesSectorTwo()
     {
         UpdateAbilitiesDisplay(abilitiesSectorTwo);
+        if (_btnAbilityOneImage != null) _btnAbilityOneImage.sprite = abilityTabDeselectedSprite;
+        if (_btnAbilityTwoImage != null) _btnAbilityTwoImage.sprite = abilityTabSelectedSprite;
     }
 
     /// <summary>

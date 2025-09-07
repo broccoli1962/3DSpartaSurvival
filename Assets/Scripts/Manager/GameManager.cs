@@ -75,11 +75,8 @@ public class GameManager : Singleton<GameManager>
 
     public GameState currentState { get; private set; }
 
-    #region 게임오버 함수
-    public void ShowGameOverScreen()
-    {
-        UIManager.Instance.OpenUI<UIGameOver>();
-    }
+    public float Playtime { get; private set; }
+    private bool _isGameActive = false;
 
     void Update()
     {
@@ -102,13 +99,25 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("공격할 몬스터가 없습니다.");
             }
         }
+        if (_isGameActive)
+        {
+            Playtime += Time.deltaTime;
+        }
+
+        OnPause();
     }
     public void RestartGame()
     {
         Time.timeScale = 1f;
         SceneLoadManager.Instance.LoadScene(ESceneType.Battle);
     }
-    #endregion
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        StopAllCoroutines();
+        SceneLoadManager.Instance.LoadScene(ESceneType.Menu);
+    }
 
     void Start()
     {
@@ -166,6 +175,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator GameFlow()
     {
+        StartGame(); // 정진규 추가
         currentState = GameState.InitialWait;
 
         //UIWaveCount에서 카운트 다운 시작
@@ -195,6 +205,7 @@ public class GameManager : Singleton<GameManager>
 
         currentState = GameState.GameWon;
         Debug.Log("게임 클리어!");
+        EndGame(EGameResultType.Victory); // 정진규 추가
     }
 
     #region Wave 관련 내용(UI 패널/카운트 다운)
@@ -386,4 +397,65 @@ public class GameManager : Singleton<GameManager>
 
     //    textInstance.GetComponent<UIPopTxt>().SetText(text);
     //}
+
+
+    // 정진규 추가
+    // 게임 시작할 때 시간을 초기화 하는 메서드
+    public void StartGame()
+    {
+        Playtime = 0f;
+        _isGameActive = true;
+        //Debug.Log("[GameManager] 게임 시작! 타이머를 작동합니다.");
+    }
+
+    // 게임 종료(승리/패배) 시 호출될 메소드
+    public void EndGame(EGameResultType resultType)
+    {
+        if (!_isGameActive) return; // 이미 게임이 끝났다면 중복 실행 방지
+
+        _isGameActive = false; // 타이머를 멈춥니다.
+        Debug.Log($"[GameManager] 게임 종료! 최종 플레이 시간: {Playtime}");
+
+        // 결과창에 전달할 데이터 꾸러미를 생성합니다.
+        GameResultData resultData = new GameResultData
+        {
+            ResultType = resultType,
+            Playtime = this.Playtime
+        };
+
+        // UIManager에게 데이터와 함께 UIResult를 열라고 명령합니다.
+        UIManager.Instance.OpenUI<UIResult>(resultData);
+    }
+
+    public void ShowGameOverScreen()
+    {
+        EndGame(EGameResultType.Defeat);
+    }
+
+    // 정진규 추가
+    // 원래 따로 만드는 것이 좋지는 않지만 시간이 부족해서 추가합니다.
+    public void OnPause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // UIPause UI가 이미 활성화되어 있는지 확인합니다.
+            // GetUI<UIPause>()가 null일 수 있으므로 ?. 연산자로 안전하게 접근합니다.
+            bool isPauseMenuOpen = UIManager.Instance.GetUI<UIPause>()?.gameObject.activeInHierarchy ?? false;
+
+            if (isPauseMenuOpen)
+            {
+                // 이미 열려 있다면, 메뉴를 닫습니다.
+                UIManager.Instance.CloseUI<UIPause>();
+            }
+            else
+            {
+                // 메뉴가 닫혀있다면, 게임 상태를 확인하고 메뉴를 엽니다.
+                // "WaveInProgress" 또는 "BossFight" 상태일 때만 일시 정지가 가능합니다.
+                if (currentState == GameState.WaveInProgress || currentState == GameState.BossFight)
+                {
+                    UIManager.Instance.OpenUI<UIPause>();
+                }
+            }
+        }
+    }
 }

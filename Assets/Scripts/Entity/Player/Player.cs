@@ -134,6 +134,7 @@ public class Player : MonoBehaviour, IDamagable
             LevelUp();
         }
     }
+
     private void Die()
     {
         Debug.Log("Die");
@@ -142,6 +143,7 @@ public class Player : MonoBehaviour, IDamagable
 
         gameObject.SetActive(false);
     }
+
     private void LevelUp()
     {
         currentExperience -= requiredExpForNextLevel;

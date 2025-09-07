@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
     public float initialWaitTime = 3f;
     public float spawnInterval = 1.5f;
     public int maxMonstersOnField = 20;
-    //public GameObject spawnEffectPrefab; 안씀 
+    //public GameObject spawnEffectPrefab; 안씀
     public float spawnEffectDelay = 0.5f;
 
     [Header("데미지 존 설정")]
@@ -65,9 +65,9 @@ public class GameManager : Singleton<GameManager>
     public GameObject wave3WeatherVFX; 
     private GameObject currentWeatherVFXInstance;
 
-    [Header("플로팅 텍스트 설정")]
-    public GameObject floatingTextPrefab; 
-    public Canvas mainCanvas;
+    //[Header("플로팅 텍스트 설정")]
+    //public GameObject floatingTextPrefab;
+    //public Canvas mainCanvas;
 
     [Header("오브젝트 풀 설정")]
     public List<Pool> pools;
@@ -250,7 +250,7 @@ public class GameManager : Singleton<GameManager>
                 Vector2 randomPoint = Random.insideUnitCircle.normalized * Random.Range(minSpawnDistance, maxSpawnDistance);
                 Vector3 spawnPosition = playerTransform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
 
-                //if (spawnEffectPrefab != null) //몬스터가 소환될때 스스로 소환함
+                //if (spawnEffectPrefab != null) //몬스터가 소환될때 스스로 소환하는게 좋을듯?
                 //{
                 //    GameObject effectInstance = Instantiate(spawnEffectPrefab, spawnPosition, Quaternion.identity);
                 //    Destroy(effectInstance, 1f);
@@ -374,16 +374,16 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"몬스터 처치! 남은 목표: {waves[currentWaveIndex].totalMonstersToSpawn - monstersKilledThisWave}");
     }
 
-    public void ShowFloatingText(string text, Vector3 worldPosition)
-    {
-        if (floatingTextPrefab == null || mainCanvas == null) return;
+    //public void ShowFloatingText(string text, Vector3 worldPosition)
+    //{
+    //    if (floatingTextPrefab == null || mainCanvas == null) return;
 
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+    //    Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
 
-        GameObject textInstance = Instantiate(floatingTextPrefab, mainCanvas.transform);
+    //    GameObject textInstance = Instantiate(floatingTextPrefab, mainCanvas.transform);
 
-        textInstance.transform.position = screenPosition;
+    //    textInstance.transform.position = screenPosition;
 
-        textInstance.GetComponent<FloatingText>().SetText(text);
-    }
+    //    textInstance.GetComponent<UIPopTxt>().SetText(text);
+    //}
 }

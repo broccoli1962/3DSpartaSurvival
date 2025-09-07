@@ -3584,19 +3584,17 @@ MonoBehaviour:
   - {fileID: 8741296884226096380}
   - {fileID: 929703949087208256}
   - {fileID: 767463385480649152}
-  - {fileID: 6371073419436860981}
-  - {fileID: 1090115902703588347}
   <statValues>k__BackingField:
   - {fileID: 9022455919145703306}
   - {fileID: 2885012582712376701}
   - {fileID: 3025361892229335614}
   - {fileID: 8556467376856913766}
-  - {fileID: 642252874100037605}
-  - {fileID: 7877712392442007884}
   <btnContinue>k__BackingField: {fileID: 7026737918019571719}
   <btnOption>k__BackingField: {fileID: 7944149505319737273}
   <btnRestart>k__BackingField: {fileID: 6637226251654221839}
   <btnMainMenu>k__BackingField: {fileID: 5245052540569896225}
+  <btnAbilityOne>k__BackingField: {fileID: 4813058170737060031}
+  <btnAbilityTwo>k__BackingField: {fileID: 3318969810818843610}
   <ownedItemIconParent>k__BackingField: {fileID: 6723080318310337580}
   <ownedItemIconPrefab>k__BackingField: {fileID: 6726837056568889945, guid: 50dccee0c69fe0441bc7157bddce9dad, type: 3}
 --- !u!1 &7399482778880173244

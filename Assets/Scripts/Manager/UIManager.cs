@@ -176,4 +176,21 @@ public class UIManager : Singleton<UIManager>
         }
         // 다른 씬에서 필요하면 여기서 구현
     }
+
+    // 결과 데이터를 전달하기 위한 OpenUI
+    public void OpenUI<T>(object data) where T : UIBase
+    {
+        T ui = GetUI<T>();
+        if (ui == null) return;
+
+        // is 키워드를 사용하여, ui가 IDataReceiver GameResultData를 가지고 있는지 확인합니다.
+        if (data is GameResultData resultData && ui is IDataReceiver<GameResultData> dataReceiver)
+        {
+            // 가지고 있다면, ReceiveData 메소드를 호출하여 데이터를 미리 전달합니다.
+            dataReceiver.ReceiveData(resultData);
+        }
+
+        // 데이터를 전달했든 안 했든, 마지막에 UI를 엽니다.
+        ui.OpenUI();
+    }
 }

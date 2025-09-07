@@ -32,17 +32,17 @@ public class L_EnemyController : EnemyController
 
     private void HandleMovement()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.transform.position);
 
         if (distanceToPlayer < tooCloseDistance)
         {
             // 너무 가까움: 플레이어로부터 멀어지는 방향으로 이동
-            Vector3 directionAwayFromPlayer = (transform.position - _playerTarget.position).normalized;
+            Vector3 directionAwayFromPlayer = (transform.position - _playerTarget.transform.position).normalized;
             _agent.SetDestination(transform.position + directionAwayFromPlayer);
         }
         else if (distanceToPlayer > _monsterData.attackRange)
         {
-            _agent.SetDestination(_playerTarget.position);
+            _agent.SetDestination(_playerTarget.transform.position);
         }
         else
         {
@@ -52,7 +52,7 @@ public class L_EnemyController : EnemyController
 
     private void HandleAttack()
     {
-        transform.LookAt(_playerTarget);
+        transform.LookAt(_playerTarget.transform);
 
         if (Time.time >= lastAttackTime + _monsterData.attackSpeed)
         {

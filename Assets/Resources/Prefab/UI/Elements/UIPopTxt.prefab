@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5146258901958320036}
   - component: {fileID: 122340587165021533}
   m_Layer: 5
-  m_Name: FloatingText
+  m_Name: UIPopTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

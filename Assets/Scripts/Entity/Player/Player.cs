@@ -134,19 +134,16 @@ public class Player : MonoBehaviour, IDamagable
             LevelUp();
         }
     }
+
     private void Die()
     {
         Debug.Log("Die");
 
-        GameManager gameManager = FindObjectOfType<GameManager>();
-
-        if (gameManager != null)
-        {
-            gameManager.ShowGameOverScreen();
-        }
+        GameManager.Instance.ShowGameOverScreen();
 
         gameObject.SetActive(false);
     }
+
     private void LevelUp()
     {
         currentExperience -= requiredExpForNextLevel;

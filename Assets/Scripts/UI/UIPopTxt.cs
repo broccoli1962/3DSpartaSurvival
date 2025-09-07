@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class FloatingText : MonoBehaviour
+public class UIPopTxt : UIBase
 {
     public float moveSpeed = 100f;    
     public float fadeOutTime = 1f;  
@@ -32,6 +32,7 @@ public class FloatingText : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public void SetText(string text)
     {
         if (_textMesh == null)

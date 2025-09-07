@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class EnemyController : MonoBehaviour, IDamagable
@@ -13,10 +14,16 @@ public abstract class EnemyController : MonoBehaviour, IDamagable
     [Header("드랍 아이템")]
     public GameObject experienceGemPrefab;
 
+    public GameObject spawnEffect;
+
     public int currentHealth { get; private set; }
     protected MonHPBarController hpBarController;
     protected NavMeshAgent _agent;
-    protected Transform _playerTarget;
+
+    //플레이어로 바꿈
+    //protected Transform _playerTarget;
+    protected Player _playerTarget;
+
     protected Animator _animator;
     protected float lastAttackTime;
 
@@ -25,11 +32,20 @@ public abstract class EnemyController : MonoBehaviour, IDamagable
         _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            _playerTarget = playerObject.transform;
-        }
+        _playerTarget = PlayerManager.Instance.Player;
+
+        //더 이상 태그로 찾지 않음
+        //GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        //if (playerObject != null)
+        //{
+        //    _playerTarget = playerObject.transform;
+        //}
+    }
+
+    protected virtual void OnEnable()
+    {
+        GameObject effect = Instantiate(spawnEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 1f);
     }
 
     protected virtual void Start()

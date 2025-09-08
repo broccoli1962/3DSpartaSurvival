@@ -30,7 +30,7 @@
 
 | 이름 (역할) | 담당 업무 | GitHub |
 | :--- | :--- | :--- |
-| **이형권 (팀장 / )** | <ul><li>N/A</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example1) |
+| **이형권 (팀장 / )** | <ul><li>보스 패턴</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example1) |
 | **정진규 (팀원 / )** | <ul><li>N/A</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example2) |
 | **주의동 (팀원 / )** | <ul><li>N/A</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example2) |
 

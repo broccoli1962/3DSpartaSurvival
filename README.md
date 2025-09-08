@@ -15,6 +15,12 @@
 
 ---
 
+![게임 화면1](images/Game3.gif)
+![게임 화면2](images/Game4.gif)
+<br>
+
+---
+
 # 프로젝트 소개
 ## 프로젝트 명 : 3DSpartaSurvival
 레퍼런스 게임 : [Subway Surfers]([https://namu.wiki/w/Subway%20Surfers](https://namu.wiki/w/Vampire%20Survivors))

@@ -30,9 +30,9 @@
 
 | 이름 (역할) | 담당 업무 | GitHub |
 | :--- | :--- | :--- |
-| **이형권 (팀장 / )** | <ul><li>보스 패턴</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example1) |
-| **정진규 (팀원 / )** | <ul><li>N/A</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example2) |
-| **주의동 (팀원 / )** | <ul><li>N/A</li><li>N/A</li><li>N/A</li></ul> | [Github](https://github.com/example2) |
+| **이형권 (팀장 / )** | <ul><li>보스 패턴</li><li>무기 및 아이템 데이터 구성 및 구현</li><li>전투 매커니즘 구현</li></ul> | [Github](https://github.com/example1) |
+| **정진규 (팀원 / )** | <ul><li>UI(결과창,일시정지,아이템 획득)</li><li>아이템 획득 구현</li><li>N/A</li></ul> | [Github](https://github.com/example2) |
+| **주의동 (팀원 / )** | <ul><li>게임 매니저 제작</li><li>일반 몬스터 패턴</li><li>플레이어 무브먼트 구현</li></ul> | [Github](https://github.com/example2) |
 
 <br>
 

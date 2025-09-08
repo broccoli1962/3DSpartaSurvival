@@ -3674,7 +3674,7 @@ MonoBehaviour:
   skill1StopDistance: 1
   skill1DamageRadius: 3
   skill1Damage: 20
-  skill1Effect: {fileID: 0}
+  skill1Effect: {fileID: 4994997792314849709, guid: 3dd50886582244645be87adb42aa8528, type: 3}
 --- !u!95 &2523225038719855375
 Animator:
   serializedVersion: 5

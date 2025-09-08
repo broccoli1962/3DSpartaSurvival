@@ -1,5 +1,7 @@
 # 3D로만드는 뱀파이어 서바이벌 모작 (3DSpartaSurvival)
 
+![Ending](images/Scene.jpg)
+
 ## 목차
 1. [프로젝트 소개](#프로젝트-소개)
 2. [팀원 소개](#팀원-소개)
